@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { RGBELoader } from 'three-stdlib'
 import { Canvas, useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -12,7 +13,8 @@ import {
   OrbitControls,
   RandomizedLight,
   AccumulativeShadows,
-  MeshTransmissionMaterial
+  MeshTransmissionMaterial,
+  CubeCamera,
 } from '@react-three/drei'
 import { useControls, button } from 'leva'
 
@@ -46,12 +48,33 @@ export function App() {
       link.click()
     })
   })
+
+  const cubeCameraRef = useRef(); // Ref to access the CubeCamera instance
+  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+
   return (
     <Canvas shadows camera={{ position: [30, 40, 30], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
       <color attach="background" args={['#f2f2f5']} />
+
+      {/* Create a CubeCamera */}
+      <CubeCamera
+        ref={cubeCameraRef}
+        near={1}
+        far={1000}
+        resolution={256}
+        >
+
+{(texture) => (
+
+        <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={texture}>
+        </Gem>
+)}
+        </CubeCamera>
+
       {/** The text and the grid */}
-      <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]}>
+      <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={cubeCameraRef.current?.renderTarget.texture}>
       </Gem>
+
       {/** Controls */}
       <OrbitControls
         autoRotate={autoRotate}
@@ -99,17 +122,19 @@ const Grid = ({ number = 10, lineWidth = 0.026, height = 0.5 }) => (
   </Instances>
 )
 
-function Gem({ children, config, font = '/Inter_Medium_Regular.json', ...props }) {
-  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+function Gem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', ...props }) {
   const gltf = useLoader(GLTFLoader, './gem.glb');
   const geo = gltf.scene.children[0].children[0].children[0].children[0].geometry;
+
+
 
   return (
     <>
       <Center scale={[1, 1, 1]} front top {...props}>
 
       <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]}>
-        <MeshTransmissionMaterial {...config} background={texture} />
+        {/* <MeshTransmissionMaterial {...config} background={texture} /> */}
+        <MeshTransmissionMaterial {...config} background={backgroundTexture} />
       </mesh>
 
       </Center>
