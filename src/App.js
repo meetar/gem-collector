@@ -50,7 +50,7 @@ export function App() {
   })
 
   const cubeCameraRef = useRef(); // Ref to access the CubeCamera instance
-  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+  const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
   return (
     <Canvas shadows camera={{ position: [30, 40, 30], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
@@ -66,7 +66,7 @@ export function App() {
 
 {(texture) => (
 
-        <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={texture}>
+        <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={btexture}>
         </Gem>
 )}
         </CubeCamera>
@@ -138,7 +138,7 @@ function Gem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', .
       </mesh>
 
       </Center>
-      <Grid />
+      {/* <Grid /> */}
     </>
   )
 }
