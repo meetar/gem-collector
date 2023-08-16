@@ -14,6 +14,7 @@ import {
   RandomizedLight,
   AccumulativeShadows,
   MeshTransmissionMaterial,
+  MeshRefractionMaterial,
   CubeCamera,
 } from '@react-three/drei'
 import { useControls, button } from 'leva'
@@ -36,6 +37,7 @@ export function App() {
     distortionScale: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
     temporalDistortion: { value: 0, min: 0, max: 1, step: 0.01 },
     ior: { value: 1.5, min: 0, max: 2, step: 0.01 },
+    opacity: { value: .7, min: 0, max: 1, step: 0.01 },
     color: '#ff9cf5',
     gColor: '#ff7eb3',
     shadow: '#750d57',
@@ -46,14 +48,17 @@ export function App() {
       link.setAttribute('download', 'canvas.png')
       link.setAttribute('href', document.querySelector('canvas').toDataURL('image/png').replace('image/png', 'image/octet-stream'))
       link.click()
-    })
+    }),
+    HDRTexture: true,
+    cubeCamera: true,
   })
 
   const cubeCameraRef = useRef(); // Ref to access the CubeCamera instance
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+  const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
   return (
-    <Canvas shadows camera={{ position: [30, 40, 30], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
+    <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
       <color attach="background" args={['#f2f2f5']} />
 
       {/* Create a CubeCamera */}
@@ -62,17 +67,26 @@ export function App() {
         near={1}
         far={1000}
         resolution={256}
+        visible={true}
         >
 
-{(texture) => (
+{(texture) => {
+  console.log('cubecam texture?', cubeCameraRef);
+  return (
 
-        <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={btexture}>
-        </Gem>
-)}
+        <InnerGem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={texture}>
+        </InnerGem>
+)}}
         </CubeCamera>
 
       {/** The text and the grid */}
-      <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={cubeCameraRef.current?.renderTarget.texture}>
+      {/* <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={
+        gemconfig.cubeCamera ? cubeCameraRef.current?.renderTarget.texture :
+        gemconfig.HDRTexture ? btexture :
+        btexture
+      }> */}
+      {/* <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={cubeCameraRef.current?.renderTarget.texture}> */}
+      <Gem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} backgroundTexture={btexture}>
       </Gem>
 
       {/** Controls */}
@@ -87,20 +101,6 @@ export function App() {
 
         enableRotate={true}
       />
-      {/** The environment is just a bunch of shapes emitting light. This is needed for the clear-coat */}
-      <Environment resolution={32}>
-        <group rotation={[-Math.PI / 4, -0.3, 0]}>
-          <Lightformer intensity={20} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
-          <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[10, 2, 1]} />
-          <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-5, -1, -1]} scale={[10, 2, 1]} />
-          <Lightformer intensity={2} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 2, 1]} />
-          <Lightformer type="ring" intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={10} />
-        </group>
-      </Environment>
-      {/** Soft shadows */}
-      {/* <AccumulativeShadows frames={100} color={shadow} colorBlend={5} toneMapped={true} alphaTest={0.9} opacity={1} scale={30} position={[0, -1.01, 0]}>
-        <RandomizedLight amount={4} radius={10} ambient={0.5} intensity={1} position={[0, 10, -10]} size={15} mapSize={1024} bias={0.0001} />
-      </AccumulativeShadows> */}
     </Canvas>
   )
 }
@@ -122,10 +122,10 @@ const Grid = ({ number = 10, lineWidth = 0.026, height = 0.5 }) => (
   </Instances>
 )
 
-function Gem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', ...props }) {
+function InnerGem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', ...props }) {
   const gltf = useLoader(GLTFLoader, './gem.glb');
   const geo = gltf.scene.children[0].children[0].children[0].children[0].geometry;
-
+  console.log('backgroundTexture?', backgroundTexture);
 
 
   return (
@@ -134,7 +134,33 @@ function Gem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', .
 
       <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]}>
         {/* <MeshTransmissionMaterial {...config} background={texture} /> */}
-        <MeshTransmissionMaterial {...config} background={backgroundTexture} />
+        <MeshTransmissionMaterial {...config} transparent={true} background={backgroundTexture} />
+        {/* <MeshRefractionMaterial envMap={texture} {...config} toneMapped={true} /> */}
+        {/* <MeshRefractionMaterial {...config} envMap={backgroundTexture}  /> don't turn on transparency here */}
+      </mesh>
+
+      </Center>
+      {/* <Grid /> */}
+    </>
+  )
+}
+
+function Gem({ backgroundTexture, config, font = '/Inter_Medium_Regular.json', ...props }) {
+  const gltf = useLoader(GLTFLoader, './gem.glb');
+  const geo = gltf.scene.children[0].children[0].children[0].children[0].geometry;
+  console.log('backgroundTexture?', backgroundTexture);
+
+
+  return (
+    <>
+      <Center scale={[1, 1, 1]} front top {...props}>
+
+      <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]}>
+        {/* <MeshTransmissionMaterial {...config} background={texture} /> */}
+        {/* <MeshTransmissionMaterial {...config} bounces={5} transparent={true} background={backgroundTexture} /> */}
+        {/* <meshBasicMaterial {...config} transparent={true} background={backgroundTexture} /> */}
+        {/* <MeshRefractionMaterial envMap={texture} {...config} toneMapped={true} /> */}
+        <MeshRefractionMaterial bounces={1} envMap={backgroundTexture}  />
       </mesh>
 
       </Center>
