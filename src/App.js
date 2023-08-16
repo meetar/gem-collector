@@ -2,7 +2,7 @@ import { RGBELoader } from 'three-stdlib'
 import { Canvas, useLoader } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import { Stats } from '@react-three/drei'
+import { Box, Stats } from '@react-three/drei'
 
 
 import {
@@ -15,9 +15,9 @@ import { useControls, button } from 'leva'
 
 export function App() {
   const { autoRotate, text, shadow, ...gemconfig } = useControls({
-    text: 'Inter',
-    backside: true,
-    backsideThickness: { value: 0.3, min: 0, max: 2 },
+    // text: 'Inter',
+    // backside: true,
+    // backsideThickness: { value: 0.3, min: 0, max: 2 },
     samples: { value: 32, min: 1, max: 64, step: 1 },
     resolution: { value: 1024, min: 64, max: 2048, step: 64 },
     transmission: { value: 1, min: 0, max: 1 },
@@ -26,9 +26,9 @@ export function App() {
     thickness: { value: 0.4, min: 0, max: 5 },
     chromaticAberration: { value: 5, min: 0, max: 5 },
     anisotropy: { value: 0.3, min: 0, max: 1, step: 0.01 },
-    roughness: { value: 0, min: 0, max: 1, step: 0.01 },
-    distortion: { value: 0.5, min: 0, max: 4, step: 0.01 },
-    distortionScale: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
+    // roughness: { value: 0, min: 0, max: 1, step: 0.01 },
+    // distortion: { value: 0.5, min: 0, max: 4, step: 0.01 },
+    // distortionScale: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
     temporalDistortion: { value: 0, min: 0, max: 1, step: 0.01 },
     ior: { value: 1.37, min: 0, max: 2, step: 0.01 },
     opacity: { value: .7, min: 0, max: 1, step: 0.01 },
@@ -37,27 +37,32 @@ export function App() {
     gColor: '#ff7eb3',
     shadow: '#750d57',
     autoRotate: true,
-    screenshot: button(() => {
-      // Save the canvas as a *.png
-      const link = document.createElement('a')
-      link.setAttribute('download', 'canvas.png')
-      link.setAttribute('href', document.querySelector('canvas').toDataURL('image/png').replace('image/png', 'image/octet-stream'))
-      link.click()
-    }),
     HDRTexture: true,
-    cubeCamera: true,
     InnerVisible: true,
     OuterVisible: true,
     bloom: true,
     lumThreshold: { value: .36, min: 0, max: 1, step: 0.01 },
     bloomIntensity: { value: 1.25, min: 0, max: 10, step: 0.01 },
     bloomLevels: { value: 4, min: 0, max: 9, step: 1 },
+    fastChroma: true,
+    fresnel: { value: 0, min: 0, max: 9, step: 1 },
+    aberrationStrength: { value: 0, min: 0, max: 1, step: 0.01 },
   })
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
   return (
     <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
+      {/* <ambientLight intensity={0.1} /> */}
+
+      {/* <pointLight position={[0, 10, -10]} color='white' intensity={1}/> */}
+      {/* <directionalLight  /> */}
+
+{/* <Box args={[1, 1, 1]} position={[0, -.5, 0]} >
+  <meshStandardMaterial color={0xff0033} />
+</Box> */}
+
+
             <group  scale={.999}>
                 <InnerGem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]}
                 backgroundTexture={
@@ -95,7 +100,7 @@ function InnerGem({ camera, backgroundTexture, config, ...props }) {
       <Center scale={[1, 1, 1]} front top {...props}>
 
       <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]}>
-        <MeshRefractionMaterial {...config} bounces={config.bounces} envMap={backgroundTexture}  />
+        <MeshRefractionMaterial {...config} envMap={backgroundTexture} />
       </mesh>
 
       </Center>
