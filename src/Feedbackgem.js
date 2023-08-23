@@ -9,6 +9,8 @@ console.log('config?', config);
 config.autoRotate = false;
   return (
     <>
+        <Center scale={[1, 1, 1]} center >
+
       {/* Create a CubeCamera */}
       <CubeCamera near={1} far={1000} resolution={256} visible={true}>
         {(texture) => {
@@ -38,6 +40,7 @@ config.autoRotate = false;
           )
         }}
       </CubeCamera>
+      </Center>
     </>
   )
 }

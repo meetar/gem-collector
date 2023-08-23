@@ -6,7 +6,7 @@ import fetcher from './Fetcher'
 let shader = { vert: 'novert', frag: 'nofrag' }
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
-const ParallaxMaterial = async ({texture, config}) => {
+export const ParallaxMaterial = async ({texture, config}) => {
 
   async function fetchShaders() {
     try {
@@ -36,5 +36,3 @@ const ParallaxMaterial = async ({texture, config}) => {
   }
   return fetchShaders()
 }
-
-export default ParallaxMaterial
