@@ -1,6 +1,8 @@
 import {
   MeshTransmissionMaterial,
 } from '@react-three/drei'
+import * as CSG from '@react-three/csg'
+import { Geometry, Base, Addition, Subtraction, Intersection, Difference } from '@react-three/csg'
 
 import { EquirectangularReflectionMapping } from 'three';
 
