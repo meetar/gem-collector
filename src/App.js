@@ -10,6 +10,7 @@ import { Gem } from './Gem'
 import { InnerGem } from './InnerGem'
 import { gemcontrols } from './gemcontrols'
 import { Testgem } from './Testgem'
+import { Feedbackgem } from './Feedbackgem'
 
 import {
   Center,
@@ -47,10 +48,10 @@ export function App() {
 
 
   return (
-    <Suspense fallback={<p>Loading</p>}>
+    <Suspense fallback={<p>Loading</p>} >
     {/* <Leva /> */}
 
-    <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true,  }}>
+    <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
 
       {/* <Test /> */}
       {/* <Sphere scale={.2} position={[0,1,0]}>
@@ -60,10 +61,11 @@ export function App() {
 
 
       {/* <Testgem config={gemconfig} texture={btexture} /> */}
+      <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} />
 
 
       {/* scg test */}
-        <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} />
+        {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
 
 
       <EffectComposer>
