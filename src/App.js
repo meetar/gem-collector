@@ -1,13 +1,15 @@
-import { RGBELoader,  } from 'three-stdlib'
+import { RGBELoader } from 'three-stdlib'
+import * as THREE from 'three'
 import { Canvas, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { Box, Sphere, Stats } from '@react-three/drei'
-import { useEffect } from 'react';
-import { Shape } from './Shape'
+import { useEffect, Suspense } from 'react';
+import { CSGShape } from './CSGShape'
 import { Gem } from './Gem'
 import { InnerGem } from './InnerGem'
 import { gemcontrols } from './gemcontrols'
+import { Testgem } from './Testgem'
 
 import {
   Center,
@@ -32,38 +34,36 @@ export function App() {
   const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
 
+  // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
+  // geo.scale(.001, .001, .001);
+
+  // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
+
+  const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
+  // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
+  // const geo = new THREE.PlaneGeometry;
+  // const geo = new THREE.SphereGeometry;
 
 
   return (
+    <Suspense fallback={<p>Loading</p>}>
+    {/* <Leva /> */}
 
-    <>
-      {/* <Leva /> */}
     <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true,  }}>
 
-{/* <Test /> */}
-{/* <Sphere scale={.2} position={[0,1,0]}>
-  <meshBasicMaterial />
-</Sphere> */}
+      {/* <Test /> */}
+      {/* <Sphere scale={.2} position={[0,1,0]}>
+        <meshBasicMaterial />
+      </Sphere> */}
 
 
-{/* 
-      <group  scale={.999}>
-          <InnerGem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]}
-          backgroundTexture={
-            gemconfig.HDRTexture ? btexture :
-            null
-          }
-          visible={gemconfig.InnerVisible}
-          />
-      </group>
+
+      {/* <Testgem config={gemconfig} texture={btexture} /> */}
 
 
-      <Gem config={gemconfig} backgroundTexture={btexture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} visible={gemconfig.GemVisible}
-       /> */}
-
-<Shape geo={geo} config={gemconfig} backgroundTexture={btexture} />
+      {/* scg test */}
+        <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} />
 
 
       <EffectComposer>
@@ -74,9 +74,9 @@ export function App() {
       <OrbitControls autoRotate={autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
 
 
-    <Stats />
+      <Stats />
     </Canvas>
-    </>
+    </Suspense>
   )
 }
 

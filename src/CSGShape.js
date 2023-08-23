@@ -6,11 +6,11 @@ import { Geometry, Base, Addition, Subtraction, Intersection, Difference } from 
 
 import { EquirectangularReflectionMapping } from 'three';
 
-export function Shape({geo, config, backgroundTexture}) {
+export function CSGShape({geo, config, backgroundTexture}) {
 
     backgroundTexture.mapping = EquirectangularReflectionMapping; 
     return (
-      <mesh scale={.001}>
+      <mesh scale={1}>
                 <MeshTransmissionMaterial {...config}  transparent={true}
           // color='black'
           // opacity={1}
@@ -37,6 +37,7 @@ export function Shape({geo, config, backgroundTexture}) {
           </group>
         </Geometry>
       </mesh>
+
     )
   }
   
