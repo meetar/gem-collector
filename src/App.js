@@ -41,13 +41,14 @@ export function App() {
     <>
       {/* <Leva /> */}
     <Canvas camera={{ position: [20, 5, 10], zoom: 10 }} gl={{ preserveDrawingBuffer: true,  }}>
-<Test />
+
+{/* <Test /> */}
 {/* <Sphere scale={.2} position={[0,1,0]}>
   <meshBasicMaterial />
 </Sphere> */}
 
 
-
+{/* 
       <group  scale={.999}>
           <InnerGem config={gemconfig} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]}
           backgroundTexture={
@@ -60,7 +61,9 @@ export function App() {
 
 
       <Gem config={gemconfig} backgroundTexture={btexture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -.5, 1]} visible={gemconfig.GemVisible}
-       />
+       /> */}
+
+<Shape geo={geo} config={gemconfig} backgroundTexture={btexture} />
 
 
       <EffectComposer>

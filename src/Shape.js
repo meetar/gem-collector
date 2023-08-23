@@ -1,6 +1,7 @@
 import {
   MeshTransmissionMaterial,
 } from '@react-three/drei'
+
 import { EquirectangularReflectionMapping } from 'three';
 
 export function Shape({geo, config, backgroundTexture}) {
