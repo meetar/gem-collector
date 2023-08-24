@@ -39,3 +39,5 @@ function ParallaxMesh({geometry, config, textureUrl}) {
     </>
   );
 }
+
+export default ParallaxMesh;

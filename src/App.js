@@ -76,7 +76,7 @@ export function App() {
 
 
       {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
-      <ParallaxMesh geometry={geo} config={gemconfig} texture={btexture} />
+      <ParallaxMesh geometry={geo} config={shaderconfig} texture={btexture} />
       {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <RefractGeo geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} /> */}
