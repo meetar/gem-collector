@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Stats, Sphere, useTexture } from '@react-three/drei'
-import { ParallaxMaterial } from './ParallaxMaterial'
+import fetcher from './Fetcher'
+import ParallaxMaterial from './ParallaxMaterial'
 
-export function ParallaxGeo({geo, config, textureUrl}) {
+function ParallaxGeo({geometry, config, textureUrl}) {
   const [material, setMaterial] = useState(null);
 
   if (!textureUrl) textureUrl = './speckles.png';
@@ -19,7 +20,6 @@ export function ParallaxGeo({geo, config, textureUrl}) {
       try {
         let mat = await ParallaxMaterial({texture, config});
         setMaterial(mat);
-        console.log(mat);
       } catch (error) {
         console.error('Error loading fragment shader:', error);
       }
@@ -30,13 +30,13 @@ export function ParallaxGeo({geo, config, textureUrl}) {
 
   return (
     <>
-    {/* <Sphere args={[1, 10, 10]} /> */}
-    {/* <meshPhysicalMaterial color={'blue'} /> */}
       {material ? (
-        <mesh geometry={geo} material={material} />
+        <mesh geometry={geometry} material={material} />
         ) : (
         <></>
       )}
     </>
   );
 }
+
+export default ParallaxGeo
