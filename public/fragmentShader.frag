@@ -10,6 +10,7 @@ vec3 viewDir; vec2 offset; vec4 color;
 
 void main() {
   vec3 viewDir = vNormal;
+  vec2 uv = vUv;
     
   float facingRatio = dot(vNormal, vec3(0., 0., 1.));
   // viewDir = normalize(vec3(vNormal.x * (facingRatio), vNormal.y, vNormal.z * facingRatio));
@@ -42,11 +43,15 @@ float lum;
   // }
 
   // gl_FragColor = vec4(vec3(0.), 1.);      
-  // if (uv.x > .49 && uv.x < .51) {
+  // float test = .6;
+  // float range = .2;
+  // if (uv.x > test - range && uv.x < test + range) {
   //   gl_FragColor.g += 1.;
   // }
-  // if (uv.y > .49 && uv.y < .51) {
+  // if (uv.y > test - range && uv.y < test + range) {
   //   gl_FragColor.r += 1.;
   // }
-  // gl_FragColor.rgb = vNormal;
+  // // gl_FragColor.rgb = vNormal;
+  // uv = fract(uv * 10.);
+  // gl_FragColor = vec4(uv.x, uv.y, 0., 1.);
 }

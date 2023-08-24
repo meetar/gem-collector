@@ -7,44 +7,34 @@ import {
   Sphere,
 } from '@react-three/drei'
 import { MeshBasicMaterial } from 'three';
-import { Gem } from "./Gem"
+import * as _ from 'lodash'
 
-export function GemRandomizer({config, geo, texture, ...props}) {
+const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
+const mesh = _.sample(meshes);
+// console.log(mesh);
+
+export function GemRandomizer({config, geo, ...props}) {
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
-  // geo = useLoader(GLTFLoader, './crystal1.glb').scene.children[0].geometry; // scale = 0.001
-  geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry; // scale = 0.001
-  console.log(geo);
+  // geo = useLoader(GLTFLoader, './crystal1.glb').scene.children[0].geometry;
+
+  geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
   // geo = new THREE.SphereGeometry(1.);
 
   console.log(geo);
+
+  // const material = new THREE.MeshNormalMaterial();
+  const material = new THREE.ShaderMaterial({
+    fragmentShader: `void main() {gl_FragColor = vec4(1., 0., 1., 1.);}`
+  });
 
   return (
     <>
       <group>
 
+        <mesh scale={1} geometry={geo} material={material}>
 
-
-      {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
-
-{/* <Sphere>
-          <meshBasicMaterial color={'red'} />
-</Sphere> */}
-
-        <mesh scale={1} geometry={geo}>
-          {/* <sphereBufferGeometry args={[1, 10, 10]} /> */}
-        {/* <meshBasicMaterial color={'blue'} /> */}
-        <meshPhysicalMaterial color={'blue'} />
-
-          {/* <MeshTransmissionMaterial {...config}  transparent={true}
-          color='black'
-          // opacity={1}
-                reflectivity={config.reflectivity} 
-                envMap={config.envMap ? texture : null}
-                //  envMapIntensity={config.envMapIntensity}
-                ior={config.iorOuter}
-          /> */}
         </mesh>
       </group>
     </>

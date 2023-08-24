@@ -12,7 +12,7 @@ import { InnerGem } from './InnerGem'
 import { gemcontrols } from './gemcontrols'
 import { Testgem } from './Testgem'
 import { Feedbackgem } from './Feedbackgem'
-import { GemRandomizer } from './GemRandomizer'
+// import { GemRandomizer } from './GemRandomizer'
 
 import {
   Center,
@@ -26,6 +26,7 @@ import { MeshBasicMaterial, meshPhysicalMaterial, TextureLoader, CubeTextureLoad
 import { AmbientLight } from 'three';
 import { RefractGeo } from './RefractGeo';
 import { ParallaxGeo } from './ParallaxGeo';
+import { ParallaxGeoSync } from './ParallaxGeoSync';
 
 export function Test() {
   const { gl } = useThree();
@@ -48,10 +49,10 @@ export function App() {
 
   // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
 
-  // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
+  const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
 
   // const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
-  const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
+  // const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
    // scale = 0.001
 
   // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
@@ -73,13 +74,14 @@ export function App() {
       </Sphere> */}
 
 
-      <ParallaxGeo geo={geo} config={gemconfig} texture={btexture} />
+      {/* <ParallaxGeo geo={geo} config={gemconfig} texture={btexture} /> */}
+      <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} />
       {/* <RefractGeo geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} /> */}
 
       {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
 
-      {/* <GemRandomizer config={gemconfig} texture={btexture} /> */}
+      {/* <GemRandomizer config={gemconfig} /> */}
 
       <EffectComposer>
         <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur />

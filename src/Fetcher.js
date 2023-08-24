@@ -4,5 +4,5 @@ export default function fetcher(url) {
   .then(data => {
     return(data);
   })
-  .catch(error => console.error('Error loading JSON:', error));
+  .catch(error => console.error('Error fetching:', error));
 };
