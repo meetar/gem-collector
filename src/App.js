@@ -25,8 +25,9 @@ import { Leva, useControls, button } from 'leva'
 import { MeshBasicMaterial, meshPhysicalMaterial, TextureLoader, CubeTextureLoader, CubeReflectionMapping, CubeRefractionMapping, EquirectangularReflectionMapping } from 'three';
 import { AmbientLight } from 'three';
 import { RefractGeo } from './RefractGeo';
-import ParallaxGeo from './ParallaxGeo';
+// import ParallaxGeo from './ParallaxGeo';
 import { ParallaxGeoSync } from './ParallaxGeoSync';
+import ParallaxMesh from './ParallaxMesh';
 
 export function Test() {
   const { gl } = useThree();
@@ -74,7 +75,8 @@ export function App() {
       </Sphere> */}
 
 
-      <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} />
+      {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
+      <ParallaxMesh geometry={geo} config={gemconfig} texture={btexture} />
       {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <RefractGeo geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} /> */}

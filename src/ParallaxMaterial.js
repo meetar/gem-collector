@@ -36,5 +36,4 @@ const ParallaxMaterial = async ({texture, config}) => {
   }
   return fetchShaders()
 }
-
 export default ParallaxMaterial
