@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Stats, Sphere, useTexture } from '@react-three/drei'
-import { ParallaxMaterial } from './parallaxMaterial'
+import { ParallaxMaterial } from './ParallaxMaterial'
 
 export function ParallaxGeo({geo, config, textureUrl}) {
   const [material, setMaterial] = useState(null);

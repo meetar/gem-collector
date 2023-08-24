@@ -38,6 +38,11 @@ export function Test() {
 
 export function App() {
   const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
+  const { ...shaderconfig } = useControls({
+    _steps: { value: 5, min: 0, max: 10, step: 1 },
+    _height: { value: .2, min: 0, max: 5, step: .01 },
+    _scale: { value: 5, min: 0, max: 10, step: .01 },
+  })
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
@@ -52,10 +57,9 @@ export function App() {
   // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
   // const geo = new THREE.PlaneGeometry;
   // const geo = new THREE.SphereGeometry;
-
+// console.log('gemconfig:', gemconfig);
   return (
     <Suspense fallback={<p>Loading</p>} >
-    {/* <Leva /> */}
 
     <Canvas camera={{ position: [10, 10, -50], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
 
