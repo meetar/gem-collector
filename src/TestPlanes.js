@@ -8,9 +8,9 @@ function TestPlanes({config, textureUrl}) {
   const [shader, setShader] = useState({vert: null, frag: null});
   const [material, setMaterial] = useState(null);
 
-  // if (!textureUrl) textureUrl = './speckles.png';
+  if (!textureUrl) textureUrl = './speckles.png';
   // textureUrl = './speck.png';
-  textureUrl = './dots.png';
+  // textureUrl = './dots.png';
 
   const texture = useTexture(textureUrl);
   texture.wrapS = THREE.RepeatWrapping;
