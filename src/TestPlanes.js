@@ -4,7 +4,7 @@ import { Stats, Sphere, useTexture } from '@react-three/drei'
 import fetcher from './Fetcher'
 import ParallaxMaterial from './ParallaxMaterial'
 
-function ParallaxMesh({geometry, config, textureUrl}) {
+function TestPlanes({config, textureUrl}) {
   const [shader, setShader] = useState({vert: null, frag: null});
   const [material, setMaterial] = useState(null);
 
@@ -15,7 +15,9 @@ function ParallaxMesh({geometry, config, textureUrl}) {
   const texture = useTexture(textureUrl);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-
+ function rad(n) {
+  return n * (Math.PI / 180);
+ }
   useEffect(() => {
     async function fetchMaterial() {
       try {
@@ -33,7 +35,17 @@ function ParallaxMesh({geometry, config, textureUrl}) {
   return (
     <>
       {material ? (
-        <mesh geometry={geometry} material={material} />
+        <>
+          <mesh material={material}>
+            <planeGeometry />
+          </mesh>
+          <mesh rotation={[0, rad(180), 0]} material={material}>
+            <planeGeometry />
+          </mesh>
+          <mesh rotation={[rad(-90), 0, 0]} material={material}>
+            <planeGeometry />
+          </mesh>
+        </>
         ) : (
         <></>
       )}
@@ -41,4 +53,4 @@ function ParallaxMesh({geometry, config, textureUrl}) {
   );
 }
 
-export default ParallaxMesh;
+export default TestPlanes;

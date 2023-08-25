@@ -28,6 +28,7 @@ import { RefractGeo } from './RefractGeo';
 // import ParallaxGeo from './ParallaxGeo';
 import { ParallaxGeoSync } from './ParallaxGeoSync';
 import ParallaxMesh from './ParallaxMesh';
+import TestPlanes from './TestPlanes';
 
 export function Test() {
   const { gl } = useThree();
@@ -50,20 +51,20 @@ export function App() {
 
   // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
 
-  const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
+  // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
 
   // const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
   // const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
    // scale = 0.001
 
-  // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
+  const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
   // const geo = new THREE.PlaneGeometry;
   // const geo = new THREE.SphereGeometry;
 // console.log('gemconfig:', gemconfig);
   return (
     <Suspense fallback={<p>Loading</p>} >
 
-    <Canvas camera={{ position: [10, 10, -50], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
+    <Canvas camera={{ position: [10, 10, -10], zoom: 20 }} gl={{ preserveDrawingBuffer: true }}>
 
     <axesHelper args={[1]} />
 
@@ -76,7 +77,12 @@ export function App() {
 
 
       {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
+
+
       <ParallaxMesh geometry={geo} config={shaderconfig} texture={btexture} />
+      {/* <TestPlanes config={shaderconfig} texture={btexture} /> */}
+
+
       {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <RefractGeo geo={geo} config={gemconfig} texture={btexture} /> */}
       {/* <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} /> */}
