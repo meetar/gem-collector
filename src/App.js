@@ -64,7 +64,7 @@ export function App() {
   return (
     <Suspense fallback={<p>Loading</p>} >
 
-    <Canvas camera={{ position: [10, 10, -10], zoom: 20 }} gl={{ preserveDrawingBuffer: true }}>
+    <Canvas camera={{ position: [10, 10, -10], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
 
     <axesHelper args={[1]} />
 
@@ -79,8 +79,8 @@ export function App() {
       {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
 
 
-      <ParallaxMesh geometry={geo} config={shaderconfig} texture={btexture} />
-      {/* <TestPlanes config={shaderconfig} texture={btexture} /> */}
+      {/* <ParallaxMesh geometry={geo} config={shaderconfig} texture={btexture} /> */}
+      <TestPlanes config={shaderconfig} texture={btexture} />
 
 
       {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}

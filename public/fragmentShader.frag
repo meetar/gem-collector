@@ -14,18 +14,36 @@ vec3 viewDir; vec2 offset; vec4 color;
 
 void main() {
     
+      // Calculate the vector from the current fragment to the camera
+      // vec3 viewDirection = normalize(cameraPosition - vPosition); // not quite
+
+      // Calculate the vector from the current fragment to the camera
+      // vec3 viewDirection = normalize(cameraPosition - vec3(vUv, -1.0));
+
       vec2 uv = vUv;
+      float uvoffset = .5;
       // offset to rotate around the center of the uvs
-      uv = uv - vec2(.5);
+      uv = uv - vec2(uvoffset);
     
       // Calculate the model's up vector in world space
       vec3 modelUp = normalize((vModelMatrix * vec4(0.0, 1.0, 0.0, 0.0)).xyz);
-      // Calculate the model's up vector in view space
+      // // Calculate the model's up vector in view space
       vec3 modelViewUp = normalize((vModelViewMatrix * vec4(0.0, 1.0, 0.0, 0.0)).xyz);
+      // Calculate the model's up vector in view space
+      // vec3 modelViewUp = normalize((vModelMatrix * vec4(-viewDirection, 0.0)).xyz);
+      // vec3 modelViewUp = normalize((vModelViewMatrix * vec4(viewDirection, 0.0)).xyz);
 
       // Calculate the rotation angle (in radians) about the Z-axis
-      float angleRadians = -atan(modelUp.y, modelUp.x);
-      // float angleRadians = -atan(modelViewUp.y, modelViewUp.x);
+      // float angleRadians = acos(dot(vNormal, viewDirection)); // this works except for horizontal planes
+
+  // vec3 viewDirection = vNormal;
+  // float angleRadians = acos(dot(vNormal, viewDirection)); // this works except for horizontal planes
+
+      vec3 viewDirection = normalize(vModelViewMatrix * vec4(vNormal, 0.)).xyz;
+      float angleRadians = acos(dot(vNormal, viewDirection)); // this works except for horizontal planes
+
+      // float angleRadians = -atan(modelUp.y, modelUp.x);
+      // float angleRadians = atan(modelViewUp.y, modelViewUp.x);
       // float angleRadians = -atan(vNormal.y, vNormal.x);
 
       mat2 rotationVector = mat2(
@@ -35,7 +53,7 @@ void main() {
       // Use the angle to rotate the UV coordinates
       vec2 rotatedUV = rotationVector * uv; // vUv needs to be passed from the vertex shader
 
-      rotatedUV = rotatedUV + vec2(.5);
+      rotatedUV = rotatedUV + vec2(uvoffset);
 
 
 
