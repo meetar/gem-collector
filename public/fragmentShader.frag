@@ -49,20 +49,9 @@ vec3 viewDir; vec2 offset; vec4 color;
 
 void main() {
     
-      // Calculate the vector from the current fragment to the camera
-      // vec3 viewDirection = normalize(cameraPosition - vPosition); // not quite
+  float lum;
 
-      // Calculate the vector from the current fragment to the camera
-      // vec3 viewDirection = normalize(cameraPosition - vec3(vUv, -1.0));
-
-      vec2 uv = vUv;
-      vec3 viewDir = normalize(vec3(vNormal.x, vNormal.y, vNormal.z));
-      vec3 sampleDir = viewDir;
-      float lum;
-
-			// vec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ), offset );
-
-float offset;
+  float offset;
 
   for (float i = _steps + 1.; i >= 0.; i--) {
     float percent = (1. / _steps) * i;
@@ -78,6 +67,7 @@ float offset;
     // lum = ( texture2D( _texture, offset ) ).r; // 
     // if the value of the sampled texture is less than the sampling distance, use it --
     // this pulls in dim values from nearby and bright values from further away
+      // color += vec4(lum);
     if (lum >= percent && lum < next) {
       color += vec4(lum);
       break;
@@ -86,26 +76,11 @@ float offset;
 
   gl_FragColor = vec4(color.rgb, 1.);
 
-//   // if (lum > .1) {
-//   //   gl_FragColor.r = 1.0;
-//   // }
 
-//   // gl_FragColor = vec4(vec3(0.), 1.);      
-//   // float test = .6;
-//   // float range = .2;
-//   // if (uv.x > test - range && uv.x < test + range) {
-//   //   gl_FragColor.g += 1.;
-//   // }
-//   // if (uv.y > test - range && uv.y < test + range) {
-//   //   gl_FragColor.r += 1.;
-//   // }
-//   // // gl_FragColor.rgb = vNormal;
-//   // uv = fract(uv * 10.);
-//   // gl_FragColor = vec4(uv.x, uv.y, 0., 1.);
-
-// gl_FragColor.a = 1.;
-//   gl_FragColor.rgb = vNormal; 
+gl_FragColor.a = 1.;
+  // gl_FragColor.rgb = vNormal; 
   // gl_FragColor.rgb = normalize(cameraPosition); 
+  gl_FragColor.rgb = normalize(-vViewPosition); 
   // gl_FragColor.rgb = vViewDir * vNormal; 
   // gl_FragColor.rgb = normalize(vViewDir * vNormal);
   // gl_FragColor.rgb = normalize(normalize(vViewDir) * normalize(vNormal));

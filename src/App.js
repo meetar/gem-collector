@@ -31,7 +31,7 @@ import ParallaxMesh from './ParallaxMesh';
 import TestPlanes from './TestPlanes';
 
 export function App() {
-  const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
+  // const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
   const { ...shaderconfig } = useControls({
     _steps: { value: 5, min: 0, max: 10, step: 1 },
     _height: { value: 3., min: 0, max: 5, step: .01 },
@@ -83,11 +83,11 @@ export function App() {
       {/* <GemRandomizer config={gemconfig} /> */}
 
       <EffectComposer>
-        <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur />
+        {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
       </EffectComposer>
 
       {/** Controls */}
-      <OrbitControls autoRotate={autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
+      <OrbitControls autoRotate={true} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
 
 
       <Stats />
