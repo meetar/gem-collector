@@ -34,8 +34,8 @@ export function App() {
   // const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
   const { ...shaderconfig } = useControls({
     _steps: { value: 5, min: 0, max: 10, step: 1 },
-    _height: { value: 3., min: 0, max: 5, step: .01 },
-    _scale: { value: 2, min: 0, max: 10, step: .01 },
+    _height: { value: 1., min: 0, max: 5, step: .01 },
+    _scale: { value: 1, min: 0, max: 10, step: .01 },
   })
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
