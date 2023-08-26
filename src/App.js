@@ -42,10 +42,10 @@ export function App() {
 
   // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
 
-  const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
+  // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
 
   // const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
-  // const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
+  const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
    // scale = 0.001
 
   // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
