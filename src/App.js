@@ -34,7 +34,7 @@ import TestPlanes from './TestPlanes';
 
 export function App() {
   const [colortrigger, setColorTrigger] = useState();
-  const [testtrigger, setTestTrigger] = useState();
+  const [shapetrigger, setShapeTrigger] = useState();
   const testFunc = () => {
     setTrigger(Math.random())
   }
@@ -44,9 +44,9 @@ export function App() {
       _height: { value: 1., min: 0, max: 5, step: .01 },
       _scale: { value: 1, min: 0, max: 10, step: .01 },
       _shift: { value: 1, min: 0, max: 10, step: .01 },
-      autoRotate: {value: false}, 
+      autoRotate: {value: true}, 
       colorTrigger: button(() => setColorTrigger(Math.random())),
-      testTrigger: button(() => setTestTrigger(Math.random()))
+      shapeTrigger: button(() => setShapeTrigger(Math.random()))
     }
     
     const { ...parallaxconfig } = useControls(parallaxcontrols)
@@ -75,28 +75,7 @@ export function App() {
 
 <ambientLight intensity={.1} />
 <pointLight intensity={10} position={[0, 3, 0]} />
-      {/* <Test /> */}
-      {/* <Sphere scale={.2} position={[0,1,0]}>
-        <meshBasicMaterial />
-      </Sphere> */}
-
-
-      {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
-
-
-      {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
-      {/* <TestPlanes config={parallaxconfig} texture={btexture} /> */}
-
-
-      {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}
-      {/* <RefractGeo geo={geo} config={gemconfig} texture={btexture} /> */}
-      {/* <Feedbackgem geo={geo} config={gemconfig} btexture={btexture} /> */}
-
-      {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
-
-      {/* <GemRandomizer config={parallaxconfig} ref={instance => GemRandomizerInstance = instance} /> */}
-      <GemRandomizer config={parallaxconfig} colortrigger={colortrigger} testtrigger={testtrigger} />
-      {/* <GemRandomizer config={parallaxconfig}  /> */}
+      <GemRandomizer config={parallaxconfig} colortrigger={colortrigger} shapetrigger={shapetrigger} />
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}

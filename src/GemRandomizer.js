@@ -11,10 +11,6 @@ import {
 import { MeshBasicMaterial } from 'three';
 import * as _ from 'lodash'
 
-const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
-const mesh = _.sample(meshes);
-// console.log(mesh);
-
 function hexToRgb(hex) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -46,37 +42,45 @@ const getColor = () => {
   return threeColor;
 }
 
-export function GemRandomizer({config, geo, testtrigger, colortrigger, ...props}) {
-  const [value, setValue] = useState(getColor);
+const getModel = () => {
+  const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
+  const mesh = _.sample(meshes);
+  return mesh
+}
+
+export function GemRandomizer({config, geo, shapetrigger, colortrigger, ...props}) {
+  const [color, setColor] = useState(getColor);
+  const [model, setModel] = useState(getModel);
   useEffect(() => {
     //  this triggers a re-render of the entire component
     if (colortrigger) {
       console.log('colortriggered!');
-      setValue(getColor);
+      setColor(getColor);
     }}, [colortrigger]);
-  useEffect(() => {
-    if (testtrigger) {
-      console.log('testtriggered!');
-    }}, [testtrigger]);
+    useEffect(() => {
+      if (shapetrigger) {
+        console.log('shapetriggered!');
+        setModel(getModel);
+    }}, [shapetrigger]);
 
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
   // geo = useLoader(GLTFLoader, './crystal1.glb').scene.children[0].geometry;
 
-  geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
+  geo = useLoader(GLTFLoader, model).scene.children[0].geometry;
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
 
   // memoize the color so it remembers state between renders
   // necessary?
-  const matColor = useMemo(() => value, [value]);
+  const matColor = useMemo(() => color, [color]);
 
 
   // console.log(geo);
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      _color: { value: value }, // this works perfectly fine
+      _color: { value: color }, // use state 
       // _color: { value: matColor }, // necessary?
     },
     fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
