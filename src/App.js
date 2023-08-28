@@ -37,15 +37,15 @@ export function App() {
   // const { ...gemconfig } = useControls(gemcontrols)
   const { ...parallaxconfig } = useControls(parallaxcontrols)
 
-  // function testFunc () {
-  //   console.log('test!!');
-  // }
-  // const test = useControls({
-  //   testFunc: button(() => {
-  //     console.log('test');
-  //     // testFunc();
-  //   })
-  // })
+  function testFunc () {
+    console.log('test!!');
+  }
+  const test = useControls({
+    testFunc: button(() => {
+      console.log('test');
+      testFunc();
+    })
+  })
   
 
 
