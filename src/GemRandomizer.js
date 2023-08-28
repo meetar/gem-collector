@@ -35,7 +35,7 @@ const randomize = () => {
 }
 
 const getColor = () => {
-  console.log('getColor');
+  // console.trace('getColor');
   const hexColor = randomColor();
   // console.log(hexColor);
   const rgb = hexToRgb(hexColor)
@@ -47,13 +47,12 @@ const getColor = () => {
 }
 
 export function GemRandomizer({config, geo, testtrigger, colortrigger, ...props}) {
-  const [value, setValue] = useState(getColor());
-
+  const [value, setValue] = useState(getColor);
   useEffect(() => {
     //  this triggers a re-render of the entire component
     if (colortrigger) {
       console.log('colortriggered!');
-      setValue(getColor());
+      setValue(getColor);
     }}, [colortrigger]);
   useEffect(() => {
     if (testtrigger) {
@@ -68,13 +67,17 @@ export function GemRandomizer({config, geo, testtrigger, colortrigger, ...props}
   geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-  const matColor = useMemo(getColor, [value]);
+
+  // memoize the color so it remembers state between renders
+  // necessary?
+  const matColor = useMemo(() => value, [value]);
 
 
   // console.log(geo);
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      _color: { value: matColor },
+      _color: { value: value }, // this works perfectly fine
+      // _color: { value: matColor }, // necessary?
     },
     fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
   });
