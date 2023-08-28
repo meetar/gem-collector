@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -34,13 +34,28 @@ const randomize = () => {
   console.log('gem randomizer called');
 }
 
+const getColor = () => {
+  console.log('getColor');
+  const hexColor = randomColor();
+  // console.log(hexColor);
+  const rgb = hexToRgb(hexColor)
+  console.log(rgb);
+  const threeColor = new THREE.Color(rgb.r, rgb.g, rgb.b);
+  // const threeColor = new THREE.Color(1, 0, 0);
+  // console.log(threeColor);
+  return threeColor;
+}
 
 export function GemRandomizer({config, geo, trigger, ...props}) {
 
   useEffect(() => {
+    //  this triggers a re-render of the entire component
     if (trigger) {
       console.log('triggered!');
+      setValue(getColor());
     }}, [trigger]);
+
+    const [value, setValue] = useState(getColor());
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
@@ -48,19 +63,14 @@ export function GemRandomizer({config, geo, trigger, ...props}) {
 
   geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
   // geo = new THREE.SphereGeometry(1.);
+  // const color = getColor();
+  const matColor = useMemo(getColor, [value]);
 
-  console.log(geo);
-  const hexColor = randomColor();
-  console.log(hexColor);
-  const rgb = hexToRgb(hexColor)
-  console.log(rgb);
-  const threeColor = new THREE.Color(rgb.r, rgb.g, rgb.b);
-  // const threeColor = new THREE.Color(1, 0, 0);
-  console.log(threeColor);
-  // const material = new THREE.MeshNormalMaterial();
+
+  // console.log(geo);
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      _color: { value: threeColor },
+      _color: { value: matColor },
     },
     fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
   });

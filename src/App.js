@@ -31,41 +31,55 @@ import { ParallaxGeoSync } from './ParallaxGeoSync';
 import ParallaxMesh from './ParallaxMesh';
 import TestPlanes from './TestPlanes';
 
-// const [trigger, setTrigger] = useState(0);
+
 export function App() {
-// console.log('??');
-  // const { ...gemconfig } = useControls(gemcontrols)
-  const { ...parallaxconfig } = useControls(parallaxcontrols)
-
-  function testFunc () {
-    console.log('test!!');
+  const [colortrigger, setTrigger] = useState(testbutton);
+  const testFunc = () => {
+    setTrigger(Math.random())
   }
-  const test = useControls({
-    testFunc: button(() => {
-      console.log('test');
-      testFunc();
-    })
+  // console.log('??');
+  const testbutton = button(() => {
+    // console.log('test');
+    testFunc();
   })
+  // const { ...gemconfig } = useControls(gemcontrols)
+  // const [{ ...parallaxconfig }, set] = useControls(() => (parallaxcontrols))
+  // set({ testFunc: () => console.log('wtf')})
   
-
-
+  // setTrigger(;
   
-  const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-
-  // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
-
-  // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
-
-  // const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
-  const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
-   // scale = 0.001
-
-  // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
-  // const geo = new THREE.PlaneGeometry;
-  // const geo = new THREE.SphereGeometry;
-// console.log('gemconfig:', gemconfig);
-  return (
-    <Suspense fallback={<p>Loading</p>} >
+  // const test = useControls({
+    // })
+    
+    
+    const parallaxcontrols = {
+      _steps: { value: 5, min: 0, max: 100, step: 1 },
+      _height: { value: 1., min: 0, max: 5, step: .01 },
+      _scale: { value: 1, min: 0, max: 10, step: .01 },
+      _shift: { value: 1, min: 0, max: 10, step: .01 },
+      autoRotate: {value: false}, 
+      testFunc: button(() => setTrigger(Math.random()))
+    }
+    
+    const { ...parallaxconfig } = useControls(parallaxcontrols)
+    
+    const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
+    
+    // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
+    
+    // const geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
+    
+    // const geo = useLoader(GLTFLoader, './rock.glb').scene.children[0].geometry;
+    const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
+    // scale = 0.001
+    
+    // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
+    // const geo = new THREE.PlaneGeometry;
+    // const geo = new THREE.SphereGeometry;
+    // console.log('gemconfig:', gemconfig);
+    return (
+      <Suspense fallback={<p>Loading</p>} >
+      {/* <Leva {...parallaxconfig} testFunc={testFunc} /> */}
 
     <Canvas dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
 
@@ -93,8 +107,8 @@ export function App() {
       {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
 
       {/* <GemRandomizer config={parallaxconfig} ref={instance => GemRandomizerInstance = instance} /> */}
-      {/* <GemRandomizer config={parallaxconfig} trigger={trigger} /> */}
-      <GemRandomizer config={parallaxconfig}  />
+      <GemRandomizer config={parallaxconfig} trigger={testFunc} />
+      {/* <GemRandomizer config={parallaxconfig}  /> */}
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
