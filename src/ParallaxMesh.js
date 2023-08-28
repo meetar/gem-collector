@@ -13,8 +13,8 @@ function ParallaxMesh({geometry, config, textureUrl}) {
   // textureUrl = './dots.png';
 
   const texture = useTexture(textureUrl);
-  texture.minFilter = THREE.NearestFilter;
-  texture.magFilter = THREE.NearestFilter;
+  // texture.minFilter = THREE.NearestFilter;
+  // texture.magFilter = THREE.NearestFilter;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 

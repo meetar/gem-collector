@@ -5,14 +5,15 @@ import { Canvas, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { Box, Sphere, Stats } from '@react-three/drei'
-import { useEffect, Suspense } from 'react';
-import { CSGShape } from './CSGShape'
-import { Gem } from './Gem'
-import { InnerGem } from './InnerGem'
-import { gemcontrols } from './gemcontrols'
-import { Testgem } from './Testgem'
-import { Feedbackgem } from './Feedbackgem'
-// import { GemRandomizer } from './GemRandomizer'
+import { useEffect, useState, Suspense } from 'react';
+// import { CSGShape } from './CSGShape'
+// import { Gem } from './Gem'
+// import { InnerGem } from './InnerGem'
+// import { gemcontrols } from './gemcontrols'
+import { parallaxcontrols } from './parallaxcontrols'
+// import { Testgem } from './Testgem'
+// import { Feedbackgem } from './Feedbackgem'
+import { GemRandomizer } from './GemRandomizer'
 
 import {
   Center,
@@ -30,14 +31,25 @@ import { ParallaxGeoSync } from './ParallaxGeoSync';
 import ParallaxMesh from './ParallaxMesh';
 import TestPlanes from './TestPlanes';
 
+// const [trigger, setTrigger] = useState(0);
 export function App() {
-  // const { autoRotate, text, shadow, ...gemconfig } = useControls(gemcontrols)
-  const { ...shaderconfig } = useControls({
-    _steps: { value: 5, min: 0, max: 10, step: 1 },
-    _height: { value: 1., min: 0, max: 5, step: .01 },
-    _scale: { value: 1, min: 0, max: 10, step: .01 },
-  })
+// console.log('??');
+  // const { ...gemconfig } = useControls(gemcontrols)
+  const { ...parallaxconfig } = useControls(parallaxcontrols)
 
+  // function testFunc () {
+  //   console.log('test!!');
+  // }
+  // const test = useControls({
+  //   testFunc: button(() => {
+  //     console.log('test');
+  //     // testFunc();
+  //   })
+  // })
+  
+
+
+  
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
   // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
@@ -55,7 +67,7 @@ export function App() {
   return (
     <Suspense fallback={<p>Loading</p>} >
 
-    <Canvas camera={{ position: [10, 10, -10], zoom: 10 }} gl={{ preserveDrawingBuffer: true }}>
+    <Canvas dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
 
     <axesHelper args={[1]} />
 
@@ -70,8 +82,8 @@ export function App() {
       {/* <ParallaxGeo geometry={geo} config={gemconfig} texture={btexture} /> */}
 
 
-      <ParallaxMesh geometry={geo} config={shaderconfig} texture={btexture} />
-      {/* <TestPlanes config={shaderconfig} texture={btexture} /> */}
+      {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
+      {/* <TestPlanes config={parallaxconfig} texture={btexture} /> */}
 
 
       {/* <ParallaxGeoSync geo={geo} config={gemconfig} texture={btexture} /> */}
@@ -80,14 +92,16 @@ export function App() {
 
       {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
 
-      {/* <GemRandomizer config={gemconfig} /> */}
+      {/* <GemRandomizer config={parallaxconfig} ref={instance => GemRandomizerInstance = instance} /> */}
+      {/* <GemRandomizer config={parallaxconfig} trigger={trigger} /> */}
+      <GemRandomizer config={parallaxconfig}  />
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
       </EffectComposer>
 
       {/** Controls */}
-      <OrbitControls autoRotate={true} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
+      <OrbitControls autoRotate={parallaxconfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
 
 
       <Stats />

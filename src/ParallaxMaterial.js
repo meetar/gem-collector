@@ -19,6 +19,7 @@ const ParallaxMaterial = async ({texture, config}) => {
           _steps: {value: config._steps},
           _height: {value: config._height},
           _scale: {value: config._scale},
+          _shift: {value: config._shift},
         },
         vertexShader: shader.vert,
         fragmentShader: shader.frag

@@ -9,6 +9,7 @@
 uniform float _steps;
 uniform float _height;
 uniform float _scale;
+uniform float _shift;
 uniform sampler2D _texture;
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -85,7 +86,7 @@ void main() {
 
     gl_FragColor = vec4(mapUv, 0., 1.);
 
-    lum = ( texture2D( _texture, mapUv  * _scale) ).r; //
+    lum = texture2D( _texture, mapUv  * _scale ).r; //
     // lum = ( texture2D( _texture, offset ) ).r; //
     // if the value of the sampled texture is less than the sampling distance, use it --
     // this pulls in dim values from nearby and bright values from further away
