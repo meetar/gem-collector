@@ -33,24 +33,11 @@ import TestPlanes from './TestPlanes';
 
 
 export function App() {
-  const [colortrigger, setTrigger] = useState(testbutton);
+  const [colortrigger, setColorTrigger] = useState();
+  const [testtrigger, setTestTrigger] = useState();
   const testFunc = () => {
     setTrigger(Math.random())
   }
-  // console.log('??');
-  const testbutton = button(() => {
-    // console.log('test');
-    testFunc();
-  })
-  // const { ...gemconfig } = useControls(gemcontrols)
-  // const [{ ...parallaxconfig }, set] = useControls(() => (parallaxcontrols))
-  // set({ testFunc: () => console.log('wtf')})
-  
-  // setTrigger(;
-  
-  // const test = useControls({
-    // })
-    
     
     const parallaxcontrols = {
       _steps: { value: 5, min: 0, max: 100, step: 1 },
@@ -58,7 +45,8 @@ export function App() {
       _scale: { value: 1, min: 0, max: 10, step: .01 },
       _shift: { value: 1, min: 0, max: 10, step: .01 },
       autoRotate: {value: false}, 
-      testFunc: button(() => setTrigger(Math.random()))
+      colorTrigger: button(() => setColorTrigger(Math.random())),
+      testTrigger: button(() => setTestTrigger(Math.random()))
     }
     
     const { ...parallaxconfig } = useControls(parallaxcontrols)
@@ -107,7 +95,7 @@ export function App() {
       {/* <CSGShape geo={geo} config={gemconfig} backgroundTexture={btexture} /> */}
 
       {/* <GemRandomizer config={parallaxconfig} ref={instance => GemRandomizerInstance = instance} /> */}
-      <GemRandomizer config={parallaxconfig} trigger={testFunc} />
+      <GemRandomizer config={parallaxconfig} colortrigger={colortrigger} testtrigger={testtrigger} />
       {/* <GemRandomizer config={parallaxconfig}  /> */}
 
       <EffectComposer>

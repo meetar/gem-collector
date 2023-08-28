@@ -46,16 +46,20 @@ const getColor = () => {
   return threeColor;
 }
 
-export function GemRandomizer({config, geo, trigger, ...props}) {
+export function GemRandomizer({config, geo, testtrigger, colortrigger, ...props}) {
+  const [value, setValue] = useState(getColor());
 
   useEffect(() => {
     //  this triggers a re-render of the entire component
-    if (trigger) {
-      console.log('triggered!');
+    if (colortrigger) {
+      console.log('colortriggered!');
       setValue(getColor());
-    }}, [trigger]);
+    }}, [colortrigger]);
+  useEffect(() => {
+    if (testtrigger) {
+      console.log('testtriggered!');
+    }}, [testtrigger]);
 
-    const [value, setValue] = useState(getColor());
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
