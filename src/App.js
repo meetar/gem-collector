@@ -44,12 +44,19 @@ export function App() {
       _height: { value: 1., min: 0, max: 5, step: .01 },
       _scale: { value: 1, min: 0, max: 10, step: .01 },
       _shift: { value: 1, min: 0, max: 10, step: .01 },
+    }
+    
+    const randomControls = {
+      _shift: { value: 1, min: 0, max: 10, step: .01 },
+      opacity: { value: .2, min: 0, max: 1, step: .01 },
+      shininess: { value: 1, min: 0, max: 100, step: .01 },
       autoRotate: {value: true}, 
       materialTrigger: button(() => setMaterialTrigger(Math.random())),
       shapeTrigger: button(() => setShapeTrigger(Math.random()))
     }
     
-    const { ...parallaxconfig } = useControls(parallaxcontrols)
+    // const { ...parallaxconfig } = useControls(parallaxcontrols)
+    const { ...randomConfig } = useControls(randomControls)
     
     const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
     
@@ -74,15 +81,15 @@ export function App() {
     <axesHelper args={[1]} />
 
 <ambientLight intensity={.1} />
-<pointLight intensity={1} position={[0, 3, 0]} />
-      <GemRandomizer config={parallaxconfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+<pointLight intensity={1} position={[0, 3, -3]} />
+      <GemRandomizer config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
       </EffectComposer>
 
       {/** Controls */}
-      <OrbitControls autoRotate={parallaxconfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
+      <OrbitControls autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />
 
 
       <Stats />

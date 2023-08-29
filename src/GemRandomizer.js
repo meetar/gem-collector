@@ -1,6 +1,9 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
+import { useTexture } from '@react-three/drei'
+import { TextureLoader } from 'three/src/loaders/TextureLoader'
+
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { randomColor } from 'randomcolor';
 import {
@@ -42,11 +45,31 @@ const getColor = () => {
   return threeColor;
 }
 
+
+const getModel = () => {
+  const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
+  const mesh = _.sample(meshes);
+  return mesh
+}
+
+export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...props}) {
+
+
+
+
+  // const [gemConfig, setGemConfig] = useState(null);
+
 const getMaterial = () => {
-  console.log('getMat');
+  console.log('getMaterial, gemConfig?', gemConfig);
+  // console.log('getMat');
   const mats = ['shader', 'phong', 'lambert', 'basic'];
-  const mat = _.sample(mats);
-  console.log(mat);
+  // const mat = _.sample(mats);
+  const mat = 'phong';
+  // console.log(mat);
+  const matRef = useRef();
+
+  const crystalMap = useTexture('./6056-normal.jpg');
+  // const normalMap = useTexture('./speckles.png');
 
   const material = (mat == 'shader' ?
       new THREE.ShaderMaterial({
@@ -58,7 +81,14 @@ const getMaterial = () => {
       })
       : mat == 'phong' ?
       new THREE.MeshPhongMaterial({
-        color: getColor()
+        color: getColor(),
+        normalMap: crystalMap,
+        alphaMap: crystalMap,
+        specularMap: crystalMap,
+        shininess: 1,
+        opacity: gemConfig.opacity,
+        transparent: true
+
       })
       : mat == 'lambert' ?
       new THREE.MeshLambertMaterial({
@@ -68,19 +98,21 @@ const getMaterial = () => {
       new THREE.MeshBasicMaterial({
         color: getColor()
     }))
-  console.log(material);
-  return material
+    console.log('mat opacity:', material.opacity);
+    return material
 }
 
-const getModel = () => {
-  const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
-  const mesh = _.sample(meshes);
-  return mesh
-}
+const updateMaterial = (material, properties) => {
+  // Update the material's properties from the properties object
+  Object.assign(material, properties);
+  setMaterial(material); // Trigger re-render
+};
 
-export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...props}) {
-  const [material, setMaterial] = useState(getMaterial);
-  console.log('material?', material);
+  console.log('\n\nGemRandomizer, config:', config);
+  const [gemConfig, setGemConfig] = useState(config);
+  console.log('gemConfig?', gemConfig);
+  const [material, setMaterial] = useState(getMaterial(config));
+  // console.log('material?', material);
   const [model, setModel] = useState(getModel);
   useEffect(() => {
     //  this triggers a re-render of the entire component
@@ -93,6 +125,13 @@ export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...pr
         console.log('shapetriggered!');
         setModel(getModel);
     }}, [shapetrigger]);
+    useEffect(() => {
+      // if (materialtrigger) return;
+      console.log('      >>> useEffect');
+      //  setGemConfig(config);
+      //  Object.assign(material, config);
+      //  setMaterial(material);
+      }, [config] )
 
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
