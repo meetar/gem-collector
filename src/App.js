@@ -4,7 +4,7 @@ import { AxesHelper } from 'three'
 import { Canvas, useLoader, useThree } from '@react-three/fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import { Box, Sphere, Stats } from '@react-three/drei'
+import { Box, Sphere, Plane, Stats, SoftShadows } from '@react-three/drei'
 import { useEffect, useState, Suspense } from 'react';
 // import { CSGShape } from './CSGShape'
 // import { Gem } from './Gem'
@@ -76,13 +76,24 @@ export function App() {
       <Suspense fallback={<p>Loading</p>} >
       {/* <Leva {...parallaxconfig} testFunc={testFunc} /> */}
 
-    <Canvas dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
+    <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
 
     <axesHelper args={[1]} />
 
 <ambientLight intensity={.1} />
-<pointLight intensity={1} position={[0, 3, -3]} />
+<directionalLight intensity={1} position={[0, 3, -1]} castShadow />
       <GemRandomizer config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+
+
+<Plane args={[10, 10, 10]} rotation={[-1.5, 0, 0]} position={[0, -5, 0]} receiveShadow>
+  
+<meshStandardMaterial color="hotpink" />
+</Plane>
+
+      {/* <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, 1]}>
+      <planeBufferGeometry />
+      <meshBasicMaterial color="green" side={THREE.DoubleSide} />
+    </mesh> */}
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}

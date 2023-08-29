@@ -161,7 +161,7 @@ const updateMaterial = (material, properties) => {
     <>
       <group>
 
-        <mesh scale={1} geometry={geo} material={material}>
+        <mesh scale={1} geometry={geo} material={material} castShadow>
 
         </mesh>
       </group>
