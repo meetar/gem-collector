@@ -68,6 +68,16 @@ export function App() {
     const geo = useLoader(GLTFLoader, './crystal2.glb').scene.children[0].geometry;
     // scale = 0.001
     
+    const SoftShadowsProps = {
+      /** Size of the light source (the larger the softer the light), default: 25 */
+      size: 25,
+      /** Number of samples (more samples less noise but more expensive), default: 10 */
+      samples: 10,
+      /** Depth focus, use it to shift the focal point (where the shadow is the sharpest), default: 0 (the beginning) */
+      focus: 0
+    }
+
+    
     // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
     // const geo = new THREE.PlaneGeometry;
     // const geo = new THREE.SphereGeometry;
@@ -77,15 +87,18 @@ export function App() {
       {/* <Leva {...parallaxconfig} testFunc={testFunc} /> */}
 
     <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
-
+    <SoftShadows {...SoftShadowsProps} />
     <axesHelper args={[1]} />
 
 <ambientLight intensity={.1} />
-<directionalLight intensity={1} position={[0, 3, -1]} castShadow />
-      <GemRandomizer config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+<directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
+        <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
+      </directionalLight>
+     
+           <GemRandomizer config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
 
 
-<Plane args={[10, 10, 10]} rotation={[-1.5, 0, 0]} position={[0, -5, 0]} receiveShadow>
+<Plane args={[20, 20]} rotation={[-1.5, 0, 0]} position={[0, -5, 0]} receiveShadow>
   
 <meshStandardMaterial color="hotpink" />
 </Plane>
