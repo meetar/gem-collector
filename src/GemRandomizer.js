@@ -35,11 +35,41 @@ const getColor = () => {
   const hexColor = randomColor();
   // console.log(hexColor);
   const rgb = hexToRgb(hexColor)
-  console.log(rgb);
+  // console.log(rgb);
   const threeColor = new THREE.Color(rgb.r, rgb.g, rgb.b);
   // const threeColor = new THREE.Color(1, 0, 0);
   // console.log(threeColor);
   return threeColor;
+}
+
+const getMaterial = () => {
+  console.log('getMat');
+  const mats = ['shader', 'phong', 'lambert', 'basic'];
+  const mat = _.sample(mats);
+  console.log(mat);
+
+  const material = (mat == 'shader' ?
+      new THREE.ShaderMaterial({
+        uniforms: {
+          _color: { value: getColor() }, // use state 
+          // _color: { value: matColor }, // necessary?
+        },
+        fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
+      })
+      : mat == 'phong' ?
+      new THREE.MeshPhongMaterial({
+        color: getColor()
+      })
+      : mat == 'lambert' ?
+      new THREE.MeshLambertMaterial({
+        color: getColor()
+      })
+    : 
+      new THREE.MeshBasicMaterial({
+        color: getColor()
+    }))
+  console.log(material);
+  return material
 }
 
 const getModel = () => {
@@ -48,15 +78,16 @@ const getModel = () => {
   return mesh
 }
 
-export function GemRandomizer({config, geo, shapetrigger, colortrigger, ...props}) {
-  const [color, setColor] = useState(getColor);
+export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...props}) {
+  const [material, setMaterial] = useState(getMaterial);
+  console.log('material?', material);
   const [model, setModel] = useState(getModel);
   useEffect(() => {
     //  this triggers a re-render of the entire component
-    if (colortrigger) {
-      console.log('colortriggered!');
-      setColor(getColor);
-    }}, [colortrigger]);
+    if (materialtrigger) {
+      console.log('materialtriggered!');
+      setMaterial(getMaterial);
+    }}, [materialtrigger]);
     useEffect(() => {
       if (shapetrigger) {
         console.log('shapetriggered!');
@@ -71,20 +102,6 @@ export function GemRandomizer({config, geo, shapetrigger, colortrigger, ...props
   geo = useLoader(GLTFLoader, model).scene.children[0].geometry;
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-
-  // memoize the color so it remembers state between renders
-  // necessary?
-  const matColor = useMemo(() => color, [color]);
-
-
-  // console.log(geo);
-  const material = new THREE.ShaderMaterial({
-    uniforms: {
-      _color: { value: color }, // use state 
-      // _color: { value: matColor }, // necessary?
-    },
-    fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
-  });
 
   return (
     <>

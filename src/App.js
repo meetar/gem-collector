@@ -33,7 +33,7 @@ import TestPlanes from './TestPlanes';
 
 
 export function App() {
-  const [colortrigger, setColorTrigger] = useState();
+  const [materialtrigger, setMaterialTrigger] = useState();
   const [shapetrigger, setShapeTrigger] = useState();
   const testFunc = () => {
     setTrigger(Math.random())
@@ -45,7 +45,7 @@ export function App() {
       _scale: { value: 1, min: 0, max: 10, step: .01 },
       _shift: { value: 1, min: 0, max: 10, step: .01 },
       autoRotate: {value: true}, 
-      colorTrigger: button(() => setColorTrigger(Math.random())),
+      materialTrigger: button(() => setMaterialTrigger(Math.random())),
       shapeTrigger: button(() => setShapeTrigger(Math.random()))
     }
     
@@ -74,8 +74,8 @@ export function App() {
     <axesHelper args={[1]} />
 
 <ambientLight intensity={.1} />
-<pointLight intensity={10} position={[0, 3, 0]} />
-      <GemRandomizer config={parallaxconfig} colortrigger={colortrigger} shapetrigger={shapetrigger} />
+<pointLight intensity={1} position={[0, 3, 0]} />
+      <GemRandomizer config={parallaxconfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
 
       <EffectComposer>
         {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
