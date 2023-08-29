@@ -60,18 +60,15 @@ export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...pr
   // const [gemConfig, setGemConfig] = useState(null);
 
 const getMaterial = () => {
-  console.log('getMaterial, gemConfig?', gemConfig);
+  // console.log('getMaterial, gemConfig?', gemConfig);
   // console.log('getMat');
-  const mats = ['shader', 'phong', 'lambert', 'basic'];
-  // const mat = _.sample(mats);
-  const mat = 'phong';
+  const materialTypes = ['shader', 'phong', 'lambert', 'basic'];
+  const materialType = _.sample(materialTypes);
+  // const mat = 'phong';
   // console.log(mat);
-  // const matRef = useRef();
-
-  
   // const normalMap = useTexture('./speckles.png');
 
-  const newmaterial = (mat == 'shader' ?
+  const material = (materialType == 'shader' ?
       new THREE.ShaderMaterial({
         uniforms: {
           _color: { value: getColor() }, // use state 
@@ -79,18 +76,17 @@ const getMaterial = () => {
         },
         fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
       })
-      : mat == 'phong' ?
+      : materialType == 'phong' ?
       new THREE.MeshPhongMaterial({
         color: getColor(),
         normalMap: crystalMap,
         alphaMap: crystalMap,
         specularMap: crystalMap,
-        shininess: 1,
-        opacity: gemConfig.opacity,
-        transparent: true
+        // shininess: 1,
+        // opacity: gemConfig.opacity,
 
       })
-      : mat == 'lambert' ?
+      : materialType == 'lambert' ?
       new THREE.MeshLambertMaterial({
         color: getColor()
       })
@@ -98,8 +94,13 @@ const getMaterial = () => {
       new THREE.MeshBasicMaterial({
         color: getColor()
     }))
-    console.log('mat opacity:', newmaterial.opacity);
-    return newmaterial
+    // console.log('mat opacity:', material.opacity);
+
+    // set cross-material defaults
+    material.transparent = true;
+    // apply config
+    Object.assign(material, gemConfig);
+    return material;
 }
 
 function newMaterial() {
@@ -116,9 +117,9 @@ const updateMaterial = (material, properties) => {
   setMaterial(material); // Trigger re-render
 };
 
-  console.log('\n\nGemRandomizer, config:', config);
+  // console.log('\n\nGemRandomizer, config:', config);
   const [gemConfig, setGemConfig] = useState(config);
-  console.log('gemConfig?', gemConfig);
+  // console.log('gemConfig?', gemConfig);
   const [material, setMaterial] = useState(getMaterial(config));
   // console.log('material?', material);
   const [model, setModel] = useState(getModel);
@@ -131,14 +132,14 @@ const updateMaterial = (material, properties) => {
     useEffect(() => {
       if (shapetrigger) {
         console.log('shapetriggered!');
-        // newModel();
+        newModel();
     }}, [shapetrigger]);
     useEffect(() => {
-      if (materialtrigger) return;
-      console.log('      >>> useEffect');
-       setGemConfig(config);
-       Object.assign(material, config);
-       material.needsUpdate = true;
+      // console.log('      >>> useEffect');
+      setGemConfig(config);
+      Object.assign(material, config);
+      if (materialtrigger) return; // don't re-set the material if the materialtrigger has just been tripped
+      // material.needsUpdate = true;
        setMaterial(material);
       }, [config] )
 
