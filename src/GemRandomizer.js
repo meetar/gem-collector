@@ -56,7 +56,7 @@ export function GemRandomizer({config, geo, shapetrigger, materialtrigger, ...pr
 
 
 
-
+  const crystalMap = useTexture('./6056-normal.jpg');
   // const [gemConfig, setGemConfig] = useState(null);
 
 const getMaterial = () => {
@@ -66,12 +66,12 @@ const getMaterial = () => {
   // const mat = _.sample(mats);
   const mat = 'phong';
   // console.log(mat);
-  const matRef = useRef();
+  // const matRef = useRef();
 
-  const crystalMap = useTexture('./6056-normal.jpg');
+  
   // const normalMap = useTexture('./speckles.png');
 
-  const material = (mat == 'shader' ?
+  const newmaterial = (mat == 'shader' ?
       new THREE.ShaderMaterial({
         uniforms: {
           _color: { value: getColor() }, // use state 
@@ -98,8 +98,16 @@ const getMaterial = () => {
       new THREE.MeshBasicMaterial({
         color: getColor()
     }))
-    console.log('mat opacity:', material.opacity);
-    return material
+    console.log('mat opacity:', newmaterial.opacity);
+    return newmaterial
+}
+
+function newMaterial() {
+  setMaterial(getMaterial());
+}
+
+function newModel() {
+  setModel(getModel);
 }
 
 const updateMaterial = (material, properties) => {
@@ -118,20 +126,26 @@ const updateMaterial = (material, properties) => {
     //  this triggers a re-render of the entire component
     if (materialtrigger) {
       console.log('materialtriggered!');
-      setMaterial(getMaterial);
+      newMaterial()
     }}, [materialtrigger]);
     useEffect(() => {
       if (shapetrigger) {
         console.log('shapetriggered!');
-        setModel(getModel);
+        // newModel();
     }}, [shapetrigger]);
     useEffect(() => {
-      // if (materialtrigger) return;
+      if (materialtrigger) return;
       console.log('      >>> useEffect');
-      //  setGemConfig(config);
-      //  Object.assign(material, config);
-      //  setMaterial(material);
+       setGemConfig(config);
+       Object.assign(material, config);
+       material.needsUpdate = true;
+       setMaterial(material);
       }, [config] )
+
+        // Use useFrame to update the material properties over time
+  // useFrame(() => {
+  //   // You can update material properties here
+  // });
 
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
