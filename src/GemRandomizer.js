@@ -28,6 +28,10 @@ const getModel = () => {
   // const meshes = ['crystal', 'rock1', 'cube']
   // const mesh = './models/' + _.sample(meshes) + '.stl'
   // const geo = useLoader(STLLoader, mesh)
+
+  // const geo = useLoader(GLTFLoader, './models/crystal1.glb').scene.children[0].geometry;
+  // const geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
+
   return geo
 }
 
@@ -39,7 +43,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   const { ...parallaxconfig } = useControls(parallaxcontrols)
 
   const setParallax = (mode) => {
-    console.log('setParallax to', mode)
+    console.log('  setParallax to', mode)
     setParallaxMode(mode);
   }
 
@@ -109,22 +113,24 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   useEffect(() => {
     //  this triggers a re-render of the entire component
     if (materialtrigger) {
-      console.log('materialtriggered!');
-      setParallax(false)
-      console.log('parallax:', parallaxMode);
+      console.log('gem, materialtriggered!');
+      if (parallaxMode) setParallax(false)
       newMaterial()
+      props.resetTriggers()
     }
   }, [materialtrigger])
   useEffect(() => {
     if (shapetrigger) {
-      // console.log('shapetriggered!');
+      console.log('shapetriggered!');
       newModel()
+      props.resetTriggers()
     }
   }, [shapetrigger])
   useEffect(() => {
     if (parallaxtrigger) {
       console.log('parallaxtriggered! parallaxMode:', parallaxMode);
       setParallax(true)
+      props.resetTriggers()
     }
   }, [parallaxtrigger])
   useEffect(() => {
@@ -144,21 +150,23 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // geo = useLoader(STLLoader, './models/rock1.stl');
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-
+  
+  // geo = useLoader(GLTFLoader, model);
   geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
 
 // return (
 //   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
 // )
-console.log('parallaxMode?', parallaxMode);
+console.log('      rendering, parallaxMode?', parallaxMode);
+console.log('      rendering, model?', model);
 return (
     <>
       <Center top>
         <group>
           { parallaxMode ? (
-            <ParallaxMesh config={parallaxconfig} geometry={geo} castShadow />
+            <ParallaxMesh config={parallaxconfig} geometry={model} castShadow />
           ) : (
-            <mesh scale={1} geometry={geo} material={material} castShadow />
+            <mesh scale={1} geometry={model} material={material} castShadow />
           )}
         </group>
       </Center>

@@ -41,7 +41,11 @@ export function App() {
   const testFunc = () => {
     setTrigger(Math.random())
   }
-
+  const resetTriggers = () => {
+    setMaterialTrigger(null)
+    setShapeTrigger(null)
+    setParallaxTrigger(null)
+  }
   const randomControls = {
     _shift: { value: 1, min: 0, max: 10, step: 0.01 },
     opacity: { value: 1, min: 0, max: 1, step: 0.01 },
@@ -95,7 +99,7 @@ export function App() {
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
         </directionalLight>
 
-        <GemRandomizer parallaxtrigger={parallaxtrigger} config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+        <GemRandomizer parallaxtrigger={parallaxtrigger} resetTriggers={resetTriggers} config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
         {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
