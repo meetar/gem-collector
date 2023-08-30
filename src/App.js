@@ -37,6 +37,7 @@ import TestPlanes from './TestPlanes'
 export function App() {
   const [materialtrigger, setMaterialTrigger] = useState()
   const [shapetrigger, setShapeTrigger] = useState()
+  const [parallaxtrigger, setParallaxTrigger] = useState()
   const testFunc = () => {
     setTrigger(Math.random())
   }
@@ -50,11 +51,12 @@ export function App() {
 
   const randomControls = {
     _shift: { value: 1, min: 0, max: 10, step: 0.01 },
-    opacity: { value: 0.2, min: 0, max: 1, step: 0.01 },
+    opacity: { value: 1, min: 0, max: 1, step: 0.01 },
     shininess: { value: 1, min: 0, max: 100, step: 0.01 },
     autoRotate: { value: true },
     materialTrigger: button(() => setMaterialTrigger(Math.random())),
-    shapeTrigger: button(() => setShapeTrigger(Math.random()))
+    shapeTrigger: button(() => setShapeTrigger(Math.random())),
+    parallax: button(() => setParallaxTrigger(Math.random())),
   }
 
   // const { ...parallaxconfig } = useControls(parallaxcontrols)
@@ -100,7 +102,7 @@ export function App() {
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
         </directionalLight>
 
-        <GemRandomizer config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+        <GemRandomizer parallaxtrigger={parallaxtrigger} config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
           <meshStandardMaterial color="white" emissive={'#666666'} transparent={true} opacity={1} side={THREE.BackSide} />

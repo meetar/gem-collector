@@ -30,8 +30,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     console.log('setParallax')
     setParallaxMode(true);
   }
-  
-  
+
   const getMaterial = () => {
     // console.log('getMaterial, gemConfig?', gemConfig);
     // console.log('getMat');
@@ -131,18 +130,19 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // geo = useLoader(STLLoader, './models/rock1.stl');
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-  
-  geo = useLoader(STLLoader, model);
-  
+
+  geo = useLoader(STLLoader, model)
+
   return (
     <>
-    <Center top>
-      <group>
-
-        <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow>
-
-        </mesh>
-      </group>
+      <Center top>
+        <group>
+          { parallaxMode ? (
+            <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow />
+          ) : (
+            <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow />
+          )}
+        </group>
       </Center>
     </>
   )
