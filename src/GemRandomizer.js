@@ -38,9 +38,9 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 
   const { ...parallaxconfig } = useControls(parallaxcontrols)
 
-  const setParallax = () => {
-    console.log('setParallax')
-    setParallaxMode(true);
+  const setParallax = (mode) => {
+    console.log('setParallax to', mode)
+    setParallaxMode(mode);
   }
 
   const getMaterial = () => {
@@ -109,7 +109,9 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   useEffect(() => {
     //  this triggers a re-render of the entire component
     if (materialtrigger) {
-      // console.log('materialtriggered!');
+      console.log('materialtriggered!');
+      setParallax(false)
+      console.log('parallax:', parallaxMode);
       newMaterial()
     }
   }, [materialtrigger])
@@ -121,8 +123,8 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   }, [shapetrigger])
   useEffect(() => {
     if (parallaxtrigger) {
-      // console.log('parallaxtriggered!');
-      setParallax()
+      console.log('parallaxtriggered! parallaxMode:', parallaxMode);
+      setParallax(true)
     }
   }, [parallaxtrigger])
   useEffect(() => {
@@ -148,13 +150,13 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 // return (
 //   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
 // )
-
+console.log('parallaxMode?', parallaxMode);
 return (
     <>
       <Center top>
         <group>
           { parallaxMode ? (
-            <ParallaxMesh config={parallaxconfig} geometry={geo} />
+            <ParallaxMesh config={parallaxconfig} geometry={geo} castShadow />
           ) : (
             <mesh scale={1} geometry={geo} material={material} castShadow />
           )}

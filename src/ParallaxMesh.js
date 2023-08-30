@@ -4,7 +4,7 @@ import { Stats, Sphere, useTexture } from '@react-three/drei'
 import fetcher from './Fetcher'
 import ParallaxMaterial from './ParallaxMaterial'
 
-function ParallaxMesh({geometry, config, textureUrl}) {
+function ParallaxMesh({geometry, config, textureUrl, ...props}) {
   console.log('parallax mesh');
   const [shader, setShader] = useState({vert: null, frag: null});
   const [pmaterial, setPMaterial] = useState(null);
@@ -36,7 +36,7 @@ function ParallaxMesh({geometry, config, textureUrl}) {
   return (
     <>
       {pmaterial ? (
-        <mesh geometry={geometry} material={pmaterial} />
+        <mesh geometry={geometry} material={pmaterial} {...props} />
         ) : (
         <><Sphere /></>
       )}
