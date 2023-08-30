@@ -102,6 +102,11 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     setModel(getModel)
   }
 
+  function resetMode() {
+    setParallaxMode(false)
+    setGemMode(false)
+  }
+
   const updateMaterial = (material, properties) => {
     // Update the material's properties from the properties object
     Object.assign(material, properties)
@@ -118,7 +123,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     //  this triggers a re-render of the entire component
     if (materialtrigger) {
       console.log('gem, materialtriggered!');
-      if (parallaxMode) setParallax(false)
+      resetMode()
       newMaterial()
       props.resetTriggers()
     }
@@ -133,13 +138,15 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   useEffect(() => {
     if (parallaxtrigger) {
       console.log('parallaxtriggered! parallaxMode:', parallaxMode);
-      setParallax(true)
+      resetMode()
+      setParallaxMode(true)
       props.resetTriggers()
     }
   }, [parallaxtrigger])
   useEffect(() => {
     if (gemtrigger) {
       console.log('gemtriggered! gemMode:', gemMode);
+      resetMode()
       setGemMode(true)
       props.resetTriggers()
     }
@@ -175,16 +182,17 @@ return (
       <Center top>
         <group>
 
-        <Testgem config={gemConfig} />
 
 
-          {/* { parallaxMode ? (
+          { parallaxMode ? (
             <ParallaxMesh config={parallaxconfig} geometry={model} castShadow />
           ) : gemMode ? (
-              <GemMesh config={gemcontrols} geometry={model} castShadow />
+            <Testgem geoemtry={model} />
+
+              // <GemMesh config={gemcontrols} geometry={model} castShadow />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
-          )} */}
+          )}
         </group>
       </Center>
     </>

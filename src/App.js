@@ -8,44 +8,25 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { Box, Sphere, Plane, Stats, SoftShadows } from '@react-three/drei'
 import { useEffect, useState, Suspense } from 'react'
 // import { CSGShape } from './CSGShape'
-// import { Gem } from './Gem'
-// import { InnerGem } from './InnerGem'
-import { gemcontrols } from './gemcontrols'
 import { parallaxcontrols } from './parallaxcontrols'
 // import { Testgem } from './Testgem'
-// import { Feedbackgem } from './Feedbackgem'
 import { GemRandomizer } from './GemRandomizer'
 
 import { Center, OrbitControls, MeshTransmissionMaterial, MeshRefractionMaterial, MeshReflectorMaterial } from '@react-three/drei'
 import { Leva, useControls, button } from 'leva'
-import {
-  MeshBasicMaterial,
-  meshPhysicalMaterial,
-  TextureLoader,
-  CubeTextureLoader,
-  CubeReflectionMapping,
-  CubeRefractionMapping,
-  EquirectangularReflectionMapping
-} from 'three'
 import { AmbientLight } from 'three'
-import { RefractGeo } from './RefractGeo'
-// import ParallaxGeo from './ParallaxGeo';
-import { ParallaxGeoSync } from './ParallaxGeoSync'
-import ParallaxMesh from './ParallaxMesh'
-import TestPlanes from './TestPlanes'
 
 export function App() {
   const [materialtrigger, setMaterialTrigger] = useState()
   const [shapetrigger, setShapeTrigger] = useState()
   const [gemtrigger, setGemTrigger] = useState()
   const [parallaxtrigger, setParallaxTrigger] = useState()
-  const testFunc = () => {
-    setTrigger(Math.random())
-  }
+
   const resetTriggers = () => {
     setMaterialTrigger(null)
     setShapeTrigger(null)
     setParallaxTrigger(null)
+    setGemTrigger(null)
   }
   const randomControls = {
     _shift: { value: 1, min: 0, max: 10, step: 0.01 },
