@@ -3,6 +3,7 @@ import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useTexture } from '@react-three/drei'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { randomColor } from 'randomcolor';
@@ -47,8 +48,9 @@ const getColor = () => {
 
 
 const getModel = () => {
-  const meshes = ['./crystal1.glb', './crystal2.glb', './crystal3.glb'];
-  const mesh = _.sample(meshes);
+  // const meshes = ['crystal1.glb', 'crystal2.glb', 'crystal3.glb'];
+  const meshes = ['crystal', 'rock1', 'cube'];
+  const mesh = './models/'+_.sample(meshes)+'.stl';
   return mesh
 }
 
@@ -153,18 +155,23 @@ const updateMaterial = (material, properties) => {
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
   // geo = useLoader(GLTFLoader, './crystal1.glb').scene.children[0].geometry;
 
-  geo = useLoader(GLTFLoader, model).scene.children[0].geometry;
+  // geo = useLoader(GLTFLoader, model).scene.children[0].geometry;
+  // geo = useLoader(STLLoader, './models/rock1.stl');
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-
+  
+  geo = useLoader(STLLoader, model);
+  
   return (
     <>
+    <Center top>
       <group>
 
-        <mesh scale={1} geometry={geo} material={material} castShadow>
+        <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow>
 
         </mesh>
       </group>
+      </Center>
     </>
   )
 }
