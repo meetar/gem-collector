@@ -10,7 +10,7 @@ import { useEffect, useState, Suspense } from 'react'
 // import { CSGShape } from './CSGShape'
 // import { Gem } from './Gem'
 // import { InnerGem } from './InnerGem'
-// import { gemcontrols } from './gemcontrols'
+import { gemcontrols } from './gemcontrols'
 import { parallaxcontrols } from './parallaxcontrols'
 // import { Testgem } from './Testgem'
 // import { Feedbackgem } from './Feedbackgem'
@@ -37,6 +37,7 @@ import TestPlanes from './TestPlanes'
 export function App() {
   const [materialtrigger, setMaterialTrigger] = useState()
   const [shapetrigger, setShapeTrigger] = useState()
+  const [gemtrigger, setGemTrigger] = useState()
   const [parallaxtrigger, setParallaxTrigger] = useState()
   const testFunc = () => {
     setTrigger(Math.random())
@@ -54,9 +55,11 @@ export function App() {
     materialTrigger: button(() => setMaterialTrigger(Math.random())),
     shapeTrigger: button(() => setShapeTrigger(Math.random())),
     parallax: button(() => setParallaxTrigger(Math.random())),
+    gem: button(() => setGemTrigger(Math.random())),
   }
 
   const { ...parallaxconfig } = useControls(parallaxcontrols)
+  
   const { ...randomConfig } = useControls(randomControls)
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
@@ -99,7 +102,10 @@ export function App() {
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
         </directionalLight>
 
-        <GemRandomizer parallaxtrigger={parallaxtrigger} resetTriggers={resetTriggers} config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+        <GemRandomizer
+          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, resetTriggers}} // use spread syntax to add these vars as props of the same name
+          config={randomConfig}
+        />
         {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>

@@ -9,10 +9,10 @@ import { EquirectangularReflectionMapping } from 'three';
 
 
 export function Gem({ backgroundTexture, config, ...props }) {
-  const gltf = useLoader(GLTFLoader, './gem.glb');
+  const gltf = useLoader(GLTFLoader, './models/gem.glb');
   const geo = gltf.scene.children[0].children[0].children[0].children[0].geometry;
-  console.log('backgroundTexture?', backgroundTexture);
-
+  // console.log('backgroundTexture?', backgroundTexture);
+console.log(config);
     backgroundTexture.mapping = EquirectangularReflectionMapping; 
   return (
     <>
@@ -20,12 +20,8 @@ export function Gem({ backgroundTexture, config, ...props }) {
 
       <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]} visible={true}>
         <MeshTransmissionMaterial {...config}  transparent={true}
-        // color='black'
-        // opacity={1}
-               reflectivity={config.reflectivity} 
-               envMap={config.envMap ? backgroundTexture : null}
-              //  envMapIntensity={config.envMapIntensity}
-               ior={config.iorOuter}
+          envMap={backgroundTexture}
+          ior={config.iorOuter}
         />
       </mesh>
 

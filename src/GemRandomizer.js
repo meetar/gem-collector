@@ -14,6 +14,9 @@ import * as _ from 'lodash'
 import { getColor } from './utils'
 import ParallaxMesh from './ParallaxMesh'
 import { parallaxcontrols } from './parallaxcontrols'
+import { GemMesh } from './GemMesh'
+import { gemcontrols } from './gemcontrols'
+import { Testgem } from './Testgem'
 
 const randomize = () => {
   console.log('gem randomizer called')
@@ -35,10 +38,11 @@ const getModel = () => {
   return geo
 }
 
-export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, ...props }) {
+export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, ...props }) {
   const crystalMap = useTexture('./6056-normal.jpg')
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   const [parallaxMode, setParallaxMode] = useState(false);
+  const [gemMode, setGemMode] = useState(false);
 
   const { ...parallaxconfig } = useControls(parallaxcontrols)
 
@@ -134,6 +138,13 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     }
   }, [parallaxtrigger])
   useEffect(() => {
+    if (gemtrigger) {
+      console.log('gemtriggered! gemMode:', gemMode);
+      setGemMode(true)
+      props.resetTriggers()
+    }
+  }, [gemtrigger])
+  useEffect(() => {
     // console.log('      >>> useEffect');
     setGemConfig(config)
     Object.assign(material, config)
@@ -163,11 +174,17 @@ return (
     <>
       <Center top>
         <group>
-          { parallaxMode ? (
+
+        <Testgem config={gemConfig} />
+
+
+          {/* { parallaxMode ? (
             <ParallaxMesh config={parallaxconfig} geometry={model} castShadow />
+          ) : gemMode ? (
+              <GemMesh config={gemcontrols} geometry={model} castShadow />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
-          )}
+          )} */}
         </group>
       </Center>
     </>

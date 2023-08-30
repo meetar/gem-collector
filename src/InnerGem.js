@@ -10,19 +10,21 @@ import { EquirectangularReflectionMapping } from 'three';
 
 
 export function InnerGem({ camera, backgroundTexture, config, ...props }) {
-  const gltf = useLoader(GLTFLoader, './gem.glb');
+
+  console.log('config?', config.iorInner);
+  
+  const gltf = useLoader(GLTFLoader, './models/gem.glb');
   const geo = gltf.scene.children[0].children[0].children[0].children[0].geometry;
-  console.log('backgroundTexture?', backgroundTexture);
-  console.log('camera?', camera);
+  // console.log('backgroundTexture?', backgroundTexture);
+  // console.log('camera?', camera);
 
 
   return (
     <>
       <Center scale={[1, 1, 1]} front top {...props}>
 
-      <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]}>
+      <mesh geometry={geo} rotation={[Math.PI/2, 0, 0]} castShadow>
         <MeshRefractionMaterial {...config} envMap={backgroundTexture}
-        reflectivity={config.reflectivity} 
         ior={config.iorInner}
          />
       </mesh>
