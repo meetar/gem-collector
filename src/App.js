@@ -29,9 +29,7 @@ export function App() {
     setGemTrigger(null)
   }
   const randomControls = {
-    _shift: { value: 1, min: 0, max: 10, step: 0.01 },
     opacity: { value: 1, min: 0, max: 1, step: 0.01 },
-    shininess: { value: 1, min: 0, max: 100, step: 0.01 },
     autoRotate: { value: true },
     materialTrigger: button(() => setMaterialTrigger(Math.random())),
     shapeTrigger: button(() => setShapeTrigger(Math.random())),
@@ -39,7 +37,6 @@ export function App() {
     gem: button(() => setGemTrigger(Math.random())),
   }
 
-  const { ...parallaxconfig } = useControls(parallaxcontrols)
   
   const { ...randomConfig } = useControls(randomControls)
 
@@ -72,7 +69,6 @@ export function App() {
   // console.log('gemconfig:', gemconfig);
   return (
     <Suspense fallback={<p>Loading</p>}>
-      {/* <Leva {...parallaxconfig} testFunc={testFunc} /> */}
 
       <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
@@ -87,7 +83,6 @@ export function App() {
           {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, resetTriggers}} // use spread syntax to add these vars as props of the same name
           config={randomConfig}
         />
-        {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
           <meshStandardMaterial color="white" emissive={'#666666'} transparent={true} opacity={1} side={THREE.BackSide} />

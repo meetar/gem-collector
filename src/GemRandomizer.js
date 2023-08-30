@@ -41,10 +41,10 @@ const getModel = () => {
 export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, ...props }) {
   const crystalMap = useTexture('./6056-normal.jpg')
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  const [parallaxMode, setParallaxMode] = useState(false);
+  const [parallaxMode, setParallaxMode] = useState(true);
   const [gemMode, setGemMode] = useState(false);
 
-  const { ...parallaxconfig } = useControls(parallaxcontrols)
+  // const { ...parallaxconfig } = useControls(parallaxcontrols)
 
   const setParallax = (mode) => {
     console.log('  setParallax to', mode)
@@ -175,8 +175,8 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 // return (
 //   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
 // )
-console.log('      rendering, parallaxMode?', parallaxMode);
-console.log('      rendering, model?', model);
+// console.log('      rendering, parallaxconfig?', parallaxconfig);
+// console.log('      rendering, model?', model);
 
 return (
     <>
@@ -184,14 +184,17 @@ return (
         <group>
 
 
+        {/* <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} /> */}
+
 
           { parallaxMode ? (
-            <ParallaxMesh config={parallaxconfig} geometry={model} castShadow />
+            <ParallaxMesh geometry={model} castShadow />
           ) : gemMode ? (
             <Testgem geometry={model} />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
           )}
+
         </group>
       </Center>
     </>

@@ -3,12 +3,17 @@ import * as THREE from 'three';
 import { Stats, Sphere, useTexture } from '@react-three/drei'
 import fetcher from './Fetcher'
 import ParallaxMaterial from './ParallaxMaterial'
+import { parallaxcontrols } from './parallaxcontrols'
+import { Leva, useControls, button } from 'leva'
+
 
 function ParallaxMesh({geometry, config, textureUrl, ...props}) {
-  console.log('parallax mesh');
+  const { ...pconfig } = useControls(parallaxcontrols)
+  // console.log('parallax mesh, config?', parallaxconfig);
   const [shader, setShader] = useState({vert: null, frag: null});
   const [pmaterial, setPMaterial] = useState(null);
-
+  // const [pconfig, setPConfig] = useState(parallaxconfig)
+// const pconfig = {...config, ...parallaxconfig}
   if (!textureUrl) textureUrl = './speckles.png';
   // textureUrl = './speck.png';
   // textureUrl = './dots.png';
@@ -19,27 +24,11 @@ function ParallaxMesh({geometry, config, textureUrl, ...props}) {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 
-  useEffect(() => {
-    async function fetchMaterial() {
-      try {
-        let mat = await ParallaxMaterial({texture, config});
-        mat.isShaderMaterial = true;
-        setPMaterial(mat);
-      } catch (error) {
-        console.error('Error loading fragment shader:', error);
-      }
-
-    }
-    fetchMaterial();
-  }, [config]);
-
   return (
     <>
-      {pmaterial ? (
-        <mesh geometry={geometry} material={pmaterial} {...props} />
-        ) : (
-        <><Sphere /></>
-      )}
+        <mesh geometry={geometry} {...props}>
+          <ParallaxMaterial texture={texture} isShaderMaterial config={pconfig} />
+        </mesh>
     </>
   );
 }
