@@ -42,13 +42,6 @@ export function App() {
     setTrigger(Math.random())
   }
 
-  const parallaxcontrols = {
-    _steps: { value: 5, min: 0, max: 100, step: 1 },
-    _height: { value: 1, min: 0, max: 5, step: 0.01 },
-    _scale: { value: 1, min: 0, max: 10, step: 0.01 },
-    _shift: { value: 1, min: 0, max: 10, step: 0.01 }
-  }
-
   const randomControls = {
     _shift: { value: 1, min: 0, max: 10, step: 0.01 },
     opacity: { value: 1, min: 0, max: 1, step: 0.01 },
@@ -59,7 +52,7 @@ export function App() {
     parallax: button(() => setParallaxTrigger(Math.random())),
   }
 
-  // const { ...parallaxconfig } = useControls(parallaxcontrols)
+  const { ...parallaxconfig } = useControls(parallaxcontrols)
   const { ...randomConfig } = useControls(randomControls)
 
   const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
@@ -85,7 +78,7 @@ export function App() {
     focus: 10
   }
 
-  // const geo = useLoader(GLTFLoader, './cube.glb').scene.children[0].geometry;
+  const geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
   // const geo = new THREE.PlaneGeometry;
   // const geo = new THREE.SphereGeometry;
   // console.log('gemconfig:', gemconfig);
@@ -103,6 +96,7 @@ export function App() {
         </directionalLight>
 
         <GemRandomizer parallaxtrigger={parallaxtrigger} config={randomConfig} materialtrigger={materialtrigger} shapetrigger={shapetrigger} />
+        {/* <ParallaxMesh geometry={geo} config={parallaxconfig} texture={btexture} /> */}
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
           <meshStandardMaterial color="white" emissive={'#666666'} transparent={true} opacity={1} side={THREE.BackSide} />

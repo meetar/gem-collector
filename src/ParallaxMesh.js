@@ -5,8 +5,9 @@ import fetcher from './Fetcher'
 import ParallaxMaterial from './ParallaxMaterial'
 
 function ParallaxMesh({geometry, config, textureUrl}) {
+  console.log('parallax mesh');
   const [shader, setShader] = useState({vert: null, frag: null});
-  const [material, setMaterial] = useState(null);
+  const [pmaterial, setPMaterial] = useState(null);
 
   if (!textureUrl) textureUrl = './speckles.png';
   // textureUrl = './speck.png';
@@ -23,7 +24,7 @@ function ParallaxMesh({geometry, config, textureUrl}) {
       try {
         let mat = await ParallaxMaterial({texture, config});
         mat.isShaderMaterial = true;
-        setMaterial(mat);
+        setPMaterial(mat);
       } catch (error) {
         console.error('Error loading fragment shader:', error);
       }
@@ -34,10 +35,10 @@ function ParallaxMesh({geometry, config, textureUrl}) {
 
   return (
     <>
-      {material ? (
-        <mesh geometry={geometry} material={material} />
+      {pmaterial ? (
+        <mesh geometry={geometry} material={pmaterial} />
         ) : (
-        <></>
+        <><Sphere /></>
       )}
     </>
   );

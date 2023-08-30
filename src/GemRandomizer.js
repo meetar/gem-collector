@@ -1,30 +1,42 @@
+import { RGBELoader } from 'three-stdlib'
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useTexture } from '@react-three/drei'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
+import { Leva, useControls, button } from 'leva'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Center, MeshTransmissionMaterial, Sphere } from '@react-three/drei'
 import { MeshBasicMaterial } from 'three'
 import * as _ from 'lodash'
 import { getColor } from './utils'
+import ParallaxMesh from './ParallaxMesh'
+import { parallaxcontrols } from './parallaxcontrols'
 
 const randomize = () => {
   console.log('gem randomizer called')
 }
 
+
 const getModel = () => {
-  // const meshes = ['crystal1.glb', 'crystal2.glb', 'crystal3.glb'];
-  const meshes = ['crystal', 'rock1', 'cube']
-  const mesh = './models/' + _.sample(meshes) + '.stl'
-  return mesh
+  const meshes = ['crystal1.glb', 'crystal2.glb', 'crystal3.glb'];
+  const mesh = './models/'+_.sample(meshes)
+  const geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
+
+  // const meshes = ['crystal', 'rock1', 'cube']
+  // const mesh = './models/' + _.sample(meshes) + '.stl'
+  // const geo = useLoader(STLLoader, mesh)
+  return geo
 }
 
 export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, ...props }) {
   const crystalMap = useTexture('./6056-normal.jpg')
+  const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   const [parallaxMode, setParallaxMode] = useState(false);
+
+  const { ...parallaxconfig } = useControls(parallaxcontrols)
 
   const setParallax = () => {
     console.log('setParallax')
@@ -131,16 +143,20 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
 
-  geo = useLoader(STLLoader, model)
+  geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
 
-  return (
+// return (
+//   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
+// )
+
+return (
     <>
       <Center top>
         <group>
           { parallaxMode ? (
-            <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow />
+            <ParallaxMesh config={parallaxconfig} geometry={geo} />
           ) : (
-            <mesh scale={1} rotation={[-90 * (Math.PI / 180), 0, 0]} geometry={geo} material={material} castShadow />
+            <mesh scale={1} geometry={geo} material={material} castShadow />
           )}
         </group>
       </Center>
