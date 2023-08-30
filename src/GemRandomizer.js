@@ -177,6 +177,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 // )
 console.log('      rendering, parallaxMode?', parallaxMode);
 console.log('      rendering, model?', model);
+
 return (
     <>
       <Center top>
@@ -187,9 +188,7 @@ return (
           { parallaxMode ? (
             <ParallaxMesh config={parallaxconfig} geometry={model} castShadow />
           ) : gemMode ? (
-            <Testgem geoemtry={model} />
-
-              // <GemMesh config={gemcontrols} geometry={model} castShadow />
+            <Testgem geometry={model} />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
           )}

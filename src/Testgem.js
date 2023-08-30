@@ -12,20 +12,17 @@ export function Testgem({config, geometry, texture, ...props}) {
   console.log('texture?', texture);
   return (
     <>
-      <group scale={3.}>
       <group scale={0.999}>
         <InnerGem
           config={diamondconfig}
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -0.5, 1]}
           backgroundTexture={texture}
           visible={true}
+          geometry={geometry}
         />
       </group>
 
       {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
-      <Gem config={diamondconfig} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} />
-      </group>
+      <Gem config={diamondconfig} backgroundTexture={texture} geometry={geometry} />
     </>
   )
 }
