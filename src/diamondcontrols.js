@@ -18,7 +18,6 @@ export const diamondcontrols = {
     bounces: { value: 4, min: 0, max: 10, step: 1 },
     // color: '#ff9cf5',
     color: 'white',
-    autoRotate: true,
     HDRTexture: true,
     InnerVisible: true,
     GemVisible: true,
