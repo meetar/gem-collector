@@ -167,22 +167,22 @@ return (
         <group>
 
 
-        {/* <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} /> */}
 
-
-          {/* { parallaxMode ? (
+          { parallaxMode ? (
             <ParallaxMesh geometry={model} config={config} castShadow />
           ) : gemMode ? (
             <DiamondMaterial geometry={model} />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
-            )} */}
+            )}
 
         </group>
       </Center>
-        <mesh scale={2} geometry={rock} castShadow>
+      <Center>
+        <mesh scale={1.5} geometry={rock} castShadow>
           <RockMaterial />
         </mesh>
+      </Center>
     </>
   )
 }
