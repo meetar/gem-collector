@@ -1,4 +1,4 @@
-export const gemcontrols = {
+export const diamondcontrols = {
     // text: 'Inter',
     // backside: true,
     // backsideThickness: { value: 0.3, min: 0, max: 2 },
@@ -22,11 +22,7 @@ export const gemcontrols = {
     HDRTexture: true,
     InnerVisible: true,
     GemVisible: true,
-    bloom: true,
-    lumThreshold: { value: .36, min: 0, max: 1, step: 0.01 },
-    bloomIntensity: { value: 0.33, min: 0, max: 10, step: 0.01 },
-    bloomLevels: { value: 3, min: 0, max: 9, step: 1 },
-    // fastChroma: true,
+
     envMap: true,
     envMapIntensity: { value: 1, min: 0, max: 3, step: .01 },
     // envMapRoughness: { value: .5, min: 0, max: 3, step: .01 },

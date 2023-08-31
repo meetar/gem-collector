@@ -4,17 +4,16 @@ import { useLoader } from '@react-three/fiber'
 import { InnerGem } from "./InnerGem"
 import { Gem } from "./Gem"
 import { Leva, useControls, button } from 'leva'
-import { gemcontrols } from './gemcontrols'
+import { diamondcontrols } from './diamondcontrols'
 import {
   MeshRefractionMaterial,
   MeshTransmissionMaterial,
 } from '@react-three/drei'
 
-export function Testgem({config, geometry, texture, ...props}) {
-  const { ...diamondconfig } = useControls(gemcontrols)
+export function DiamondMaterial({config, geometry, texture, ...props}) {
+  const { ...diamondconfig } = useControls(diamondcontrols)
 
   texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  console.log('texture?', texture);
   texture.mapping = EquirectangularReflectionMapping; 
 
   return (
@@ -22,7 +21,8 @@ export function Testgem({config, geometry, texture, ...props}) {
       <group scale={0.999}>
 
       <mesh geometry={geometry} castShadow>
-        <MeshRefractionMaterial {...config} {...diamondconfig} envMap={texture}
+        {/* don't set transparent to true here! I will crash */}
+        <MeshRefractionMaterial {...config} {...diamondconfig} envMap={texture} 
         ior={diamondconfig.iorInner}
          />
       </mesh>

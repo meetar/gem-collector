@@ -9,7 +9,7 @@
 uniform float _steps;
 uniform float _height;
 uniform float _scale;
-uniform float _shift;
+uniform float _opacity;
 uniform sampler2D _texture;
 varying vec2 vUv;
 varying vec3 vNormal;
@@ -98,5 +98,5 @@ void main() {
     }
   }
 
-  gl_FragColor = vec4(color.rgb, 1.);
+  gl_FragColor = vec4(color.rgb, 1. * _opacity);
 }

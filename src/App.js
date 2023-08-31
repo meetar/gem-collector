@@ -8,12 +8,11 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { Box, Sphere, Plane, Stats, SoftShadows } from '@react-three/drei'
 import { useEffect, useState, Suspense } from 'react'
 // import { CSGShape } from './CSGShape'
-import { parallaxcontrols } from './parallaxcontrols'
-// import { Testgem } from './Testgem'
+import { randomControls } from './randomControls'
 import { GemRandomizer } from './GemRandomizer'
 
-import { Center, OrbitControls, MeshTransmissionMaterial, MeshRefractionMaterial, MeshReflectorMaterial } from '@react-three/drei'
-import { Leva, useControls, button } from 'leva'
+import { OrbitControls } from '@react-three/drei'
+import { useControls, button } from 'leva'
 import { AmbientLight } from 'three'
 
 export function App() {
@@ -22,25 +21,23 @@ export function App() {
   const [gemtrigger, setGemTrigger] = useState()
   const [parallaxtrigger, setParallaxTrigger] = useState()
 
-  const resetTriggers = () => {
-    setMaterialTrigger(null)
-    setShapeTrigger(null)
-    setParallaxTrigger(null)
-    setGemTrigger(null)
-  }
-  const randomControls = {
-    opacity: { value: 1, min: 0, max: 1, step: 0.01 },
-    autoRotate: { value: true },
+  // const resetTriggers = () => {
+  //   setMaterialTrigger(null)
+  //   setShapeTrigger(null)
+  //   setParallaxTrigger(null)
+  //   setGemTrigger(null)
+  // }
+
+  // leva controls which use functions defined in this component
+  useControls({
     materialTrigger: button(() => setMaterialTrigger(Math.random())),
     shapeTrigger: button(() => setShapeTrigger(Math.random())),
     parallax: button(() => setParallaxTrigger(Math.random())),
-    gem: button(() => setGemTrigger(Math.random())),
-  }
-
+    gem: button(() => setGemTrigger(Math.random())),  
+  });
   
   const { ...randomConfig } = useControls(randomControls)
 
-  const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
 
   // const geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry;
 
@@ -63,14 +60,13 @@ export function App() {
     focus: 10
   }
 
-  const geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
   // const geo = new THREE.PlaneGeometry;
   // const geo = new THREE.SphereGeometry;
   // console.log('gemconfig:', gemconfig);
   return (
     <Suspense fallback={<p>Loading</p>}>
 
-      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 1 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
@@ -80,7 +76,7 @@ export function App() {
         </directionalLight>
 
         <GemRandomizer
-          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, resetTriggers}} // use spread syntax to add these vars as props of the same name
+          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger }} // use spread syntax to add these vars as props of the same name
           config={randomConfig}
         />
 
@@ -89,7 +85,7 @@ export function App() {
         </Sphere>
 
         <EffectComposer>
-          {/* <Bloom luminanceThreshold={gemconfig.lumThreshold} intensity={gemconfig.bloom ? gemconfig.bloomIntensity : 0} levels={gemconfig.bloomLevels} mipmapBlur /> */}
+          <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
         </EffectComposer>
 
         {/** Controls */}

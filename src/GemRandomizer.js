@@ -13,10 +13,9 @@ import { MeshBasicMaterial } from 'three'
 import * as _ from 'lodash'
 import { getColor } from './utils'
 import ParallaxMesh from './ParallaxMesh'
-import { parallaxcontrols } from './parallaxcontrols'
-import { GemMesh } from './GemMesh'
-import { gemcontrols } from './gemcontrols'
-import { Testgem } from './Testgem'
+import { DiamondMaterial } from './DiamondMaterial'
+import { MeshPhongMaterial } from 'three'
+import RockMaterial from './RockMaterial'
 
 const randomize = () => {
   console.log('gem randomizer called')
@@ -24,48 +23,32 @@ const randomize = () => {
 
 
 const getModel = () => {
-  const meshes = ['crystal1.glb', 'crystal2.glb', 'crystal3.glb'];
-  const mesh = './models/'+_.sample(meshes)
+  // const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
+  // const mesh = './models/'+_.sample(meshes)+'.glb'
+  const mesh = './models/rock1.glb'
   const geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
 
   // const meshes = ['crystal', 'rock1', 'cube']
   // const mesh = './models/' + _.sample(meshes) + '.stl'
   // const geo = useLoader(STLLoader, mesh)
 
-  // const geo = useLoader(GLTFLoader, './models/crystal1.glb').scene.children[0].geometry;
-  // const geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
-
   return geo
 }
 
 export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, ...props }) {
   const crystalMap = useTexture('./6056-normal.jpg')
-  const btexture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  const [parallaxMode, setParallaxMode] = useState(true);
+  const [parallaxMode, setParallaxMode] = useState(false);
   const [gemMode, setGemMode] = useState(false);
 
-  // const { ...parallaxconfig } = useControls(parallaxcontrols)
-
-  const setParallax = (mode) => {
-    console.log('  setParallax to', mode)
-    setParallaxMode(mode);
-  }
-
   const getMaterial = () => {
-    // console.log('getMaterial, gemConfig?', gemConfig);
-    // console.log('getMat');
     const materialTypes = ['shader', 'phong', 'lambert', 'basic']
     const materialType = _.sample(materialTypes)
-    // const mat = 'phong';
-    // console.log(mat);
-    // const normalMap = useTexture('./speckles.png');
 
     const material =
       materialType == 'shader'
         ? new THREE.ShaderMaterial({
             uniforms: {
               _color: { value: getColor() } // use state
-              // _color: { value: matColor }, // necessary?
             },
             fragmentShader: `uniform vec3 _color; void main() {gl_FragColor = vec4(_color, 1.);}`
           })
@@ -74,9 +57,8 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
             color: getColor(),
             normalMap: crystalMap,
             alphaMap: crystalMap,
-            specularMap: crystalMap
-            // shininess: 1,
-            // opacity: gemConfig.opacity,
+            specularMap: crystalMap,
+            opacity: Math.random()
           })
         : materialType == 'lambert'
         ? new THREE.MeshLambertMaterial({
@@ -107,11 +89,11 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     setGemMode(false)
   }
 
-  const updateMaterial = (material, properties) => {
-    // Update the material's properties from the properties object
-    Object.assign(material, properties)
-    setMaterial(material) // Trigger re-render
-  }
+  // const updateMaterial = (material, properties) => {
+  //   // Update the material's properties from the properties object
+  //   Object.assign(material, properties)
+  //   setMaterial(material) // Trigger re-render
+  // }
 
   // console.log('\n\nGemRandomizer, config:', config);
   const [gemConfig, setGemConfig] = useState(config)
@@ -119,36 +101,34 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   const [material, setMaterial] = useState(getMaterial(config))
   // console.log('material?', material);
   const [model, setModel] = useState(getModel)
+
+  // watch for triggers from app
   useEffect(() => {
     //  this triggers a re-render of the entire component
     if (materialtrigger) {
-      console.log('gem, materialtriggered!');
+      // console.log('gem, materialtriggered!');
       resetMode()
       newMaterial()
-      props.resetTriggers()
     }
   }, [materialtrigger])
   useEffect(() => {
     if (shapetrigger) {
-      console.log('shapetriggered!');
+      // console.log('shapetriggered!');
       newModel()
-      props.resetTriggers()
     }
   }, [shapetrigger])
   useEffect(() => {
     if (parallaxtrigger) {
-      console.log('parallaxtriggered! parallaxMode:', parallaxMode);
+      // console.log('parallaxtriggered! parallaxMode:', parallaxMode);
       resetMode()
       setParallaxMode(true)
-      props.resetTriggers()
     }
   }, [parallaxtrigger])
   useEffect(() => {
     if (gemtrigger) {
-      console.log('gemtriggered! gemMode:', gemMode);
+      // console.log('gemtriggered! gemMode:', gemMode);
       resetMode()
       setGemMode(true)
-      props.resetTriggers()
     }
   }, [gemtrigger])
   useEffect(() => {
@@ -170,13 +150,16 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // const color = getColor();
   
   // geo = useLoader(GLTFLoader, model);
-  geo = useLoader(GLTFLoader, './models/cube.glb').scene.children[0].geometry;
+  const rock = useLoader(GLTFLoader, './models/rock1.glb').scene.children[0].geometry;
+  rock.computeTangents();
 
 // return (
 //   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
 // )
 // console.log('      rendering, parallaxconfig?', parallaxconfig);
 // console.log('      rendering, model?', model);
+
+// Cliffs0177_1_350.jpg
 
 return (
     <>
@@ -187,16 +170,19 @@ return (
         {/* <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} /> */}
 
 
-          { parallaxMode ? (
-            <ParallaxMesh geometry={model} castShadow />
+          {/* { parallaxMode ? (
+            <ParallaxMesh geometry={model} config={config} castShadow />
           ) : gemMode ? (
-            <Testgem geometry={model} />
+            <DiamondMaterial geometry={model} />
           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
-          )}
+            )} */}
 
         </group>
       </Center>
+        <mesh scale={2} geometry={rock} castShadow>
+          <RockMaterial />
+        </mesh>
     </>
   )
 }

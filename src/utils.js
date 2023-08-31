@@ -18,14 +18,9 @@ function hexToRgb(hex) {
 }
 
 const getColor = () => {
-  // console.trace('getColor');
   const hexColor = randomColor();
-  // console.log(hexColor);
   const rgb = hexToRgb(hexColor)
-  // console.log(rgb);
-  const threeColor = new THREE.Color(rgb.r, rgb.g, rgb.b);
-  // const threeColor = new THREE.Color(1, 0, 0);
-  // console.log(threeColor);
+  const threeColor = new THREE.Color(rgb.r / 5, rgb.g / 5, rgb.b / 5);
   return threeColor;
 }
 
