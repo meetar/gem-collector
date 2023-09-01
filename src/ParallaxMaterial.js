@@ -16,7 +16,7 @@ const ParallaxMaterial = ({texture, config}) => {
 
     const args = {uniforms, fragmentShader, vertexShader}
   return (
-    <shaderMaterial args={[args]} transparent={true} />
+    <shaderMaterial args={[args]} depthWrite={true} side={THREE.FrontSide} depthTest={true} alphaTest={0} transparent={true} />
   )
 }
 

@@ -32,7 +32,7 @@ const smokeyCrystal = {
 
 
 export default function CrystalMaterial({config, geometry, texture, ...props}) {
-  let { ...smokeyCrystal } = useControls(diamondcontrols)
+  // let { ...smokeyCrystal } = useControls(smokeyCrystal)
   // debugger
   // Object.assign(crystalconfig, smokeyCrystal)
   const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')

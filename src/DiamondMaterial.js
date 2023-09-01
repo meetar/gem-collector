@@ -1,8 +1,6 @@
 import { EquirectangularReflectionMapping } from 'three';
 import { RGBELoader } from 'three-stdlib'
 import { useLoader } from '@react-three/fiber'
-import { InnerGem } from "./InnerGem"
-import { Gem } from "./Gem"
 import { Leva, useControls, button } from 'leva'
 import { diamondcontrols } from './diamondcontrols'
 import {
@@ -22,7 +20,7 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
 
       <mesh geometry={geometry} castShadow>
         {/* don't set transparent to true here! I will crash */}
-        <MeshRefractionMaterial {...config} {...diamondconfig} envMap={texture} 
+        <MeshRefractionMaterial  {...diamondconfig} envMap={texture} 
         ior={diamondconfig.iorInner}
          />
       </mesh>
@@ -32,7 +30,7 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
       {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
       {/* <Gem config={diamondconfig} backgroundTexture={texture} geometry={geometry} /> */}
       <mesh geometry={geometry} visible={true}>
-        <MeshTransmissionMaterial {...config} {...diamondconfig}  transparent={true}
+        <MeshTransmissionMaterial  {...diamondconfig}  transparent={true}
           envMap={texture}
           ior={diamondconfig.iorOuter}
         />
