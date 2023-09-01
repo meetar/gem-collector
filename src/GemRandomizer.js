@@ -16,6 +16,7 @@ import ParallaxMesh from './ParallaxMesh'
 import { DiamondMaterial } from './DiamondMaterial'
 import { MeshPhongMaterial } from 'three'
 import RockMaterial from './RockMaterial'
+import { Rock } from './Rock'
 
 const randomize = () => {
   console.log('gem randomizer called')
@@ -23,9 +24,9 @@ const randomize = () => {
 
 
 const getModel = () => {
-  // const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
-  // const mesh = './models/'+_.sample(meshes)+'.glb'
-  const mesh = './models/rock1.glb'
+  const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
+  const mesh = './models/'+_.sample(meshes)+'.glb'
+  // const mesh = './models/rock1.glb'
   const geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
 
   // const meshes = ['crystal', 'rock1', 'cube']
@@ -150,8 +151,6 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // const color = getColor();
   
   // geo = useLoader(GLTFLoader, model);
-  const rock = useLoader(GLTFLoader, './models/rock1.glb').scene.children[0].geometry;
-  rock.computeTangents();
 
 // return (
 //   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
@@ -178,11 +177,9 @@ return (
 
         </group>
       </Center>
-      <Center>
-        <mesh scale={1.5} geometry={rock} castShadow>
-          <RockMaterial />
-        </mesh>
-      </Center>
+      {/* <Center> */}
+        <Rock insetGeo={model} csg={false} />
+      {/* </Center> */}
     </>
   )
 }
