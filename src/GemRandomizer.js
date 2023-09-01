@@ -17,6 +17,7 @@ import { DiamondMaterial } from './DiamondMaterial'
 import { MeshPhongMaterial } from 'three'
 import RockMaterial from './RockMaterial'
 import CrystalMaterial from './CrystalMaterial'
+import DeepMat from './DeepMat'
 import { Rock } from './Rock'
 
 const getModel = () => {
@@ -32,12 +33,13 @@ const getModel = () => {
   return geo
 }
 
-export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, crystaltrigger, ...props }) {
+export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, deeptrigger, crystaltrigger, ...props }) {
   const crystalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
 
   const [parallaxMode, setParallaxMode] = useState(false);
   const [crystalMode, setCrystalMode] = useState(false);
   const [gemMode, setGemMode] = useState(false);
+  const [deepMode, setDeepMode] = useState(false);
 
   const getMaterial = () => {
     const materialTypes = ['shader', 'phong', 'lambert', 'basic']
@@ -87,6 +89,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     setParallaxMode(false)
     setCrystalMode(false)
     setGemMode(false)
+    setDeepMode(false)
   }
 
   // const updateMaterial = (material, properties) => {
@@ -139,6 +142,13 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     }
   }, [crystaltrigger])
   useEffect(() => {
+    if (deeptrigger) {
+      // console.log('deeptriggered! gemMode:', gemMode);
+      resetMode()
+      setDeepMode(true)
+    }
+  }, [deeptrigger])
+  useEffect(() => {
     // console.log('      >>> useEffect');
     setGemConfig(config)
     Object.assign(material, config)
@@ -166,6 +176,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 
 // Cliffs0177_1_350.jpg
 
+
 return (
     <>
       <Center top>
@@ -181,7 +192,9 @@ return (
             <mesh geometry={model} castShadow >
               <CrystalMaterial geometry={model} />
             </mesh>
-           ) : (
+            ) : deepMode ? (
+              <DeepMat geometry={model} config={config} castShadow />
+            ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
             )}
 

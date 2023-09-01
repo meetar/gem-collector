@@ -15,7 +15,6 @@ import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 import { AmbientLight } from 'three'
 
-
 export default function MainStage() {
 
   const [materialtrigger, setMaterialTrigger] = useState()
@@ -23,6 +22,7 @@ export default function MainStage() {
   const [gemtrigger, setGemTrigger] = useState()
   const [parallaxtrigger, setParallaxTrigger] = useState()
   const [crystaltrigger, setCrystalTrigger] = useState()
+  const [deeptrigger, setDeepTrigger] = useState()
 
   // const resetTriggers = () => {
   //   setMaterialTrigger(null)
@@ -38,6 +38,7 @@ export default function MainStage() {
     parallax: button(() => setParallaxTrigger(Math.random())),
     gem: button(() => setGemTrigger(Math.random())),  
     crystal: button(() => setCrystalTrigger(Math.random())),  
+    deep: button(() => setDeepTrigger(Math.random())),  
   });
   
   const { ...randomConfig } = useControls(randomControls)
@@ -51,7 +52,7 @@ export default function MainStage() {
     focus: 10
   }
 return (
-      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
@@ -61,7 +62,7 @@ return (
         </directionalLight>
 
         <GemRandomizer
-          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, crystaltrigger }} // use spread syntax to add these vars as props of the same name
+          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, crystaltrigger, deeptrigger }} // use spread syntax to add these vars as props of the same name
           config={randomConfig}
         />
 
