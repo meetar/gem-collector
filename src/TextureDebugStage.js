@@ -15,8 +15,8 @@ export default function TextureDebugStage() {
 
 
   function Scene() {
-    const normalMap = useTexture('./textures/PavingStones092_1K_normal.jpg')
-    // const normalMap = useLoader(TextureLoader, "./textures/PavingStones092_1K_normal.jpg");
+    // const normalMap = useTexture('./textures/PavingStones092_1K_normal.jpg')
+    const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
     return (
       <>
         {/* <ambientLight intensity={0.2} /> */}

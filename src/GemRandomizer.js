@@ -16,12 +16,8 @@ import ParallaxMesh from './ParallaxMesh'
 import { DiamondMaterial } from './DiamondMaterial'
 import { MeshPhongMaterial } from 'three'
 import RockMaterial from './RockMaterial'
+import CrystalMaterial from './CrystalMaterial'
 import { Rock } from './Rock'
-
-const randomize = () => {
-  console.log('gem randomizer called')
-}
-
 
 const getModel = () => {
   const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
@@ -36,9 +32,11 @@ const getModel = () => {
   return geo
 }
 
-export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, ...props }) {
-  const crystalMap = useTexture('./6056-normal.jpg')
+export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, crystaltrigger, ...props }) {
+  const crystalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
+
   const [parallaxMode, setParallaxMode] = useState(false);
+  const [crystalMode, setCrystalMode] = useState(false);
   const [gemMode, setGemMode] = useState(false);
 
   const getMaterial = () => {
@@ -87,6 +85,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
 
   function resetMode() {
     setParallaxMode(false)
+    setCrystalMode(false)
     setGemMode(false)
   }
 
@@ -133,6 +132,13 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     }
   }, [gemtrigger])
   useEffect(() => {
+    if (crystaltrigger) {
+      // console.log('crystaltriggered! gemMode:', gemMode);
+      resetMode()
+      setCrystalMode(true)
+    }
+  }, [crystaltrigger])
+  useEffect(() => {
     // console.log('      >>> useEffect');
     setGemConfig(config)
     Object.assign(material, config)
@@ -171,15 +177,18 @@ return (
             <ParallaxMesh geometry={model} config={config} castShadow />
           ) : gemMode ? (
             <DiamondMaterial geometry={model} />
-          ) : (
+            ) : crystalMode ? (
+            <mesh geometry={model} castShadow >
+              <CrystalMaterial geometry={model} />
+            </mesh>
+           ) : (
             <mesh scale={1} geometry={model} material={material} castShadow />
             )}
 
         </group>
       </Center>
-      {/* <Center> */}
-        <Rock insetGeo={model} csg={false} />
-      {/* </Center> */}
+
+      <Rock insetGeo={model} csg={true} />
     </>
   )
 }

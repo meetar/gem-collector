@@ -22,6 +22,7 @@ export default function MainStage() {
   const [shapetrigger, setShapeTrigger] = useState()
   const [gemtrigger, setGemTrigger] = useState()
   const [parallaxtrigger, setParallaxTrigger] = useState()
+  const [crystaltrigger, setCrystalTrigger] = useState()
 
   // const resetTriggers = () => {
   //   setMaterialTrigger(null)
@@ -36,6 +37,7 @@ export default function MainStage() {
     shapeTrigger: button(() => setShapeTrigger(Math.random())),
     parallax: button(() => setParallaxTrigger(Math.random())),
     gem: button(() => setGemTrigger(Math.random())),  
+    crystal: button(() => setCrystalTrigger(Math.random())),  
   });
   
   const { ...randomConfig } = useControls(randomControls)
@@ -59,7 +61,7 @@ return (
         </directionalLight>
 
         <GemRandomizer
-          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger }} // use spread syntax to add these vars as props of the same name
+          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, crystaltrigger }} // use spread syntax to add these vars as props of the same name
           config={randomConfig}
         />
 

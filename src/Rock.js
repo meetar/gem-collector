@@ -10,7 +10,8 @@ export function Rock({insetGeo, csg=false }) {
   const rock = useLoader(GLTFLoader, './models/rock1.glb').scene.children[0].geometry;
   rock.computeTangents();
 
-  return ( <> { csg ? (
+  // can't put space between the <> and the { or it complains about text in the r3f tree
+  return ( <>{ csg ? (
 
 <mesh scale={1} castShadow>
       <RockMaterial  />
@@ -32,8 +33,8 @@ export function Rock({insetGeo, csg=false }) {
     
     <mesh geometry={rock} scale={1.5}> 
       <RockMaterial  />
-    </mesh>
+      </mesh>
 
     )
-  } </>)
+  }</>)
 }
