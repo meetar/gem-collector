@@ -2,9 +2,22 @@ import * as THREE from 'three'
 import { useLoader } from '@react-three/fiber';
 import { SubsurfaceScatteringShader } from 'three/addons/shaders/SubsurfaceScatteringShader.js';
 import { useTexture } from '@react-three/drei'
+import { useControls, button } from 'leva'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 export default function SSSMat ({texture, config}) {
+
+  const {...sssControls} = useControls({
+    shininess: { value: 500, min: 0, max: 10000, step: 10 },
+    thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
+    thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },
+    thicknessAttenuation: { value: .8, min: 0, max: 2, step: .01 },
+    thicknessPower: { value: 2, min: 0, max: 10, step: .01 },
+    thicknessScale: { value: 16, min: 0, max: 64, step: .01 },
+  });
+
+
+
   const shader = SubsurfaceScatteringShader;
   const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
@@ -16,16 +29,16 @@ export default function SSSMat ({texture, config}) {
 
   // uniforms[ 'map' ].value = imgTexture;
 
-  uniforms[ 'diffuse' ].value = new THREE.Vector3( 1.0, 0.2, 0.2 );
-  uniforms[ 'shininess' ].value = 500;
+  uniforms[ 'diffuse' ].value = new THREE.Vector3( 1.0, 1., 1. );
+  uniforms[ 'shininess' ].value = sssControls.shininess;
 
   uniforms[ 'thicknessMap' ].value = thicknessTexture;
   uniforms[ 'thicknessColor' ].value = new THREE.Vector3( 0.3, 0.3, 0.3 );
-  uniforms[ 'thicknessDistortion' ].value = 0.1;
-  uniforms[ 'thicknessAmbient' ].value = 0.4;
-  uniforms[ 'thicknessAttenuation' ].value = 0.8;
-  uniforms[ 'thicknessPower' ].value = 2.0;
-  uniforms[ 'thicknessScale' ].value = 16.0;
+  uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
+  uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;
+  uniforms[ 'thicknessAttenuation' ].value = sssControls.thicknessAttenuation;
+  uniforms[ 'thicknessPower' ].value = sssControls.thicknessPower;
+  uniforms[ 'thicknessScale' ].value = sssControls.thicknessScale;
 
 
   const material = new THREE.ShaderMaterial( {
