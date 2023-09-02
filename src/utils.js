@@ -24,4 +24,25 @@ const getColor = () => {
   return threeColor;
 }
 
-export { getColor }
+function hexToVec3(hexColor) {
+  // Remove the '#' symbol if present
+  hexColor = hexColor.replace('#', '');
+
+  // Parse the hex value to an integer
+  const hexValue = parseInt(hexColor, 16);
+
+  // Extract the red, green, and blue components
+  const r = (hexValue >> 16) & 255;
+  const g = (hexValue >> 8) & 255;
+  const b = hexValue & 255;
+
+  // Normalize the values to the range [0, 1]
+  const normalizedR = r / 255;
+  const normalizedG = g / 255;
+  const normalizedB = b / 255;
+
+  // Create and return a Three.js Vector3
+  return new THREE.Vector3(normalizedR, normalizedG, normalizedB);
+}
+
+export { getColor, hexToVec3 }

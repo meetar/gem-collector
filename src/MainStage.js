@@ -57,11 +57,11 @@ return (
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
-        {/* <ambientLight intensity={0.1} /> */}
-        {/* <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
+        {/* <ambientLight intensity={0.1} />
+        <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
         </directionalLight> */}
-        <pointLight position={[0, 0, 10]} intensity={.1} />
+        <pointLight position={[0, 0, 10]} intensity={1} />
 
         <GemRandomizer
           trigger={trigger}

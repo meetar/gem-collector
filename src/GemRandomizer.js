@@ -17,12 +17,13 @@ import { DiamondMaterial } from './DiamondMaterial'
 import { MeshPhongMaterial } from 'three'
 import RockMaterial from './RockMaterial'
 import CrystalMaterial from './CrystalMaterial'
-import SSSMat from './SSSMat'
 import DeepMat from './DeepMat'
+import SSSMesh from './SSSMesh'
 import { Rock } from './Rock'
 
 const getModel = () => {
-  const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
+  // const meshes = ['crystal1', 'crystal2', 'crystal3', 'rock1'];
+  const meshes = ['crystal1-bevel'];
   const mesh = './models/'+_.sample(meshes)+'.glb'
   // const mesh = './models/rock1.glb'
   const geo = useLoader(GLTFLoader, mesh).scene.children[0].geometry;
@@ -77,7 +78,6 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
   const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   const [mode, setMode] = useState(false);
 
-  
 
   function newMaterial() {
     // console.log('new mat');
@@ -152,10 +152,7 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
   }, [material])
 
 return (
-  <mesh geometry={model} castShadow >
-    <SSSMat />
-  </mesh>
-
+  <SSSMesh geometry={model} config={config} />
 )
 
 return (

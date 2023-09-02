@@ -3,11 +3,14 @@ import { useLoader } from '@react-three/fiber';
 import { SubsurfaceScatteringShader } from 'three/addons/shaders/SubsurfaceScatteringShader.js';
 import { useTexture } from '@react-three/drei'
 import { useControls, button } from 'leva'
+import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 export default function SSSMat ({texture, config}) {
 
   const {...sssControls} = useControls({
+    diffuse: 'black',
+    thicknessColor: 'black',
     shininess: { value: 500, min: 0, max: 10000, step: 10 },
     thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
     thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },
@@ -28,12 +31,14 @@ export default function SSSMat ({texture, config}) {
   imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
 
   // uniforms[ 'map' ].value = imgTexture;
-
-  uniforms[ 'diffuse' ].value = new THREE.Vector3( 1.0, 1., 1. );
+// console.log(sssControls.diffuse);
+  // uniforms[ 'diffuse' ].value = new THREE.Vector3( 1.0, 1., 1. );
+  uniforms[ 'diffuse' ].value = hexToVec3(sssControls.diffuse);
   uniforms[ 'shininess' ].value = sssControls.shininess;
 
   uniforms[ 'thicknessMap' ].value = thicknessTexture;
-  uniforms[ 'thicknessColor' ].value = new THREE.Vector3( 0.3, 0.3, 0.3 );
+  // uniforms[ 'thicknessColor' ].value = new THREE.Vector3( 0.3, 0.3, 0.3 );
+  uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
   uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
   uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;
   uniforms[ 'thicknessAttenuation' ].value = sssControls.thicknessAttenuation;
