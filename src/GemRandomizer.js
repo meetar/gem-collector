@@ -33,15 +33,11 @@ const getModel = () => {
   return geo
 }
 
-export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, parallaxtrigger, gemtrigger, deeptrigger, crystaltrigger, ...props }) {
+export function GemRandomizer({ config, geo, trigger, ...props }) {
   const crystalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
 
-  const [parallaxMode, setParallaxMode] = useState(false);
-  const [crystalMode, setCrystalMode] = useState(false);
-  const [gemMode, setGemMode] = useState(false);
-  const [deepMode, setDeepMode] = useState(false);
-
   const getMaterial = () => {
+    // console.log('getMat');
     const materialTypes = ['shader', 'phong', 'lambert', 'basic']
     const materialType = _.sample(materialTypes)
 
@@ -74,22 +70,27 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
     material.transparent = true
     // apply config
     Object.assign(material, gemConfig)
+    // console.log('material:', material);
     return material
   }
 
+  const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
+  const [mode, setMode] = useState(false);
+
+  
+
   function newMaterial() {
-    setMaterial(getMaterial())
+    // console.log('new mat');
+    // const newmat = getMaterial(config);
+    const newmat = getMaterial(config);
+    newmat.needsUpdate = true;
+    // console.log('newmat?', newmat);
+    // setMaterial(Math.random())
+    return setMaterial([newmat, Math.random()])
   }
 
   function newModel() {
     setModel(getModel)
-  }
-
-  function resetMode() {
-    setParallaxMode(false)
-    setCrystalMode(false)
-    setGemMode(false)
-    setDeepMode(false)
   }
 
   // const updateMaterial = (material, properties) => {
@@ -101,61 +102,54 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // console.log('\n\nGemRandomizer, config:', config);
   const [gemConfig, setGemConfig] = useState(config)
   // console.log('gemConfig?', gemConfig);
-  const [material, setMaterial] = useState(getMaterial(config))
   // console.log('material?', material);
   const [model, setModel] = useState(getModel)
 
   // watch for triggers from app
   useEffect(() => {
-    //  this triggers a re-render of the entire component
-    if (materialtrigger) {
-      // console.log('gem, materialtriggered!');
-      resetMode()
-      newMaterial()
+    if (trigger) {
+      trigger = trigger[0];
+      // console.log('trigger changed, trigger:', trigger);
+      // console.log('triggered!');
+      setMode()
+      if (trigger == 'material') {
+        // console.log('material triggered');
+        setMode('material')
+        newMaterial()
+      }
+      if (trigger == 'shape') newModel()
+      if (trigger == 'parallax') setMode('parallax')
+      if (trigger == 'gem') setMode('gem')
+      if (trigger == 'crystal') setMode('crystal')
+      if (trigger == 'deep') setMode('deep')
+      trigger = null;
     }
-  }, [materialtrigger])
+  }, [trigger])
+
   useEffect(() => {
-    if (shapetrigger) {
-      // console.log('shapetriggered!');
-      newModel()
-    }
-  }, [shapetrigger])
-  useEffect(() => {
-    if (parallaxtrigger) {
-      // console.log('parallaxtriggered! parallaxMode:', parallaxMode);
-      resetMode()
-      setParallaxMode(true)
-    }
-  }, [parallaxtrigger])
-  useEffect(() => {
-    if (gemtrigger) {
-      // console.log('gemtriggered! gemMode:', gemMode);
-      resetMode()
-      setGemMode(true)
-    }
-  }, [gemtrigger])
-  useEffect(() => {
-    if (crystaltrigger) {
-      // console.log('crystaltriggered! gemMode:', gemMode);
-      resetMode()
-      setCrystalMode(true)
-    }
-  }, [crystaltrigger])
-  useEffect(() => {
-    if (deeptrigger) {
-      // console.log('deeptriggered! gemMode:', gemMode);
-      resetMode()
-      setDeepMode(true)
-    }
-  }, [deeptrigger])
-  useEffect(() => {
-    // console.log('      >>> useEffect');
+    // console.log('      >>> useEffect config');
     setGemConfig(config)
-    Object.assign(material, config)
-    if (materialtrigger) return // don't re-set the material if the materialtrigger has just been tripped
+    Object.assign(material[0], config)
+    material[0].needsUpdate = true;
+
+    // no trigger at this point
+    // console.log('trigger?', trigger);
+    // if (trigger) console.log('trigger[0]?', trigger[0]);
+    // if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
+
     // material.needsUpdate = true;
-    setMaterial(material)
+    // console.log('setting mat:', material);
+    // setMaterial(material)
   }, [config])
+
+  useEffect(() => {
+    // console.log('  >>> material changed!');
+    // setGemConfig(config)
+    // Object.assign(material, config)
+    // if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
+    // material.needsUpdate = true;
+    // setMaterial(material)
+  }, [material])
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
   // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
@@ -165,7 +159,7 @@ export function GemRandomizer({ config, geo, shapetrigger, materialtrigger, para
   // geo = useLoader(STLLoader, './models/rock1.stl');
   // geo = new THREE.SphereGeometry(1.);
   // const color = getColor();
-  
+
   // geo = useLoader(GLTFLoader, model);
 
 // return (
@@ -184,18 +178,22 @@ return (
 
 
 
-          { parallaxMode ? (
+          { mode == 'parallax' ? (
             <ParallaxMesh geometry={model} config={config} castShadow />
-          ) : gemMode ? (
+          ) : mode == 'gem' ? (
             <DiamondMaterial geometry={model} />
-            ) : crystalMode ? (
+            ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
               <CrystalMaterial geometry={model} />
             </mesh>
-            ) : deepMode ? (
+            ) : mode == 'deep' ? (
               <DeepMat geometry={model} config={config} castShadow />
+            ) : mode == 'material' ? (
+            <mesh scale={1} geometry={model} material={material[0]} castShadow />
             ) : (
-            <mesh scale={1} geometry={model} material={material} castShadow />
+              <mesh scale={1} geometry={model} castShadow>
+                <meshBasicMaterial color={'#f0f'} />
+                </mesh>
             )}
 
         </group>

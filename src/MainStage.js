@@ -9,7 +9,7 @@ import { Box, Sphere, Plane, Stats, SoftShadows } from '@react-three/drei'
 import { useEffect, useState, Suspense } from 'react'
 // import { CSGShape } from './CSGShape'
 import { randomControls } from './randomControls'
-import { GemRandomizer } from './GemRandomizer'
+import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
@@ -17,12 +17,7 @@ import { AmbientLight } from 'three'
 
 export default function MainStage() {
 
-  const [materialtrigger, setMaterialTrigger] = useState()
-  const [shapetrigger, setShapeTrigger] = useState()
-  const [gemtrigger, setGemTrigger] = useState()
-  const [parallaxtrigger, setParallaxTrigger] = useState()
-  const [crystaltrigger, setCrystalTrigger] = useState()
-  const [deeptrigger, setDeepTrigger] = useState()
+  const [trigger, setTrigger] = useState()
 
   // const resetTriggers = () => {
   //   setMaterialTrigger(null)
@@ -33,14 +28,19 @@ export default function MainStage() {
 
   // leva controls which use functions defined in this component
   useControls({
-    materialTrigger: button(() => setMaterialTrigger(Math.random())),
-    shapeTrigger: button(() => setShapeTrigger(Math.random())),
-    parallax: button(() => setParallaxTrigger(Math.random())),
-    gem: button(() => setGemTrigger(Math.random())),  
-    crystal: button(() => setCrystalTrigger(Math.random())),  
-    deep: button(() => setDeepTrigger(Math.random())),  
+    materialTrigger: button(() => {
+      // console.log('\n\nmat button');
+      setTrigger(['material', Math.random()])
+      // setTimeout(() => setTrigger(), 100);
+      
+    }),
+    shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
+    parallax: button(() => setTrigger(['parallax', Math.random()])),
+    gem: button(() => setTrigger(['gem', Math.random()])),
+    crystal: button(() => setTrigger(['crystal', Math.random()])),
+    deep: button(() => setTrigger(['deep', Math.random()]))
   });
-  
+
   const { ...randomConfig } = useControls(randomControls)
 
   const SoftShadowsProps = {
@@ -62,7 +62,7 @@ return (
         </directionalLight>
 
         <GemRandomizer
-          {... {parallaxtrigger, materialtrigger, shapetrigger, gemtrigger, crystaltrigger, deeptrigger }} // use spread syntax to add these vars as props of the same name
+          trigger={trigger}
           config={randomConfig}
         />
 
