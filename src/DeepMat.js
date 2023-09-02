@@ -8,6 +8,7 @@ import { diamondcontrols } from './diamondcontrols'
 import {
   MeshRefractionMaterial,
   MeshTransmissionMaterial,
+  Edges
 } from '@react-three/drei'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import ParallaxMaterial from './ParallaxMaterial';
@@ -74,8 +75,7 @@ export default function DeepMat({config, geometry, texture, ...props}) {
 
   return (
     <>
-  <mesh scale={1.08} renderOrder={0} geometry={geometry} transparent={true} castShadow >
-          {/* <meshStandardMaterial wireframe={false} color={'red'} wireframeLinewidth={10} /> */}
+      <mesh scale={1.08} renderOrder={0} geometry={geometry} transparent={true} castShadow >
         <MeshTransmissionMaterial {...config} {...crystalconfig} normalMap={normalMap} normalScale={.2} 
           envMap={texture}
           ior={deepControls.iorOuter}

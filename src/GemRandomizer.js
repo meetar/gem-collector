@@ -29,7 +29,6 @@ const getModel = () => {
   // const meshes = ['crystal', 'rock1', 'cube']
   // const mesh = './models/' + _.sample(meshes) + '.stl'
   // const geo = useLoader(STLLoader, mesh)
-
   return geo
 }
 
@@ -110,10 +109,7 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
     if (trigger) {
       trigger = trigger[0];
       // console.log('trigger changed, trigger:', trigger);
-      // console.log('triggered!');
-      setMode()
       if (trigger == 'material') {
-        // console.log('material triggered');
         setMode('material')
         newMaterial()
       }
@@ -129,8 +125,10 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
   useEffect(() => {
     // console.log('      >>> useEffect config');
     setGemConfig(config)
-    Object.assign(material[0], config)
-    material[0].needsUpdate = true;
+    if (material && material[0]) {
+      Object.assign(material[0], config)
+      material[0].needsUpdate = true;
+    }
 
     // no trigger at this point
     // console.log('trigger?', trigger);
@@ -144,11 +142,13 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
 
   useEffect(() => {
     // console.log('  >>> material changed!');
-    // setGemConfig(config)
+    setGemConfig(config)
     // Object.assign(material, config)
-    // if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
-    // material.needsUpdate = true;
-    // setMaterial(material)
+    if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
+    if (material && material[0]) {
+      material[0].needsUpdate = true;
+      setMaterial(material[0])
+    }
   }, [material])
 
   // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
