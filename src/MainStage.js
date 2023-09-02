@@ -38,7 +38,8 @@ export default function MainStage() {
     parallax: button(() => setTrigger(['parallax', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),
     crystal: button(() => setTrigger(['crystal', Math.random()])),
-    deep: button(() => setTrigger(['deep', Math.random()]))
+    deep: button(() => setTrigger(['deep', Math.random()])),
+    sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
   const { ...randomConfig } = useControls(randomControls)
@@ -56,10 +57,11 @@ return (
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
-        <ambientLight intensity={0.1} />
-        <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
+        {/* <ambientLight intensity={0.1} /> */}
+        {/* <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
-        </directionalLight>
+        </directionalLight> */}
+        <pointLight position={[0, 0, 10]} intensity={.1} />
 
         <GemRandomizer
           trigger={trigger}
@@ -67,12 +69,12 @@ return (
         />
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
-          <meshStandardMaterial color="white" emissive={'#666666'} transparent={true} opacity={1} side={THREE.BackSide} />
+          <meshStandardMaterial color="white" transparent={true} opacity={1} side={THREE.BackSide} />
         </Sphere>
 
-        <EffectComposer>
+        {/* <EffectComposer>
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
-        </EffectComposer>
+        </EffectComposer> */}
 
         {/** Controls */}
         <OrbitControls autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.05} enableRotate={true} />

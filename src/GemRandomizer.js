@@ -17,6 +17,7 @@ import { DiamondMaterial } from './DiamondMaterial'
 import { MeshPhongMaterial } from 'three'
 import RockMaterial from './RockMaterial'
 import CrystalMaterial from './CrystalMaterial'
+import SSSMat from './SSSMat'
 import DeepMat from './DeepMat'
 import { Rock } from './Rock'
 
@@ -114,10 +115,9 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
         newMaterial()
       }
       if (trigger == 'shape') newModel()
-      if (trigger == 'parallax') setMode('parallax')
-      if (trigger == 'gem') setMode('gem')
-      if (trigger == 'crystal') setMode('crystal')
-      if (trigger == 'deep') setMode('deep')
+      else {
+        setMode(trigger)
+      }
       trigger = null;
     }
   }, [trigger])
@@ -151,25 +151,12 @@ export function GemRandomizer({ config, geo, trigger, ...props }) {
     }
   }, [material])
 
-  // geo = useLoader(GLTFLoader, './gem.glb').scene.children[0].children[0].children[0].children[0].geometry;
-  // geo = useLoader(GLTFLoader, './crystal.glb').scene.children[0].children[0].children[0].children[0].children[0].geometry; // scale = 0.001
-  // geo = useLoader(GLTFLoader, './crystal1.glb').scene.children[0].geometry;
+return (
+  <mesh geometry={model} castShadow >
+    <SSSMat />
+  </mesh>
 
-  // geo = useLoader(GLTFLoader, model).scene.children[0].geometry;
-  // geo = useLoader(STLLoader, './models/rock1.stl');
-  // geo = new THREE.SphereGeometry(1.);
-  // const color = getColor();
-
-  // geo = useLoader(GLTFLoader, model);
-
-// return (
-//   <ParallaxMesh geometry={model} config={parallaxconfig} texture={btexture} />
-// )
-// console.log('      rendering, parallaxconfig?', parallaxconfig);
-// console.log('      rendering, model?', model);
-
-// Cliffs0177_1_350.jpg
-
+)
 
 return (
     <>
@@ -185,6 +172,10 @@ return (
             ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
               <CrystalMaterial geometry={model} />
+            </mesh>
+            ) : mode == 'sss' ? (
+            <mesh geometry={model} castShadow >
+              <SSSMat />
             </mesh>
             ) : mode == 'deep' ? (
               <DeepMat geometry={model} config={config} castShadow />
