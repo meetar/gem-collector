@@ -9,8 +9,8 @@ import { hexToVec3 } from './utils'
 export default function SSSMat ({texture, config}) {
 
   const {...sssControls} = useControls({
-    diffuse: 'black',
-    thicknessColor: 'black',
+    diffuse: 'red',
+    thicknessColor: 'blue',
     shininess: { value: 500, min: 0, max: 10000, step: 10 },
     thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
     thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },

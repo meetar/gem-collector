@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { useTexture } from '@react-three/drei'
-import ParallaxMaterial from './ParallaxMaterial'
+import ParallaxMaterialXP from './ParallaxMaterialXP'
 import { parallaxcontrols } from './parallaxcontrols'
 import { useControls } from 'leva'
 
-function ParallaxMesh({geometry, config, textureUrl, ...props}) {
+function ParallaxMeshXP({geometry, config, textureUrl, ...props}) {
   const { ...pconfig } = useControls(parallaxcontrols)
   if (!textureUrl) textureUrl = './speckles.png';
 
@@ -17,10 +17,10 @@ console.log('ro?', props.renderOrder);
   return (
     <>
         <mesh geometry={geometry} {...props}>
-          <ParallaxMaterial texture={texture} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterialXP texture={texture} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   );
 }
 
-export default ParallaxMesh;
+export default ParallaxMeshXP;
