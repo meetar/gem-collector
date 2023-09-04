@@ -11,6 +11,7 @@ import ParallaxMeshXP from './ParallaxMeshXP'
 
 export default function SSSMesh({geometry, config}) {
 
+  diamondcontrols.chromaticAberration = 0.;
   const {...crystalconfig} = useControls(diamondcontrols)
 
 

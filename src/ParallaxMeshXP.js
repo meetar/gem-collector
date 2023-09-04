@@ -6,11 +6,12 @@ import { useControls } from 'leva'
 
 function ParallaxMeshXP({geometry, config, textureUrl, ...props}) {
   const { ...pconfig } = useControls(parallaxcontrols)
-  if (!textureUrl) textureUrl = './speckles.png';
+  // if (!textureUrl) textureUrl = './speckles.png';
+  if (!textureUrl) textureUrl = './textures/streak2.png';
 
   const texture = useTexture(textureUrl);
-  // texture.minFilter = THREE.NearestFilter;
-  // texture.magFilter = THREE.NearestFilter;
+  texture.minFilter = THREE.NearestFilter;
+  texture.magFilter = THREE.NearestFilter;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 console.log('ro?', props.renderOrder);

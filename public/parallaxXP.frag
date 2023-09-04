@@ -73,7 +73,8 @@ vec2 parallaxMap( in vec3 V , in float offset) {
 void main() {
 
   float lum;
-
+  // vec4 color = vec4(.5, 1., .5, 1.);
+  vec4 color = vec4(1., 0., 0., 1.);
   float offset;
 
   for (float i = _steps + 1.; i >= 0.; i--) {
@@ -93,12 +94,13 @@ void main() {
       // color += vec4(lum);
     if (lum >= percent && lum < next) {
       // color += vec4(mapUv, 0., 1.);
-      color += vec4(lum);
+      // color.a = lum;
+      // lum = 0.;
       // break;
     } else {
-      lum = 0.;
+      color.a = 0.;
     }
   }
 
-  gl_FragColor = vec4(color.rgb, lum);
+  gl_FragColor = vec4(color);
 }
