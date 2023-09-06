@@ -23,7 +23,6 @@ const smokeyCrystal = {
   distortionScale:  0.15 ,
   iorOuter:  1.5 ,
   opacity:  1 ,
-  color: '#666',
   envMapIntensity:  1.5 ,
   reflectivity:  .5 ,
   clearcoat:  1 ,
@@ -46,7 +45,7 @@ export default function CrystalMaterial({config, geometry, texture, ...props}) {
   return (
     <>
           <meshStandardMaterial scale={1.1} wireframe={true} color={'red'} wireframeLinewidth={10} />
-        <MeshTransmissionMaterial {...config} {...smokeyCrystal} normalMap={normalMap} normalScale={.2} 
+        <MeshTransmissionMaterial {...smokeyCrystal} {...config} normalMap={normalMap} normalScale={.2} 
           envMap={texture}
           ior={smokeyCrystal.iorOuter}
           clearcoatNormalMap={normalMap}

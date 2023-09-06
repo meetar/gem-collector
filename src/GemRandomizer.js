@@ -94,7 +94,7 @@ export function GemRandomizer({ config, trigger }) {
     }
   }, [material])
 
-  console.log('gem mode', mode);
+  // console.log('gem mode', mode);
   if (!model) {
     return null;
   }
@@ -111,7 +111,7 @@ return (
             <DiamondMaterial config={config} geometry={model}  />
             ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
-              <CrystalMaterial geometry={model} />
+              <CrystalMaterial geometry={model} config={config} />
             </mesh>
             ) : mode == 'sss' ? (
             // <mesh geometry={model} castShadow >

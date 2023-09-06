@@ -20,11 +20,11 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
   
   
   // TODO: determine how to both tweak the controls and pass in color from outside
-  // const [dconfig, setDConfig] = useState(useControls('Diamond', diamondcontrols))
+  const [dconfig, setDConfig] = useState(useControls('Diamond', diamondcontrols))
   // const { ...diamondconfig } = dconfig;
 
 
-  const { ...dconfig } = useState(useControls('Diamond', diamondcontrols))
+  // const { ...dconfig } = useState(useControls('Diamond', diamondcontrols))
 
 
   // TODO later

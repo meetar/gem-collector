@@ -42,7 +42,7 @@ export default function MainStage() {
     sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
-  const [{ ...randomConfig }, setControls] = useControls(() => ('General', randomControls))
+  const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
 
   const SoftShadowsProps = {
     /** Size of the light source (the larger the softer the light), default: 25 */
