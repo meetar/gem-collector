@@ -23,7 +23,7 @@ const deepControls = {
   roughness:  .4 ,
   distortion:  0.5 ,
   distortionScale:  0.15 ,
-  iorOuter:  1.5 ,
+  ior:  1.5 ,
   // opacity:  1 ,
   color: '#f00',
   envMapIntensity:  1.5 ,
@@ -50,7 +50,7 @@ const iceControls = {
 
 
 export default function DeepMat({config, geometry, texture, ...props}) {
-
+console.log('DeepMat', config.color);
   const { ...pconfig } = useControls(parallaxcontrols)
   pconfig._displacement = -.01;
   
@@ -58,6 +58,7 @@ export default function DeepMat({config, geometry, texture, ...props}) {
   const ptexture = useTexture(textureUrl);
 
   let { ...crystalconfig } = useControls(deepControls)
+  
   // debugger
   // Object.assign(crystalconfig, deepControls)
   const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
@@ -80,9 +81,8 @@ export default function DeepMat({config, geometry, texture, ...props}) {
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
-        <MeshTransmissionMaterial {...deepControls} normalMap={normalMap} normalScale={.2} 
+        <MeshTransmissionMaterial {...deepControls} {...config} normalMap={normalMap} normalScale={.2} 
           envMap={texture}
-          ior={deepControls.iorOuter}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
         />

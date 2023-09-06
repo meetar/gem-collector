@@ -13,36 +13,50 @@ import {
 import { PerformanceMonitor } from '@react-three/drei';
 
 export function DiamondMaterial({config, geometry, texture, ...props}) {
-  const { ...diamondconfig } = useControls(diamondcontrols)
+  console.log('Diamond Mat, color:', config.color);
+  // const { ...diamondconfig } = useControls(diamondcontrols)
 
   const [test, setTest] = useState(null)
+  
+  
+  // TODO: determine how to both tweak the controls and pass in color from outside
+  // const [dconfig, setDConfig] = useState(useControls('Diamond', diamondcontrols))
+  // const { ...diamondconfig } = dconfig;
 
-  useEffect(() => {
-      console.log('performance test', test);
-      let bounces = Math.floor(4 - 60/test.fps);
-      console.log('bounces:', bounces);
-      diamondconfig.bounces = bounces;
-  }, [test])
+
+  const { ...dconfig } = useState(useControls('Diamond', diamondcontrols))
+
+
+  // TODO later
+  // useEffect(() => {
+  //     console.log('performance test', test);
+  //     if (!test) return;
+  //     let bounces = Math.ceil(5 - 60/test.fps);
+  //     console.log('bounces:', bounces);
+  //     diamondconfig.bounces = bounces;
+  //     setConfig(useControls(diamondcontrols))
+  //     console.log('now:', config.bounces);
+  // }, [test])
 
 
   texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   texture.mapping = EquirectangularReflectionMapping; 
 
-  console.log('diamond mat, #faces:', geometry.attributes.normal.array.length / 3 / 3);
+  // console.log('diamond mat, #faces:', geometry.attributes.normal.array.length / 3 / 3);
 
   geometry = BufferGeometryUtils.mergeVertices(geometry, 0); // this forces vertex indexing which fixes the 'BufferGeometry is already non-indexed' warning
-  diamondconfig.bounces
+  // console.log('bounces:', config.bounces);
 
   return (
     <>
-     <PerformanceMonitor bounds={(fps) => [30, 60]} onIncline={(fps) => setTest(fps)} onDecline={(fps) => setTest(fps)} ></PerformanceMonitor>
+     <PerformanceMonitor bounds={(fps) => [40, 60]} onIncline={(fps) => setTest(fps)} onDecline={(fps) => setTest(fps)} ></PerformanceMonitor>
       <group scale={0.999}>
 
-      <mesh geometry={geometry} castShadow>
+      <mesh geometry={geometry} {...config} {...dconfig} castShadow>
         {/* don't set transparent to true here! I will crash */}
-        <MeshRefractionMaterial  {...diamondconfig} envMap={texture} 
-        ior={diamondconfig.iorInner}
-        visible={diamondconfig.GemVisible}
+        <MeshRefractionMaterial  {...dconfig} {...config} envMap={texture} 
+        // ior={diamondconfig.iorInner}
+        // visible={diamondconfig.GemVisible}
          />
       </mesh>
 
@@ -51,10 +65,10 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
       {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
       {/* <Gem config={diamondconfig} backgroundTexture={texture} geometry={geometry} /> */}
       <mesh geometry={geometry} visible={true}>
-        <MeshTransmissionMaterial  {...diamondconfig}  transparent={true}
+        <MeshTransmissionMaterial  {...dconfig} {...config}  transparent={true}
           envMap={texture}
-          ior={diamondconfig.iorOuter}
-          visible={diamondconfig.InnerVisible}
+          // ior={diamondconfig.iorOuter}
+          // visible={diamondconfig.InnerVisible}
         />
       </mesh>
 

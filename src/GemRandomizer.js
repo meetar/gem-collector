@@ -13,7 +13,8 @@ import SSSMesh from './SSSMesh'
 import { Rock } from './Rock'
 import { getMaterial } from './getMaterial'
 import { models } from './models'
-
+import { getColor } from './utils';
+import { randomColor } from 'randomcolor';
 
 
 const getModel = () => {
@@ -22,7 +23,7 @@ const getModel = () => {
   // const mesh = './models/crystal.obj';
   // const mesh = './models/rock1.glb'
   // console.log(models);
-  // console.log(mesh);
+  console.log(mesh);
   // debugger
   const geo = useLoader(OBJLoader, mesh).children[0].geometry;
 
@@ -34,9 +35,10 @@ const getModel = () => {
 }
 
 export function GemRandomizer({ config, trigger }) {
-  console.log('GemRandomizer');
+  // console.log('GemRandomizer');
   const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   const [mode, setMode] = useState(false);
+  // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState(getModel)
 
 
@@ -46,15 +48,11 @@ export function GemRandomizer({ config, trigger }) {
     return setMaterial([newmat, Math.random()])
   }
 
-  function newModel() {
-    console.log('old model', model);
-    setModel(getModel)
-    console.log('new model?', model);
-  }
 
   // watch for triggers from app
   useEffect(() => {
-    // console.log('trigger', trigger);
+    console.log('trigger', trigger)
+    console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
       // console.log('trigger changed, trigger:', trigger);
@@ -62,9 +60,12 @@ export function GemRandomizer({ config, trigger }) {
         setMode('material')
         newMaterial()
       }
-      if (trigger == 'shape') {
-        // console.log('shape');
-        newModel()
+      else if (trigger == 'color') {
+        // setMode('material')
+        // color is shared among configs, so the parent sets this
+      }
+      else if (trigger == 'shape') {
+        setModel(getModel)
       }
       else {
         setMode(trigger)
@@ -74,7 +75,10 @@ export function GemRandomizer({ config, trigger }) {
   }, [trigger])
 
   useEffect(() => {
+    // console.log('config changed');
     if (material && material[0]) {
+      console.log('updating material');
+      
       Object.assign(material[0], config)
       material[0].needsUpdate = true;
     }
@@ -82,6 +86,7 @@ export function GemRandomizer({ config, trigger }) {
   }, [config])
 
   useEffect(() => {
+    console.log('material changed');
     if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
     if (material && material[0]) {
       material[0].needsUpdate = true;
@@ -89,7 +94,7 @@ export function GemRandomizer({ config, trigger }) {
     }
   }, [material])
 
-  // console.log('mode', mode);
+  console.log('gem mode', mode);
   if (!model) {
     return null;
   }
@@ -103,14 +108,14 @@ return (
           { mode == 'parallax' ? (
             <ParallaxMesh geometry={model} config={config} castShadow />
           ) : mode == 'gem' ? (
-            <DiamondMaterial geometry={model} />
+            <DiamondMaterial config={config} geometry={model}  />
             ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
               <CrystalMaterial geometry={model} />
             </mesh>
             ) : mode == 'sss' ? (
             // <mesh geometry={model} castShadow >
-            <SSSMesh geometry={model} config={config} />
+            <SSSMesh geometry={model} config={config} castShadow />
             // </mesh>
             ) : mode == 'deep' ? (
               <DeepMat geometry={model} config={config} castShadow />
@@ -118,7 +123,7 @@ return (
             <mesh scale={1} geometry={model} material={material[0]} castShadow />
             ) : (
               <mesh scale={1} geometry={model} castShadow>
-                <meshBasicMaterial {...config} color={'#f0f'} />
+                <meshBasicMaterial {...config} />
                 </mesh>
             )}
 

@@ -9,6 +9,7 @@ import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
+import { randomColor } from 'randomcolor';
 
 export default function MainStage() {
   const [trigger, setTrigger] = useState()
@@ -21,12 +22,17 @@ export default function MainStage() {
   // }
 
   // leva controls which use functions defined in this component
-  useControls({
-    materialTrigger: button(() => {
-      // console.log('\n\nmat button');
-      setTrigger(['material', Math.random()])
-      // setTimeout(() => setTrigger(), 100);
-      
+  useControls('Triggers', {
+    // materialTrigger: button(() => {
+    //   setTrigger(['material', Math.random()])
+    // }),
+    colorTrigger: button(() => {
+      setTrigger(['color', Math.random()]);
+        const newcolor = randomColor();
+        // console.log('old color:', randomControls.color);
+        // console.log('newcolor', newcolor);
+        setControls({color: newcolor});
+
     }),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     parallax: button(() => setTrigger(['parallax', Math.random()])),
@@ -36,7 +42,7 @@ export default function MainStage() {
     sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
-  const { ...randomConfig } = useControls(randomControls)
+  const [{ ...randomConfig }, setControls] = useControls(() => ('General', randomControls))
 
   const SoftShadowsProps = {
     /** Size of the light source (the larger the softer the light), default: 25 */
