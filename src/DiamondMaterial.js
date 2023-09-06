@@ -13,14 +13,32 @@ import {
 import { PerformanceMonitor } from '@react-three/drei';
 
 export function DiamondMaterial({config, geometry, texture, ...props}) {
-  console.log('Diamond Mat, color:', config.color);
+  // console.log('Diamond Mat, color:', config.color);
   // const { ...diamondconfig } = useControls(diamondcontrols)
-
+  // const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
+  
   const [test, setTest] = useState(null)
   
   
   // TODO: determine how to both tweak the controls and pass in color from outside
-  const [dconfig, setDConfig] = useState(useControls('Diamond', diamondcontrols))
+  const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
+  const [dconfig, setDConfig] = useState(diamondconfig)
+
+
+  useEffect(() => {
+    // console.log('diamondconfig changed');
+    // if (material && material[0]) {
+    //   console.log('updating material');
+      
+    //   Object.assign(material[0], config)
+    //   material[0].needsUpdate = true;
+    // }
+    setDConfig(diamondconfig)
+    // setDiamondControls({...diamondconfig})
+
+  }, [diamondconfig])
+
+
   // const { ...diamondconfig } = dconfig;
 
 
@@ -55,20 +73,20 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
       <mesh geometry={geometry} {...config} {...dconfig} castShadow>
         {/* don't set transparent to true here! I will crash */}
         <MeshRefractionMaterial  {...dconfig} {...config} envMap={texture} 
-        // ior={diamondconfig.iorInner}
-        // visible={diamondconfig.GemVisible}
+        ior={dconfig.iorInner}
+        visible={dconfig.GemVisible}
          />
       </mesh>
 
       </group>
 
       {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
-      {/* <Gem config={diamondconfig} backgroundTexture={texture} geometry={geometry} /> */}
+      {/* <Gem config={dconfig} backgroundTexture={texture} geometry={geometry} /> */}
       <mesh geometry={geometry} visible={true}>
         <MeshTransmissionMaterial  {...dconfig} {...config}  transparent={true}
           envMap={texture}
-          // ior={diamondconfig.iorOuter}
-          // visible={diamondconfig.InnerVisible}
+          ior={dconfig.iorOuter}
+          visible={dconfig.InnerVisible}
         />
       </mesh>
 

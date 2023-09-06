@@ -14,28 +14,14 @@ import { randomColor } from 'randomcolor';
 export default function MainStage() {
   const [trigger, setTrigger] = useState()
 
-  // const resetTriggers = () => {
-  //   setMaterialTrigger(null)
-  //   setShapeTrigger(null)
-  //   setParallaxTrigger(null)
-  //   setGemTrigger(null)
-  // }
-
   // leva controls which use functions defined in this component
   useControls('Triggers', {
     // materialTrigger: button(() => {
     //   setTrigger(['material', Math.random()])
     // }),
-    colorTrigger: button(() => {
-      setTrigger(['color', Math.random()]);
-        const newcolor = randomColor();
-        // console.log('old color:', randomControls.color);
-        // console.log('newcolor', newcolor);
-        setControls({color: newcolor});
-
-    }),
+    colorTrigger: button(() => { setControls({color: randomColor()})}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
-    parallax: button(() => setTrigger(['parallax', Math.random()])),
+    // parallax: button(() => setTrigger(['parallax', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),
     crystal: button(() => setTrigger(['crystal', Math.random()])),
     deep: button(() => setTrigger(['deep', Math.random()])),

@@ -109,23 +109,23 @@ return (
             <ParallaxMesh geometry={model} config={config} castShadow />
           ) : mode == 'gem' ? (
             <DiamondMaterial config={config} geometry={model}  />
-            ) : mode == 'crystal' ? (
+          ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
               <CrystalMaterial geometry={model} config={config} />
             </mesh>
-            ) : mode == 'sss' ? (
-            // <mesh geometry={model} castShadow >
+          ) : mode == 'sss' ? (
+          // <mesh geometry={model} castShadow >
             <SSSMesh geometry={model} config={config} castShadow />
-            // </mesh>
-            ) : mode == 'deep' ? (
-              <DeepMat geometry={model} config={config} castShadow />
-            ) : mode == 'material' ? (
+          // </mesh>
+          ) : mode == 'deep' ? (
+            <DeepMat geometry={model} config={config} castShadow />
+          ) : mode == 'material' ? (
             <mesh scale={1} geometry={model} material={material[0]} castShadow />
-            ) : (
-              <mesh scale={1} geometry={model} castShadow>
-                <meshBasicMaterial {...config} />
-                </mesh>
-            )}
+          ) : (
+            <mesh scale={1} geometry={model} castShadow>
+              <meshBasicMaterial {...config} />
+            </mesh>
+          )}
 
         </group>
       </Center>
