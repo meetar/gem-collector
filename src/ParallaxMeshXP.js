@@ -16,7 +16,7 @@ function ParallaxMeshXP({geometry, config, textureUrl, ...props}) {
   texture.magFilter = THREE.NearestFilter;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-console.log('ro?', props.renderOrder);
+
   return (
     <>
         <mesh geometry={geometry} {...props}>

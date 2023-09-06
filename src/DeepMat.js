@@ -24,7 +24,7 @@ const deepControls = {
   distortion:  0.5 ,
   distortionScale:  0.15 ,
   iorOuter:  1.5 ,
-  opacity:  1 ,
+  // opacity:  1 ,
   color: '#f00',
   envMapIntensity:  1.5 ,
   reflectivity:  .5 ,
@@ -52,6 +52,7 @@ const iceControls = {
 export default function DeepMat({config, geometry, texture, ...props}) {
 
   const { ...pconfig } = useControls(parallaxcontrols)
+  pconfig._displacement = -.01;
   
   const textureUrl = './speckles.png';
   const ptexture = useTexture(textureUrl);
@@ -73,17 +74,20 @@ export default function DeepMat({config, geometry, texture, ...props}) {
   ptexture.repeat.set(2, 2); // Adjust the scale along U and V axes
   // ptexture.magFilter = THREE.NearestFilter;
 
+  // eventually check out https://discourse.threejs.org/t/how-to-smooth-an-obj-with-threejs/3950/11
+  // for converting from hard to smooth vertex normals - have to combine dupe verts first
+
   return (
     <>
-      <mesh scale={1.08} renderOrder={0} geometry={geometry} transparent={true} castShadow >
-        <MeshTransmissionMaterial {...config} {...crystalconfig} normalMap={normalMap} normalScale={.2} 
+      <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
+        <MeshTransmissionMaterial {...deepControls} normalMap={normalMap} normalScale={.2} 
           envMap={texture}
           ior={deepControls.iorOuter}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
         />
         </mesh>
-        <mesh renderOrder={1} geometry={geometry} castShadow >
+        <mesh scale={.99} renderOrder={1} geometry={geometry} castShadow >
           <ParallaxMaterial texture={ptexture} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>

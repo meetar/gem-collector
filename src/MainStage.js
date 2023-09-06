@@ -1,22 +1,16 @@
-import { RGBELoader } from 'three-stdlib'
 import * as THREE from 'three'
-import { AxesHelper } from 'three'
-import { Canvas, useLoader, useThree } from '@react-three/fiber'
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader'
+import { Canvas } from '@react-three/fiber'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import { Box, Sphere, Plane, Stats, SoftShadows } from '@react-three/drei'
-import { useEffect, useState, Suspense } from 'react'
+import { Sphere, Stats, SoftShadows } from '@react-three/drei'
+import { useState } from 'react'
 // import { CSGShape } from './CSGShape'
 import { randomControls } from './randomControls'
 import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
-import { AmbientLight } from 'three'
 
 export default function MainStage() {
-
   const [trigger, setTrigger] = useState()
 
   // const resetTriggers = () => {
@@ -53,15 +47,15 @@ export default function MainStage() {
     focus: 10
   }
 return (
-      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas frameloop="demand" shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
-        {/* <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.1} />
         <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
           <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
-        </directionalLight> */}
-        <pointLight position={[0, 0, 10]} intensity={.1} />
+        </directionalLight>
+        {/* <pointLight position={[0, 0, 10]} intensity={.1} /> */}
 
         <GemRandomizer
           trigger={trigger}
@@ -72,9 +66,9 @@ return (
           <meshStandardMaterial color="white" transparent={true} opacity={1} side={THREE.BackSide} />
         </Sphere>
 
-        {/* <EffectComposer>
+        <EffectComposer>
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
-        </EffectComposer> */}
+        </EffectComposer>
 
         {/** Controls */}
         <OrbitControls autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.3} enableRotate={true} />

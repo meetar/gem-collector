@@ -1,3 +1,11 @@
+//  based on https://techbrood.com/threejs/examples/jsm/shaders/ParallaxShader.js
+
+// Parallax Occlusion shaders from
+//    http://sunandblackcat.com/tipFullView.php?topicid=28
+// No tangent-space transforms logic based on
+//   http://mmikkelsen3d.blogspot.sk/2012/02/parallaxpoc-mapping-and-no-tangent.html
+
+
 uniform float _steps;
 uniform float _height;
 uniform float _scale;
@@ -63,43 +71,32 @@ vec2 parallaxMap( in vec3 V , in float offset) {
 		}
 
 void main() {
-float lum;
-// vec4 color = vec4(.5, 1., .5, 1.);
-vec4 color = vec4(0., 1., 0., 0.);
-float offset;
 
-for (float i = _steps + 1.; i >= 0.; i--) {
-  float percent = (1. / _steps) * i;
-  float next = (1. / _steps) * (i + 1.);
+  float lum;
 
-  offset = ( percent);
-  // offset = ( _height * percent) + mapUv * _scale;
-  vec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ), offset);
+  float offset;
 
-  gl_FragColor = vec4(mapUv, 0., 1.);
+  for (float i = _steps + 1.; i >= 0.; i--) {
+    float percent = (1. / _steps) * i;
+    float next = (1. / _steps) * (i + 1.);
 
-  lum = texture2D( _texture, mapUv  * _scale ).r; //
-  // lum = ( texture2D( _texture, offset ) ).r; //
-  // if the value of the sampled texture is less than the sampling distance, use it --
-  // this pulls in dim values from nearby and bright values from further away
-    // color += vec4(lum);
+    offset = ( percent);
+    // offset = ( _height * percent) + mapUv * _scale;
+    vec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ), offset);
 
-  if (lum > percent && lum <= next) {
-  // if (lum > percent) {
-    // color.a = 1.;
-    color.a = lum;
-    break;
-    // if (lum > 0.) {
-    //   // color.a = lum - 1.;
-    //   break;
-    } else {
-      color.a = 0.;
+    gl_FragColor = vec4(mapUv, 0., 1.);
+
+    lum = texture2D( _texture, mapUv  * _scale ).r; //
+    // lum = ( texture2D( _texture, offset ) ).r; //
+    // if the value of the sampled texture is less than the sampling distance, use it --
+    // this pulls in dim values from nearby and bright values from further away
+      // color += vec4(lum);
+    if (lum >= percent && lum < next) {
+      // color += vec4(mapUv, 0., 1.);
+      color += vec4(lum);
+      break;
     }
   }
 
-  // if (lum < 0.1) {color = vec4(1., 0., 0., 1.);}
-  // color = vec4(lum, lum, lum, 1.);
-// }
-
-gl_FragColor = color;
+  gl_FragColor = vec4(color.rgb, 1. * _opacity);
 }
