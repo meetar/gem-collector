@@ -30,7 +30,6 @@ export const combomodels = [
   '5crystal.obj',
   '5crystal2.obj',
   'chalk1.obj',
-  'crystal1-bevel.obj',
   'crystal1.obj',
   'crystal2.obj',
   'crystal3.obj',

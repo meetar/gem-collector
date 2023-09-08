@@ -20,6 +20,8 @@ export default function MainStage() {
     //   setTrigger(['material', Math.random()])
     // }),
     colorTrigger: button(() => { setControls({color: randomColor()})}),
+    normalTrigger: button(() => { setControls({normalMap: randomNormalMap()})}),
+    depthTrigger: button(() => { setControls({normalMap: randomDepthMap()})}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     // parallax: button(() => setTrigger(['parallax', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),

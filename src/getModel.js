@@ -13,8 +13,8 @@ export const getModel = () => {
   const combo = true;
 
   if (combo) {
-    // const mesh = './models/'+_.sample(combomodels)
-    const mesh = './models/icosphere.obj'
+    const mesh = './models/'+_.sample(combomodels)
+    // const mesh = './models/icosphere.obj'
     console.log(mesh);
     // const mesh = './models/pointer.obj';
 

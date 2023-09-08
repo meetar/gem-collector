@@ -75,7 +75,7 @@ export function GemRandomizer({ config, trigger }) {
   }, [config])
 
   useEffect(() => {
-    console.log('material changed');
+    // console.log('material changed');
     if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
     if (material && material[0]) {
       material[0].needsUpdate = true;
