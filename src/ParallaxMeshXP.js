@@ -6,7 +6,7 @@ import { useControls } from 'leva'
 
 function ParallaxMeshXP({geometry, config, textureUrl, ...props}) {
   const { ...pconfig } = useControls(parallaxcontrols)
-  if (!textureUrl) textureUrl = './speckles.png';
+  if (!textureUrl) textureUrl = './textures/speckles.png';
   // if (!textureUrl) textureUrl = './textures/streaks3.png';
   // if (!textureUrl) textureUrl = './textures/cracks3.png';
   // if (!textureUrl) textureUrl = './textures/streaks4.png';

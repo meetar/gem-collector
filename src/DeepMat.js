@@ -50,15 +50,15 @@ const iceControls = {
 
 
 export default function DeepMat({config, geometry, texture, ...props}) {
-console.log('DeepMat', config.color);
+// console.log('DeepMat', config.color);
   const { ...pconfig } = useControls(parallaxcontrols)
   pconfig._displacement = -.01;
   
-  const textureUrl = './speckles.png';
+  const textureUrl = './textures/speckles.png';
   const ptexture = useTexture(textureUrl);
 
   let { ...crystalconfig } = useControls(deepControls)
-  
+
   // debugger
   // Object.assign(crystalconfig, deepControls)
   const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')

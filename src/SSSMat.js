@@ -31,13 +31,10 @@ export default function SSSMat ({texture, config}) {
   imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
 
   // uniforms[ 'map' ].value = imgTexture;
-// console.log(sssControls.diffuse);
-  // uniforms[ 'diffuse' ].value = new THREE.Vector3( 1.0, 1., 1. );
   uniforms[ 'diffuse' ].value = hexToVec3(sssControls.diffuse);
   uniforms[ 'shininess' ].value = sssControls.shininess;
 
   uniforms[ 'thicknessMap' ].value = thicknessTexture;
-  // uniforms[ 'thicknessColor' ].value = new THREE.Vector3( 0.3, 0.3, 0.3 );
   uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
   uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
   uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;

@@ -80,8 +80,6 @@ export function DiamondMaterial({config, geometry, texture, ...props}) {
 
       </group>
 
-      {/* <Gem config={config} backgroundTexture={texture} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 1]} visible={config.GemVisible} /> */}
-      {/* <Gem config={dconfig} backgroundTexture={texture} geometry={geometry} /> */}
       <mesh geometry={geometry} visible={true}>
         <MeshTransmissionMaterial  {...dconfig} {...config}  transparent={true}
           envMap={texture}

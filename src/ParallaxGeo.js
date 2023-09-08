@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { Stats, Sphere, useTexture } from '@react-three/drei'
-import fetcher from './Fetcher'
 import ParallaxMaterial from './ParallaxMaterial'
 
 function ParallaxGeo({geometry, config, textureUrl}) {
   const [material, setMaterial] = useState(null);
 
-  if (!textureUrl) textureUrl = './speckles.png';
+  if (!textureUrl) textureUrl = './textures/speckles.png';
   // textureUrl = './speck.png';
   // textureUrl = './dots.png';
 

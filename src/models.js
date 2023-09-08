@@ -25,3 +25,17 @@ export const models = [
   'spiky1.obj',
   'spiky2.obj',
 ];
+
+export const combomodels = [
+  '5crystal.obj',
+  '5crystal2.obj',
+  'chalk1.obj',
+  'crystal1-bevel.obj',
+  'crystal1.obj',
+  'crystal2.obj',
+  'crystal3.obj',
+  'cube1.obj',
+  'cubic2.obj',
+  'icosphere.obj',
+  'shard.obj',
+];

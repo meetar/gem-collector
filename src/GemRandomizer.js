@@ -1,3 +1,4 @@
+import * as THREE from 'three'
 import { useEffect, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the OBJLoader module
@@ -12,27 +13,14 @@ import DeepMat from './DeepMat'
 import SSSMesh from './SSSMesh'
 import { Rock } from './Rock'
 import { getMaterial } from './getMaterial'
-import { models } from './models'
-import { getColor } from './utils';
+import { models, combomodels } from './models'
+import { getModel } from './getModel'
+import { getColor, shuffleArray } from './utils';
 import { randomColor } from 'randomcolor';
+import { TextureLoader, Vector3 } from 'three';
+import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+import { divideCircleIntoPoints } from './utils';
 
-
-const getModel = () => {
-  // console.log('getModel');
-  const mesh = './models/'+_.sample(models)
-  // const mesh = './models/crystal.obj';
-  // const mesh = './models/rock1.glb'
-  // console.log(models);
-  console.log(mesh);
-  // debugger
-  const geo = useLoader(OBJLoader, mesh).children[0].geometry;
-
-  // const meshes = ['crystal', 'rock1', 'cube']
-  // const mesh = './models/' + _.sample(meshes) + '.stl'
-  // const geo = useLoader(STLLoader, mesh)
-  // console.log('new geo:', geo);
-  return geo
-}
 
 export function GemRandomizer({ config, trigger }) {
   // console.log('GemRandomizer');
@@ -51,8 +39,8 @@ export function GemRandomizer({ config, trigger }) {
 
   // watch for triggers from app
   useEffect(() => {
-    console.log('trigger', trigger)
-    console.log('mode:', mode);
+    // console.log('trigger', trigger)
+    // console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
       // console.log('trigger changed, trigger:', trigger);
@@ -62,7 +50,8 @@ export function GemRandomizer({ config, trigger }) {
       }
       else if (trigger == 'color') {
         // setMode('material')
-        // color is shared among configs, so the parent sets this
+        // this block is vestigial
+        // color is shared among configs, so the parent sets this now
       }
       else if (trigger == 'shape') {
         setModel(getModel)
@@ -100,7 +89,7 @@ export function GemRandomizer({ config, trigger }) {
   }
 return (
     <>
-      <Center top>
+      <Center top position={[0, 0, 0]}>
         <group>
 
 
@@ -120,17 +109,18 @@ return (
           ) : mode == 'deep' ? (
             <DeepMat geometry={model} config={config} castShadow />
           ) : mode == 'material' ? (
-            <mesh scale={1} geometry={model} material={material[0]} castShadow />
+            <mesh geometry={model} material={material[0]} castShadow />
           ) : (
-            <mesh scale={1} geometry={model} castShadow>
-              <meshBasicMaterial {...config} />
+            <mesh geometry={model} castShadow>
+              <meshStandardMaterial {...config} />
             </mesh>
           )}
 
         </group>
       </Center>
-
-      <Rock insetGeo={model} csg={false} />
+      <Center bottom position={[0, .5, 0]}>
+      {/* <Rock insetGeo={model} csg={false} /> */}
+      </Center>
     </>
   )
 }

@@ -6,7 +6,7 @@ import { useControls } from 'leva'
 
 function ParallaxMesh({geometry, config, textureUrl, ...props}) {
   const { ...pconfig } = useControls(parallaxcontrols)
-  if (!textureUrl) textureUrl = './speckles.png';
+  if (!textureUrl) textureUrl = './textures/speckles.png';
 
   const texture = useTexture(textureUrl);
   // texture.minFilter = THREE.NearestFilter;
