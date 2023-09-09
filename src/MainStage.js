@@ -10,9 +10,13 @@ import { GemRandomizer } from './GemRandomizer.js'
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 import { randomColor } from 'randomcolor';
+import { randomNormal } from './randomNormal.js'
 
 export default function MainStage() {
   const [trigger, setTrigger] = useState()
+  const [normalMap, setNormalMap] = useState()
+
+  const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
 
   // leva controls which use functions defined in this component
   useControls('Triggers', {
@@ -20,7 +24,7 @@ export default function MainStage() {
     //   setTrigger(['material', Math.random()])
     // }),
     colorTrigger: button(() => { setControls({color: randomColor()})}),
-    normalTrigger: button(() => { setControls({normalMap: randomNormalMap()})}),
+    normalTrigger: button(() => { setNormalMap( randomNormal() )}),
     depthTrigger: button(() => { setControls({normalMap: randomDepthMap()})}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     // parallax: button(() => setTrigger(['parallax', Math.random()])),
@@ -30,7 +34,6 @@ export default function MainStage() {
     sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
-  const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
 
   const SoftShadowsProps = {
     /** Size of the light source (the larger the softer the light), default: 25 */
@@ -54,6 +57,7 @@ return (
         <GemRandomizer
           trigger={trigger}
           config={randomConfig}
+          normalMap={normalMap}
         />
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>

@@ -22,7 +22,7 @@ import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'
 import { divideCircleIntoPoints } from './utils';
 
 
-export function GemRandomizer({ config, trigger }) {
+export function GemRandomizer({ config, trigger, normalMap }) {
   // console.log('GemRandomizer');
   const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   const [mode, setMode] = useState(false);
@@ -100,7 +100,7 @@ return (
             <DiamondMaterial config={config} geometry={model}  />
           ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
-              <CrystalMaterial geometry={model} config={config} />
+              <CrystalMaterial normalMap={normalMap} geometry={model} config={config} />
             </mesh>
           ) : mode == 'sss' ? (
           // <mesh geometry={model} castShadow >
