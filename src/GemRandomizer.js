@@ -27,7 +27,8 @@ import { divideCircleIntoPoints } from './utils';
 export function GemRandomizer({ config, trigger }) {
   // console.log('GemRandomizer');
   const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
-  const [mode, setMode] = useState(false);
+  // const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState('deep');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState(getModel)
   const [normalMap, setNormalMap] = useState(getNormal)
@@ -112,10 +113,13 @@ export function GemRandomizer({ config, trigger }) {
     }
   }, [material])
 
-  // console.log('gem mode', mode);
+  console.log('gem mode', mode);
+  // console.log('depthamP', depthMap);
   if (!model) {
     return null;
   }
+
+
 return (
     <>
       <Center top position={[0, 0, 0]}>
@@ -133,7 +137,7 @@ return (
             </mesh>
           ) : mode == 'sss' ? (
           // <mesh geometry={model} castShadow >
-            <SSSMesh geometry={model} normalMap={normalMap} config={config} castShadow />
+            <SSSMesh geometry={model} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />
           // </mesh>
           ) : mode == 'deep' ? (
             <DeepMat geometry={model} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />

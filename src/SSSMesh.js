@@ -9,8 +9,8 @@ import { Leva, useControls, button } from 'leva'
 import { RGBELoader } from 'three-stdlib'
 import ParallaxMeshXP from './ParallaxMeshXP'
 
-export default function SSSMesh({geometry, config, normalMap}) {
-
+export default function SSSMesh({geometry, config, normalMap, depthMap}) {
+  console.log('depthamP', depthMap);
   diamondcontrols.normalScale = {value: 0.};
   const {...crystalconfig} = useControls('Crystal', diamondcontrols)
 // debugger
@@ -19,10 +19,11 @@ export default function SSSMesh({geometry, config, normalMap}) {
 
   const texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   texture.mapping = EquirectangularReflectionMapping;
+  const spacing = .01;
 
   return (
 <>
-    <group scale={1.01}>
+    <group scale={1 + spacing}>
       <mesh renderOrder={0} geometry={geometry} castShadow transparent={true} opacity={1}>
             <MeshTransmissionMaterial {...config} {...crystalconfig}
             // <MeshBasicMaterial {...config} {...crystalconfig}
@@ -36,11 +37,11 @@ export default function SSSMesh({geometry, config, normalMap}) {
     </group>
 
     <group scale={1}>
-    <ParallaxMeshXP renderOrder={2} geometry={geometry} config={config} transparent />
+    <ParallaxMeshXP depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
       </group>
 
 
-    <group scale={.99}>
+    <group scale={1 - spacing}>
     <mesh renderOrder={1} geometry={geometry} castShadow transparent={false} >
     <SSSMat transparent={false} />
     </mesh>

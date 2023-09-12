@@ -42,7 +42,7 @@ export default function MainStage() {
     focus: 10
   }
 return (
-      <Canvas  shadows dpr={[2, 4]} camera={{ position: [10, 15, -3], zoom: 10, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas  shadows dpr={[2, 4]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 

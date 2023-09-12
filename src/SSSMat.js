@@ -6,7 +6,7 @@ import { useControls, button } from 'leva'
 import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
-export default function SSSMat ({texture, config}) {
+export default function SSSMat ({texture, config, depthMap}) {
 
   const {...sssControls} = useControls('SSS', {
     diffuse: 'red',
