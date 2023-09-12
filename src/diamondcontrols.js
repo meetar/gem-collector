@@ -18,7 +18,7 @@ export const diamondcontrols = {
     bounces: { value: 2, min: 0, max: 10, step: 1 },
     // color: '#ff9cf5',
     // color: 'white',
-    HDRTexture: true,
+    // HDRTexture: true,
     InnerVisible: true,
     GemVisible: true,
 
@@ -28,5 +28,6 @@ export const diamondcontrols = {
     reflectivity: { value: .01, min: 0, max: 1, step: .01 },
     clearcoat: { value: .33, min: 0, max: 1, step: .01 },
     clearcoatRoughness: { value: .11, min: 0, max: 1, step: .01 },
+    normalScale: { value: 1, min: 0, max: 1, step: .01 },
     // roughness: { value: 1, min: 0, max: 1, step: .01 },
   }

@@ -10,11 +10,9 @@ import { GemRandomizer } from './GemRandomizer.js'
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 import { randomColor } from 'randomcolor';
-import { randomNormal } from './randomNormal.js'
 
 export default function MainStage() {
   const [trigger, setTrigger] = useState()
-  const [normalMap, setNormalMap] = useState()
 
   const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
 
@@ -24,8 +22,8 @@ export default function MainStage() {
     //   setTrigger(['material', Math.random()])
     // }),
     colorTrigger: button(() => { setControls({color: randomColor()})}),
-    normalTrigger: button(() => { setNormalMap( randomNormal() )}),
-    depthTrigger: button(() => { setControls({normalMap: randomDepthMap()})}),
+    normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
+    depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     // parallax: button(() => setTrigger(['parallax', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),
@@ -44,7 +42,7 @@ export default function MainStage() {
     focus: 10
   }
 return (
-      <Canvas frameloop="demand" shadows dpr={[2, 4]} camera={{ position: [10, 10, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas  shadows dpr={[2, 4]} camera={{ position: [10, 15, -3], zoom: 10, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
@@ -57,7 +55,6 @@ return (
         <GemRandomizer
           trigger={trigger}
           config={randomConfig}
-          normalMap={normalMap}
         />
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>

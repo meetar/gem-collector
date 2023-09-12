@@ -7,7 +7,17 @@ import { TextureLoader } from 'three';
 export const randomNormal = () => {
   console.log('randomNormal');
   // const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
-  const normalMap = useLoader(TextureLoader, './textures/13191-normal.jpg')
-  console.log(normalMap);
-  return normalMap;
+  let maps = [
+'6056-normal.jpg',
+// '4979-normal.jpg',
+'1160-normal.jpg',
+'ice-normal.jpeg',
+'normal-moon.png',
+'14009-normal.jpg',
+'normals2.jpeg',
+];
+  let map = _.sample(maps);
+  console.log('fetching', './textures/'+map);
+  return './textures/'+map;
 }
+

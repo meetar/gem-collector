@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping } from 'three';
@@ -17,19 +18,25 @@ import { parallaxcontrols } from './parallaxcontrols';
 const deepControls = {
   samples: 6,
   transmission: 1,
-  thickness: .49,
+  thickness: .0,
+  // thickness: .49,
   chromaticAberration: .2,
-  anisotropy: 1,
-  roughness:  .4 ,
+  anisotropy: 0,
+  roughness:  0 ,
+  // anisotropy: 1,
+  // roughness:  .2 ,
   distortion:  0.5 ,
-  distortionScale:  0.15 ,
+  distortionScale:  0.0 ,
+  // distortionScale:  0.15 ,
   ior:  1.5 ,
   // opacity:  1 ,
-  color: '#f00',
   envMapIntensity:  1.5 ,
   reflectivity:  .5 ,
   clearcoat:  1 ,
   clearcoatRoughness: .28
+
+
+
 }
 
 const iceControls = {
@@ -49,19 +56,19 @@ const iceControls = {
 }
 
 
-export default function DeepMat({config, geometry, texture, ...props}) {
+export default function DeepMat({config, geometry, normalMap, depthMap, texture, ...props}) {
 // console.log('DeepMat', config.color);
-  const { ...pconfig } = useControls(parallaxcontrols)
-  pconfig._displacement = -.01;
+
+const [{ ...pconfig }, setDeepControls] = useControls('Deep', () => (parallaxcontrols))
+const [deepConfig, setDeepConfig] = useState(pconfig)
+
+useEffect(() => {
+  setDeepConfig(pconfig)
+}, [pconfig])
+
+deepConfig._displacement = -.01;
   
-  const textureUrl = './textures/speckles.png';
-  const ptexture = useTexture(textureUrl);
-
   let { ...crystalconfig } = useControls(deepControls)
-
-  // debugger
-  // Object.assign(crystalconfig, deepControls)
-  const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
 
   texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   texture.mapping = EquirectangularReflectionMapping; 
@@ -70,9 +77,9 @@ export default function DeepMat({config, geometry, texture, ...props}) {
   // normalMap.magFilter = THREE.NearestFilter;
   // normalMap.repeat.set(2, 2); // Adjust the scale along U and V axes
   
-  ptexture.wrapT = THREE.RepeatWrapping;
-  ptexture.wrapS = THREE.RepeatWrapping;
-  ptexture.repeat.set(2, 2); // Adjust the scale along U and V axes
+  depthMap.wrapT = THREE.RepeatWrapping;
+  depthMap.wrapS = THREE.RepeatWrapping;
+  depthMap.repeat.set(2, 2); // Adjust the scale along U and V axes
   // ptexture.magFilter = THREE.NearestFilter;
 
   // eventually check out https://discourse.threejs.org/t/how-to-smooth-an-obj-with-threejs/3950/11
@@ -88,7 +95,7 @@ export default function DeepMat({config, geometry, texture, ...props}) {
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} castShadow >
-          <ParallaxMaterial texture={ptexture} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterial texture={depthMap} isShaderMaterial config={{...config, ...deepConfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   )

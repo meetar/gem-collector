@@ -5,6 +5,11 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { OrbitControls } from '@react-three/drei'
 import { useControls } from 'leva'
 import { useTexture, Plane } from '@react-three/drei'
+import {
+  MeshRefractionMaterial,
+  MeshTransmissionMaterial,
+} from '@react-three/drei'
+
 
 export default function TextureDebugStage() {
 
@@ -16,22 +21,37 @@ export default function TextureDebugStage() {
 
   function Scene() {
     // const normalMap = useTexture('./textures/PavingStones092_1K_normal.jpg')
-    const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
+    // const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
+    const normalMap = useLoader(TextureLoader, './textures/13191-normal.jpg')
+    
+    // const normalMap = useTexture('./textures/13191-normal.jpg')
+    // normalMap.colorspace = THREE.NoColorSpace;
+    // normalMap.colorspace = THREE.SRGBColorSpace;
+    // normalMap.colorspace = THREE.LinearSRGBColorSpace;
+// debugger
     return (
       <>
         {/* <ambientLight intensity={0.2} /> */}
         <directionalLight intensity={1} />
         <mesh>
+          <planeGeometry args={[10, 10, 10]} />
+          </mesh>
+        <mesh>
           {/* Width and height segments for displacementMap */}
           <sphereGeometry args={[1, 100, 100]} />
-          <meshStandardMaterial
-            color={'grey'}
+          {/* <meshStandardMaterial */}
+          <MeshTransmissionMaterial
+            side={THREE.DoubleSide}
+            color={'white'}
+            // thickness={1}
+            // transmissionSampler={true}
+            // backside={true}
             // displacementScale={0.2}
             // map={normalMap}
             // displacementMap={displacementMap}
             normalMap={normalMap}
-            // normalScale={0}
-            normalMap-encoding={THREE.LinearEncoding}
+            normalScale={1}
+            // normalMap-encoding={THREE.LinearEncoding}
             // normalMap-encoding={THREE.sRGBEncoding}
             // roughnessMap={roughnessMap}
             // aoMap={aoMap}
