@@ -25,21 +25,31 @@ import { divideCircleIntoPoints } from './utils';
 
 
 export function GemRandomizer({ config, trigger }) {
-  console.log('GemRandomizer');
-  const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
+  console.log('>> GemRandomizer <<');
+  // const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   // const [mode, setMode] = useState(false);
-  const [mode, setMode] = useState('deep');
+  const [mode, setMode] = useState();
+  // const [mode, setMode] = useState('deep');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
-  const [model, setModel] = useState(getModel)
-  const [normalMap, setNormalMap] = useState(getNormal)
-  const [depthMap, setDepthMap] = useState(getNormal)
+  const [model, setModel] = useState()
+  const [normalMap, setNormalMap] = useState()
+  const [depthMap, setDepthMap] = useState()
+  // const [normaltrigger, setNormalTrigger] = useState(null)
+  // const [model, setModel] = useState(getModel)
+  // const [normalMap, setNormalMap] = useState(getNormal)
+  // const [depthMap, setDepthMap] = useState(getNormal)
+  // const [normaltrigger, setNormalTrigger] = useState(null)
 
-
-  function newMaterial() {
-    const newmat = getMaterial(config);
-    newmat.needsUpdate = true;
-    return setMaterial([newmat, Math.random()])
-  }
+  // let normaltrigger = null;
+  // useEffect(() => {
+  //   console.log('normaltrigger effect');
+  //   async function fetchNormal() {
+  //     const res = await getNormal()
+  //     console.log('loaded normal map');
+  //     setNormalMap(res)
+  //   }
+  //   fetchNormal()
+  // }, [normaltrigger])
 
   function getNormal() {
     const normalurl = randomNormal();
@@ -59,24 +69,31 @@ export function GemRandomizer({ config, trigger }) {
     return map;
   }
 
+  function resetAll() {
+    setModel(null)
+    setNormalMap(null)
+    setDepthMap(null)
+    setMode(null)
+  }
+
+  function readyAll() {
+    console.log(model)
+    console.log( normalMap);
+    console.log( depthMap);
+    console.log( mode);
+    console.log('Ready all?', (model && normalMap && depthMap && mode) ? true : false);
+    console.log(normalMap);
+    return  (model && normalMap && depthMap && mode) ? true : false;
+  }
+
 
   // watch for triggers from app
   useEffect(() => {
-    // console.log('trigger', trigger)
+    console.log('>> useeffect trigger', trigger)
     // console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
-      // console.log('trigger changed, trigger:', trigger);
-      if (trigger == 'material') {
-        setMode('material')
-        newMaterial()
-      }
-      else if (trigger == 'color') {
-        // setMode('material')
-        // this block is vestigial
-        // color is shared among configs, so the parent sets this now
-      }
-      else if (trigger == 'shape') {
+      if (trigger == 'shape') {
         setModel(getModel)
       }
       else if (trigger == 'depth') {
@@ -84,8 +101,23 @@ export function GemRandomizer({ config, trigger }) {
         setDepthMap(getDepth)
       }
       else if (trigger == 'normal') {
-        // console.log('trigger: normal');
+        console.log('trigger: normal');
         setNormalMap(getNormal)
+        // normaltrigger = Math.random();
+        // setNormalTrigger(Math.random())
+
+      }
+      else if (trigger == 'randomize') {
+        // console.log('trigger: normal');
+        resetAll()
+        setModel(getModel)
+        setNormalMap(getNormal)
+        // normaltrigger = Math.random();
+        // setNormalTrigger(Math.random())
+
+        setDepthMap(getDepth)
+        let mode = _.sample(['gem', 'crystal', 'deep', 'sss'])
+        setMode(mode)
       }
       else {
         setMode(trigger)
@@ -94,25 +126,25 @@ export function GemRandomizer({ config, trigger }) {
     }
   }, [trigger])
 
-  useEffect(() => {
-    // console.log('config changed');
-    if (material && material[0]) {
-      console.log('updating material');
+  // useEffect(() => {
+  //   console.log('>> useeffect config');
+  //   if (material && material[0]) {
+  //     console.log('updating material');
       
-      Object.assign(material[0], config)
-      material[0].needsUpdate = true;
-    }
+  //     Object.assign(material[0], config)
+  //     material[0].needsUpdate = true;
+  //   }
 
-  }, [config])
+  // }, [config])
 
-  useEffect(() => {
-    // console.log('material changed');
-    if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
-    if (material && material[0]) {
-      material[0].needsUpdate = true;
-      setMaterial(material[0])
-    }
-  }, [material])
+  // useEffect(() => {
+  //   console.log('>> useeffect material');
+  //   if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
+  //   if (material && material[0]) {
+  //     material[0].needsUpdate = true;
+  //     setMaterial(material[0])
+  //   }
+  // }, [material])
 
   console.log('gem mode', mode);
   // console.log('depthamP', depthMap);
@@ -121,9 +153,10 @@ export function GemRandomizer({ config, trigger }) {
   }
 
 
-return (
+return ( readyAll() &&
+// return ( 
     <>
-      <Center top position={[0, 0, 0]}>
+      {/* <Center top position={[0, 0, 0]}> */}
 
 
 

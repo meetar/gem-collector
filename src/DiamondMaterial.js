@@ -13,6 +13,7 @@ import {
 import { PerformanceMonitor } from '@react-three/drei';
 
 export function DiamondMaterial({config, geometry, texture, normalMap, ...props}) {
+  console.log('diamond mat');
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
   const [dconfig, setDConfig] = useState(diamondconfig)
 
@@ -63,6 +64,7 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
           ior={dconfig.iorOuter}
           visible={dconfig.InnerVisible}
           normalMap={normalMap}
+
         />
       </mesh>
 

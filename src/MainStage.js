@@ -24,6 +24,7 @@ export default function MainStage() {
     //   setTrigger(['material', Math.random()])
     // }),
     colorTrigger: button(() => { setControls({color: randomColor()})}),
+    RANDOMIZE: button( () => { setTrigger(['randomize', Math.random()] )}),
     normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
     depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
@@ -58,10 +59,10 @@ return (
           <Rock receiveShadow csg={false} />
         </Center>
 
-
-        <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
+{/* 
+        <Sphere args={[300, 20, 20]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
           <meshStandardMaterial color="black" transparent={true} opacity={1} side={THREE.BackSide} />
-        </Sphere>
+        </Sphere> */}
 
         <EffectComposer>
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />

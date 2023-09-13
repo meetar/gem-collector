@@ -7,7 +7,7 @@ import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 export default function SSSMat ({texture, config, depthMap}) {
-
+console.log('sss mat');
   const {...sssControls} = useControls('SSS', {
     diffuse: 'red',
     thicknessColor: 'blue',
