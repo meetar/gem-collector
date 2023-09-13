@@ -37,4 +37,5 @@ export const combomodels = [
   'cubic2.obj',
   'icosphere.obj',
   'shard.obj',
+  'needle.obj',
 ];
