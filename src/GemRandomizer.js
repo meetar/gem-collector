@@ -19,9 +19,6 @@ import { getModel } from './getModel'
 import { getColor, shuffleArray } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal } from './textureUtils'
-import { TextureLoader, Vector3 } from 'three';
-import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-import { divideCircleIntoPoints } from './utils';
 
 
 export function GemRandomizer({ config, trigger }) {
@@ -29,6 +26,7 @@ export function GemRandomizer({ config, trigger }) {
   // const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   // const [mode, setMode] = useState(false);
   const [mode, setMode] = useState();
+  const [color, setColor] = useState();
   // const [mode, setMode] = useState('deep');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState()
@@ -76,6 +74,10 @@ export function GemRandomizer({ config, trigger }) {
     setMode(null)
   }
 
+  function getColor() {
+    config.color = randomColor()
+  }
+
   function readyAll() {
     console.log(model)
     console.log( normalMap);
@@ -86,6 +88,18 @@ export function GemRandomizer({ config, trigger }) {
     return  (model && normalMap && depthMap && mode) ? true : false;
   }
 
+  function randomizeAll() {
+    resetAll()
+    setColor(getColor)
+    setModel(getModel)
+    setNormalMap(getNormal)
+    // normaltrigger = Math.random();
+    // setNormalTrigger(Math.random())
+
+    setDepthMap(getDepth)
+    let mode = _.sample(['gem', 'crystal', 'deep', 'sss'])
+    setMode(mode)
+  }
 
   // watch for triggers from app
   useEffect(() => {
@@ -109,20 +123,15 @@ export function GemRandomizer({ config, trigger }) {
       }
       else if (trigger == 'randomize') {
         // console.log('trigger: normal');
-        resetAll()
-        setModel(getModel)
-        setNormalMap(getNormal)
-        // normaltrigger = Math.random();
-        // setNormalTrigger(Math.random())
-
-        setDepthMap(getDepth)
-        let mode = _.sample(['gem', 'crystal', 'deep', 'sss'])
-        setMode(mode)
+        randomizeAll()
       }
       else {
         setMode(trigger)
       }
       trigger = null;
+    } else {
+      console.log('no trigger, initializing with new randomize');
+      randomizeAll()
     }
   }, [trigger])
 
