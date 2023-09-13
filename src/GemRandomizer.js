@@ -80,10 +80,11 @@ export function GemRandomizer({ config, trigger }) {
         setModel(getModel)
       }
       else if (trigger == 'depth') {
-        console.log('trigger: depth');
+        // console.log('trigger: depth');
         setDepthMap(getDepth)
       }
       else if (trigger == 'normal') {
+        // console.log('trigger: normal');
         setNormalMap(getNormal)
       }
       else {
