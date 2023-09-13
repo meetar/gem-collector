@@ -89,6 +89,8 @@ deepConfig._displacement = -.01;
           envMap={texture}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
+          side={THREE.DoubleSide}
+
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} >

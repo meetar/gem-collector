@@ -47,13 +47,16 @@ export default function SSSMat ({texture, config, depthMap}) {
     uniforms: uniforms,
     vertexShader: shader.vertexShader,
     fragmentShader: shader.fragmentShader,
-    lights: true
+    lights: true,
+
   } );
   material.extensions.derivatives = true;
   const fragmentShader = shader.fragmentShader;
   const vertexShader = shader.vertexShader;
   const args = {uniforms, fragmentShader, vertexShader}
   return (
-    <shaderMaterial args={[args]} color={'#666'} lights={true} extensions={{derivatives: true}} />
+    <shaderMaterial args={[args]} color={'#666'} lights={true} extensions={{derivatives: true}}
+    side={THREE.DoubleSide}
+   />
   )
 }

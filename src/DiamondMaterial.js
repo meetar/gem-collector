@@ -51,6 +51,7 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
         <MeshRefractionMaterial  {...dconfig} {...config} envMap={texture} 
         ior={dconfig.iorInner}
         visible={dconfig.GemVisible}
+        side={THREE.DoubleSide}
         />
       </mesh>
 

@@ -34,25 +34,21 @@ export default function MainStage() {
     sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
-
-  const SoftShadowsProps = {
-    /** Size of the light source (the larger the softer the light), default: 25 */
-    size: 25,
-    /** Number of samples (more samples less noise but more expensive), default: 10 */
-    samples: 10,
-    /** Depth focus, use it to shift the focal point (where the shadow is the sharpest), default: 0 (the beginning) */
-    focus: 10
+  const softShadowsProps = {
+    size: { value: 10, min: 0, max: 50, step: 1 },
+    samples: { value: 10, min: 0, max: 50, step: 1 },
+    focus: { value: 10, min: 0, max: 50, step: 1 },
   }
+  const [{ ...softShadows }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps))
+
 return (
-      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
-        <SoftShadows {...SoftShadowsProps} />
+      <Canvas shadows dpr={[1, 2]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+        <color attach="background" args={["black"]} />
+        <SoftShadows {...softShadows} />
         <axesHelper args={[1]} />
 
         <ambientLight intensity={0.1} />
-        <directionalLight castShadow position={[0, 10, 0]} intensity={1.5} shadow-mapSize={1024}>
-          <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
-        </directionalLight>
-        {/* <pointLight position={[0, 0, 10]} intensity={.1} /> */}
+        <directionalLight castShadow position={[0, 10, 0]} intensity={2} />
 
         <GemRandomizer
           trigger={trigger}

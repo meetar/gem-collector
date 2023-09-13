@@ -60,6 +60,7 @@ export default function CrystalMaterial({config, geometry, texture, normalMap}) 
           // normalMap={normalMap}
           envMap={texture}
           // clearcoatNormalMap={normalMap}
+          side={THREE.DoubleSide}
         />
     </>
   )

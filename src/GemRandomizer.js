@@ -149,8 +149,8 @@ return (
             </mesh>
           )}
 
-      </Center>
-      <directionalLight position={[0, 0.5, 0]} intensity={.1} color={config.color} />
+      {/* </Center> */}
+      <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={config.color} />
     </>
   )
 }
