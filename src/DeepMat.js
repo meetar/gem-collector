@@ -16,27 +16,21 @@ import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
 
 const deepControls = {
-  samples: 6,
-  transmission: 1,
-  thickness: .0,
-  // thickness: .49,
-  chromaticAberration: .2,
-  anisotropy: 0,
-  roughness:  0 ,
-  // anisotropy: 1,
-  // roughness:  .2 ,
-  distortion:  0.5 ,
-  distortionScale:  0.0 ,
-  // distortionScale:  0.15 ,
-  ior:  1.5 ,
-  // opacity:  1 ,
-  envMapIntensity:  1.5 ,
-  reflectivity:  .5 ,
-  clearcoat:  1 ,
-  clearcoatRoughness: .28
-
-
-
+  samples: { value: 6, min: 0, max: 64, step: 1 },
+  transmission: { value: 1, min: 0, max: 1, step: 0.01 },
+  thickness: { value: .1, min: 0, max: 1, step: 0.01 },
+  chromaticAberration: { value: .2, min: 0, max: 1, step: 0.01 },
+  anisotropy: { value: 1, min: 0, max: 1, step: 0.01 },
+  roughness: { value: .2, min: 0, max: 10, step: 0.01 },
+  distortion: { value:  0.5, min: 0, max: 1, step: 0.01 },
+  distortionScale: { value:  0.15, min: 0, max: 1, step: 0.01 },
+  ior: { value:  1.5, min: 0, max: 10, step: 0.01 },
+  opacity: { value: .9, min: 0, max: 1, step: 0.01 },
+  envMapIntensity: { value:  1.5, min: 0, max: 10, step: 0.01 },
+  reflectivity: { value:  .5, min: 0, max: 1, step: 0.01 },
+  clearcoat: { value:  1, min: 0, max: 1, step: 0.01 },
+  clearcoatRoughness: { value: .28, min: 0, max: 1, step: 0.01 },
+  normalScale: { value: .28, min: 0, max: 1, step: 0.01 },
 }
 
 const iceControls = {
@@ -59,17 +53,20 @@ const iceControls = {
 export default function DeepMat({config, geometry, normalMap, depthMap, texture, ...props}) {
 // console.log('DeepMat', config.color);
 
-const [{ ...pconfig }, setDeepControls] = useControls('Deep', () => (parallaxcontrols))
-const [deepConfig, setDeepConfig] = useState(pconfig)
+const [{ ...pconfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols))
+const [parallaxConfig, setParallaxConfig] = useState(pconfig)
+const [{ ...dconfig }, setDeepControls] = useControls('Deep', () => (deepControls))
+const [deepConfig, setDeepConfig] = useState(dconfig)
 
 useEffect(() => {
-  setDeepConfig(pconfig)
+  setParallaxConfig(pconfig)
 }, [pconfig])
+useEffect(() => {
+  setDeepConfig(dconfig)
+}, [dconfig])
 
 deepConfig._displacement = -.01;
   
-  let { ...crystalconfig } = useControls(deepControls)
-
   texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
   texture.mapping = EquirectangularReflectionMapping; 
   normalMap.wrapT = THREE.RepeatWrapping;
@@ -88,14 +85,14 @@ deepConfig._displacement = -.01;
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
-        <MeshTransmissionMaterial {...deepControls} {...config} normalMap={normalMap} normalScale={.2} 
+        <MeshTransmissionMaterial {...parallaxConfig} {...deepConfig} {...config} normalMap={normalMap}
           envMap={texture}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} castShadow >
-          <ParallaxMaterial texture={depthMap} isShaderMaterial config={{...config, ...deepConfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterial texture={depthMap} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   )
