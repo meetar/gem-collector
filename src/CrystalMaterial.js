@@ -12,7 +12,7 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
 const smokeyCrystal = {
-  samples: { value: 6, min: 0, max: 10, step: 0.01 },
+  samples: { value: 6, min: 0, max: 32, step: 1 },
   transmission: { value: .7, min: 0, max: 1, step: 0.01 },
   thickness: { value: .49, min: 0, max: 1, step: 0.01 },
   chromaticAberration: { value: .2, min: 0, max: 1, step: 0.01 },
@@ -28,6 +28,7 @@ const smokeyCrystal = {
   reflectivity: { value:  .5, min: 0, max: 1, step: 0.01 },
   clearcoat: { value:  1, min: 0, max: 1, step: 0.01 },
   clearcoatRoughness: { value: .28, min: 0, max: 1, step: 0.01 },
+  clearcoatNormalScale: { value: .03, min: 0, max: 1, step: 0.01 },
   normalScale: { value: .28, min: 0, max: 1, step: 0.01 },
 }
 
@@ -55,10 +56,10 @@ export default function CrystalMaterial({config, geometry, texture, normalMap}) 
 
   return (
     <>
-        <MeshTransmissionMaterial {...crystalconfig} {...config} normalMap={normalMap}
+        <MeshTransmissionMaterial {...crystalconfig} {...config}
+          // normalMap={normalMap}
           envMap={texture}
-          clearcoatNormalMap={normalMap}
-          clearcoatNormalScale={new THREE.Vector2(.03,.03)}
+          // clearcoatNormalMap={normalMap}
         />
     </>
   )
