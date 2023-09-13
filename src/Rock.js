@@ -13,7 +13,7 @@ export function Rock({insetGeo, csg=false }) {
   // can't put space between the <> and the { or it complains about text in the r3f tree
   return ( <>{ csg ? (
 
-<mesh scale={1} castShadow>
+<mesh scale={1} receiveShadow castShadow>
       <RockMaterial  />
 
       {/** This will yield a regular THREE.BufferGeometry which needs to be paired with a mesh. */}
@@ -31,7 +31,7 @@ export function Rock({insetGeo, csg=false }) {
 
     ) : (
     
-    <mesh geometry={rock} scale={1.5}> 
+    <mesh geometry={rock} receiveShadow scale={1.5}> 
       <RockMaterial  />
       </mesh>
 

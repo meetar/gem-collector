@@ -91,7 +91,7 @@ deepConfig._displacement = -.01;
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
         />
         </mesh>
-        <mesh scale={.99} renderOrder={1} geometry={geometry} castShadow >
+        <mesh scale={.99} renderOrder={1} geometry={geometry} >
           <ParallaxMaterial texture={depthMap} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>

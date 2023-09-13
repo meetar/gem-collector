@@ -25,7 +25,7 @@ import { divideCircleIntoPoints } from './utils';
 
 
 export function GemRandomizer({ config, trigger }) {
-  // console.log('GemRandomizer');
+  console.log('GemRandomizer');
   const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
   // const [mode, setMode] = useState(false);
   const [mode, setMode] = useState('deep');
@@ -124,14 +124,13 @@ export function GemRandomizer({ config, trigger }) {
 return (
     <>
       <Center top position={[0, 0, 0]}>
-        <group>
 
 
 
           { mode == 'parallax' ? (
             <ParallaxMesh geometry={model} config={config} castShadow />
           ) : mode == 'gem' ? (
-            <DiamondMaterial config={config} normalMap={normalMap} geometry={model}  />
+            <DiamondMaterial config={config} normalMap={normalMap} geometry={model} castShadow />
           ) : mode == 'crystal' ? (
             <mesh geometry={model} castShadow >
               <CrystalMaterial normalMap={normalMap} geometry={model} config={config} />
@@ -150,11 +149,8 @@ return (
             </mesh>
           )}
 
-        </group>
       </Center>
-      <Center bottom position={[0, .5, 0]}>
-      <Rock insetGeo={model} csg={false} />
-      </Center>
+      <directionalLight position={[0, 0.5, 0]} intensity={.1} color={config.color} />
     </>
   )
 }

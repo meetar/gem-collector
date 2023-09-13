@@ -6,10 +6,12 @@ import { useState } from 'react'
 // import { CSGShape } from './CSGShape'
 import { randomControls } from './randomControls'
 import { GemRandomizer } from './GemRandomizer.js'
+import { Center } from '@react-three/drei'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 import { randomColor } from 'randomcolor';
+import { Rock } from './Rock'
 
 export default function MainStage() {
   const [trigger, setTrigger] = useState()
@@ -42,7 +44,7 @@ export default function MainStage() {
     focus: 10
   }
 return (
-      <Canvas  shadows dpr={[2, 4]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows dpr={[2, 4]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <SoftShadows {...SoftShadowsProps} />
         <axesHelper args={[1]} />
 
@@ -55,10 +57,14 @@ return (
         <GemRandomizer
           trigger={trigger}
           config={randomConfig}
-        />
+          />
+        <Center bottom position={[0, .5, 0]}>
+          <Rock receiveShadow csg={false} />
+        </Center>
+
 
         <Sphere args={[200, 200, 200]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
-          <meshStandardMaterial color="white" transparent={true} opacity={1} side={THREE.BackSide} />
+          <meshStandardMaterial color="black" transparent={true} opacity={1} side={THREE.BackSide} />
         </Sphere>
 
         <EffectComposer>
