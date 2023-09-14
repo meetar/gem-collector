@@ -24,17 +24,17 @@ console.log('sss mat');
   const shader = SubsurfaceScatteringShader;
   const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
-  const imgTexture = useTexture('./textures/J3QeZ.png')
-  imgTexture.colorSpace = THREE.SRGBColorSpace;
+  // const imgTexture = useTexture('./textures/J3QeZ.jpg')
+  // imgTexture.colorSpace = THREE.SRGBColorSpace;
 
-  const thicknessTexture = useTexture('./textures/J3QeZ.png')
-  imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
+  // const thicknessTexture = useTexture('./textures/J3QeZ.jpg')
+  // imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
 
   // uniforms[ 'map' ].value = imgTexture;
   uniforms[ 'diffuse' ].value = hexToVec3(sssControls.diffuse);
   uniforms[ 'shininess' ].value = sssControls.shininess;
 
-  uniforms[ 'thicknessMap' ].value = thicknessTexture;
+  // uniforms[ 'thicknessMap' ].value = thicknessTexture;
   uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
   uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
   uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;

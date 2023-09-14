@@ -37,7 +37,7 @@ export default function MainStage() {
 
   const softShadowsProps = {
     size: { value: 10, min: 0, max: 50, step: 1 },
-    samples: { value: 10, min: 0, max: 50, step: 1 },
+    samples: { value: 10, min: 1, max: 50, step: 1 },
     focus: { value: 10, min: 0, max: 50, step: 1 },
   }
   const [{ ...softShadows }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps))

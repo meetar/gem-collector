@@ -12,7 +12,7 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 
 const smokeyCrystal = {
-  samples: { value: 6, min: 0, max: 32, step: 1 },
+  samples: { value: 6, min: 1, max: 32, step: 1 },
   transmission: { value: .7, min: 0, max: 1, step: 0.01 },
   thickness: { value: .49, min: 0, max: 1, step: 0.01 },
   chromaticAberration: { value: .2, min: 0, max: 1, step: 0.01 },

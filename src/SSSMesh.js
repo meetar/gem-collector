@@ -10,7 +10,6 @@ import { RGBELoader } from 'three-stdlib'
 import ParallaxMeshXP from './ParallaxMeshXP'
 
 export default function SSSMesh({geometry, config, normalMap, depthMap}) {
-  console.log('depthamP', depthMap);
   diamondcontrols.normalScale = {value: 0.};
   const {...crystalconfig} = useControls('Crystal', diamondcontrols)
 // debugger

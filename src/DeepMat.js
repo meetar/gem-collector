@@ -16,7 +16,7 @@ import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
 
 const deepControls = {
-  samples: { value: 6, min: 0, max: 64, step: 1 },
+  samples: { value: 6, min: 1, max: 64, step: 1 },
   transmission: { value: 1, min: 0, max: 1, step: 0.01 },
   thickness: { value: .1, min: 0, max: 1, step: 0.01 },
   chromaticAberration: { value: .2, min: 0, max: 1, step: 0.01 },
@@ -51,7 +51,7 @@ const iceControls = {
 
 
 export default function DeepMat({config, geometry, normalMap, depthMap, texture, ...props}) {
-console.log('DeepMat', config.color);
+// console.log('DeepMat', config.color);
 
 const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls))
 

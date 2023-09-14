@@ -5,22 +5,23 @@ import { TextureLoader } from 'three';
 
 
 export const randomNormal = () => {
-  console.log('randomNormal');
+  // console.log('randomNormal');
   let maps = [
   '6056-normal.jpg',
   '1160-normal.jpg',
   'ice-normal.jpeg',
-  'normal-moon.png',
+  'normal-moon.jpg',
   '14009-normal.jpg',
   'normals2.jpeg',
+  'rocknormal-s.jpg'
   ];
   let map = _.sample(maps);
-  console.log('fetching', './textures/'+map);
+  // console.log('fetching', './textures/'+map);
   return './textures/'+map;
 }
 
 export const randomDepth = () => {
-  console.log('randomDepth');
+  // console.log('randomDepth');
   let maps = [
 'streaks4.png',
 'cracks3.png',
@@ -33,7 +34,7 @@ export const randomDepth = () => {
 'streak.png',
 ];
   let map = _.sample(maps);
-  console.log('fetching', './textures/'+map);
+  // console.log('fetching', './textures/'+map);
   return './textures/'+map;
 }
 
