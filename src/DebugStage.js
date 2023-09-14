@@ -1,28 +1,46 @@
+import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { Canvas, useLoader } from '@react-three/fiber'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
-
+import { useControls, button } from 'leva'
 import { OrbitControls } from '@react-three/drei'
-import { useControls } from 'leva'
 import { useTexture, Plane } from '@react-three/drei'
 import {
   MeshRefractionMaterial,
   MeshTransmissionMaterial,
 } from '@react-three/drei'
+import { randomDepth, randomNormal } from './textureUtils'
 
 
-export default function TextureDebugStage() {
+export default function DebugStage() {
 
   const { ...testControls } = useControls({
-    normalScale: { value: 0, min: 0, max: 2, step: 0.5 }
+    normalScale: { value: 0, min: 0, max: 2, step: 0.5 },
+    normalTrigger: button( async () => {
+      const newNormal = await getNormal()
+      console.log('newNormal:', newNormal);
+      setNormalMap(newNormal)
+    }),
   });
   
+  const [normalMap, setNormalMap] = useState(null)
+
+  async function getNormal() {
+    console.warn('getNormal:');
+    const normalurl = randomNormal();
+    const map = await new THREE.TextureLoader().loadAsync(normalurl);
+    console.log('map:', map);
+    map.wrapT = THREE.RepeatWrapping;
+    map.wrapS = THREE.RepeatWrapping;
+    map.repeat.set(2, 2); // Adjust the scale along U and V axes
+    return map;
+  }
 
 
   function Scene() {
     // const normalMap = useTexture('./textures/PavingStones092_1K_normal.jpg')
     // const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
-    const normalMap = useLoader(TextureLoader, './textures/13191-normal.jpg')
+    // const normalMap = useLoader(TextureLoader, './textures/13191-normal.jpg')
     
     // const normalMap = useTexture('./textures/13191-normal.jpg')
     // normalMap.colorspace = THREE.NoColorSpace;
@@ -34,13 +52,13 @@ export default function TextureDebugStage() {
         {/* <ambientLight intensity={0.2} /> */}
         <directionalLight intensity={1} />
         <mesh>
-          <planeGeometry args={[10, 10, 10]} />
+          {/* <planeGeometry args={[10, 10, 10]} /> */}
           </mesh>
         <mesh>
           {/* Width and height segments for displacementMap */}
           <sphereGeometry args={[1, 100, 100]} />
-          {/* <meshStandardMaterial */}
-          <MeshTransmissionMaterial
+          <meshStandardMaterial
+          // <MeshTransmissionMaterial
             side={THREE.DoubleSide}
             color={'white'}
             // thickness={1}
@@ -96,7 +114,7 @@ export default function TextureDebugStage() {
     // normalmap.repeat.set(3, 3); // Adjust the scale along U and V axes
     // normalTexture.repeat.set(3, 3); // Adjust the scale along U and V axes
     const test = new THREE.PlaneGeometry(1., 1, 10);
-    return (
+    return (normalMap && 
       <>
       <mesh scale={5} geometry={test} rotation={[-1.4, 0, 0]}>
             <meshStandardMaterial attach="material" color={'grey'} normalScale={0} normalMap={normalmap}  />

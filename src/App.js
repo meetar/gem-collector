@@ -1,11 +1,11 @@
-import TextureDebugStage from './TextureDebugStage'
+import DebugStage from './DebugStage'
 import MainStage from './MainStage'
 export function App() {
 
   return (
 
     <MainStage />
-    // <TextureDebugStage />
+    // <DebugStage />
 
   )
 }
