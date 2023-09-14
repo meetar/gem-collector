@@ -15,14 +15,15 @@ import { PerformanceMonitor } from '@react-three/drei';
 export function DiamondMaterial({config, geometry, texture, normalMap, ...props}) {
   console.log('diamond mat');
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
-  const [dconfig, setDConfig] = useState(diamondconfig)
+  // const [dconfig, setDConfig] = useState(diamondconfig)
 
-  useEffect(() => {
-    setDConfig(diamondconfig)
-  }, [diamondconfig])
+  // useEffect(() => {
+  //   console.log('diamondconfig update');
+  //   setDConfig(diamondconfig)
+  // }, [diamondconfig])
 
   // fps testing - TODO later
-  const [test, setTest] = useState(null)
+  // const [test, setTest] = useState(null)
 
   // TODO later
   // useEffect(() => {
@@ -47,11 +48,11 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
      {/* <PerformanceMonitor bounds={(fps) => [40, 60]} onIncline={(fps) => setTest(fps)} onDecline={(fps) => setTest(fps)} ></PerformanceMonitor> */}
       <group scale={0.999}>
 
-      <mesh geometry={geometry} {...config} {...dconfig} castShadow>
+      <mesh geometry={geometry} {...config} {...diamondconfig} castShadow>
         {/* don't set transparent to true here! I will crash your whole dang machine */}
-        <MeshRefractionMaterial  {...dconfig} {...config} envMap={texture} 
-        ior={dconfig.iorInner}
-        visible={dconfig.GemVisible}
+        <MeshRefractionMaterial  {...diamondconfig} {...config} envMap={texture} 
+        ior={diamondconfig.iorInner}
+        visible={diamondconfig.GemVisible}
         side={THREE.DoubleSide}
         />
       </mesh>
@@ -59,10 +60,10 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
       </group>
 
       <mesh geometry={geometry} visible={true}>
-        <MeshTransmissionMaterial  {...dconfig} {...config}  transparent={true}
+        <MeshTransmissionMaterial  {...diamondconfig} {...config}  transparent={true}
           envMap={texture}
-          ior={dconfig.iorOuter}
-          visible={dconfig.InnerVisible}
+          ior={diamondconfig.iorOuter}
+          visible={diamondconfig.InnerVisible}
           normalMap={normalMap}
 
         />
