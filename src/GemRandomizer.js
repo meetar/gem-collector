@@ -49,18 +49,22 @@ export function GemRandomizer({ config, trigger }) {
   //   fetchNormal()
   // }, [normaltrigger])
 
-  function getNormal() {
+  async function getNormal() {
+    console.warn('getNormal:');
     const normalurl = randomNormal();
-    const map = new THREE.TextureLoader().load(normalurl);
+    console.log('normal:', normalurl);
+    const map = await new THREE.TextureLoader().loadAsync(normalurl);
+    console.log('got map:', map);
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
     map.repeat.set(2, 2); // Adjust the scale along U and V axes
+    console.log('>> returning');
     return map;
   }
 
-  function getDepth() {
+  async function getDepth() {
     const url = randomDepth();
-    const map = new THREE.TextureLoader().load(url);
+    const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
     map.repeat.set(2, 2); // Adjust the scale along U and V axes
@@ -88,17 +92,34 @@ export function GemRandomizer({ config, trigger }) {
     return  (model && normalMap && depthMap && mode) ? true : false;
   }
 
-  function randomizeAll() {
-    resetAll()
-    setColor(getColor)
-    setModel(getModel)
-    setNormalMap(getNormal)
+  async function randomizeAll() {
+    console.log('RANDOMZIE ZLL');
+    try {
+
+    // resetAll()
+    // setModel(getModel)
+    let model = await getModel()
+    let normal = await getNormal()
+    let depth = await getDepth()
+    setModel(model)
+    setNormalMap(normal)
+    setDepthMap(depth)
+
+    // setNormalMap(getNormal)
+
     // normaltrigger = Math.random();
     // setNormalTrigger(Math.random())
 
-    setDepthMap(getDepth)
     let mode = _.sample(['gem', 'crystal', 'deep', 'sss'])
-    setMode(mode)
+    // console.log('normalMap2?', normalMap);
+      setMode(mode)
+      if (model) setColor(getColor)
+      // setReady(true)
+      // debugger
+      console.log('  >> DONE <<');
+    } catch(e) {
+      console.error('nope', e);
+    }
   }
 
   // watch for triggers from app
@@ -108,15 +129,25 @@ export function GemRandomizer({ config, trigger }) {
     if (trigger) {
       trigger = trigger[0];
       if (trigger == 'shape') {
-        setModel(getModel)
+        const n = async function () {
+          const model = await getModel();
+          setModel(model)
+        }()
       }
       else if (trigger == 'depth') {
         // console.log('trigger: depth');
-        setDepthMap(getDepth)
+        // setDepthMap(getDepth)
+        const n = async function () {
+          const depth = await getDepth();
+          setDepthMap(depth)
+        }()
       }
       else if (trigger == 'normal') {
         console.log('trigger: normal');
-        setNormalMap(getNormal)
+        const n = async function () {
+          const normal = await getNormal();
+          setNormalMap(normal)
+        }()
         // normaltrigger = Math.random();
         // setNormalTrigger(Math.random())
 
@@ -156,14 +187,13 @@ export function GemRandomizer({ config, trigger }) {
   // }, [material])
 
   console.log('gem mode', mode);
-  // console.log('depthamP', depthMap);
   if (!model) {
     return null;
   }
 
 
-return ( readyAll() &&
-// return ( 
+// return ( ready &&
+return ( mode &&
     <>
       {/* <Center top position={[0, 0, 0]}> */}
 

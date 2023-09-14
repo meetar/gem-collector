@@ -6,14 +6,38 @@ import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js'
 import { shuffleArray, divideCircleIntoPoints } from './utils';
 import { models, combomodels } from './models';
 
-export const getModel = () => {
-// console.log('getmodel');
+export const getModel = async () => {
+console.log('getmodel');
   // first determine whether to get a single or a combo
-  // const combo = (Math.random() < .2); //20% chance of combo
-  const combo = true;
+  const combo = (Math.random() < .2); //20% chance of combo
+  // const combo = true;
 
   if (combo) {
-    const mesh = './models/'+_.sample(combomodels)
+    return makeComboMesh();
+  }
+
+  // console.log('getModel');
+  const mesh = './models/'+_.sample(models)
+  // const mesh = './models/crystal.obj';
+  // const mesh = './models/rock1.glb'
+  // console.log(models);
+  console.log(mesh);
+  // debugger
+  // const geo = await useLoader(OBJLoader, mesh).children[0].geometry;
+  const loader = new OBJLoader();
+  const obj = await loader.loadAsync(mesh)
+  const geo = obj.children[0].geometry;
+  console.log('geo');
+// debugger
+  // const meshes = ['crystal', 'rock1', 'cube']
+  // const mesh = './models/' + _.sample(meshes) + '.stl'
+  // const geo = useLoader(STLLoader, mesh)
+  // console.log('new geo:', geo);
+  return geo
+}
+
+function makeComboMesh() {
+  const mesh = './models/'+_.sample(combomodels)
     // const mesh = './models/icosphere.obj'
     console.log(mesh);
     // const mesh = './models/pointer.obj';
@@ -49,20 +73,4 @@ export const getModel = () => {
     }
     let merged = BufferGeometryUtils.mergeGeometries(clones)
     return merged;
-  }
-
-  // console.log('getModel');
-  const mesh = './models/'+_.sample(models)
-  // const mesh = './models/crystal.obj';
-  // const mesh = './models/rock1.glb'
-  // console.log(models);
-  console.log(mesh);
-  // debugger
-  const geo = useLoader(OBJLoader, mesh).children[0].geometry;
-
-  // const meshes = ['crystal', 'rock1', 'cube']
-  // const mesh = './models/' + _.sample(meshes) + '.stl'
-  // const geo = useLoader(STLLoader, mesh)
-  // console.log('new geo:', geo);
-  return geo
 }
