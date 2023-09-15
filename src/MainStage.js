@@ -13,7 +13,7 @@ import { useControls, button } from 'leva'
 import { randomColor } from 'randomcolor';
 import { Rock } from './Rock'
 
-export default function MainStage() {
+export default function MainStage({setText}) {
   const [trigger, setTrigger] = useState()
 
   const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
@@ -54,6 +54,7 @@ return (
         <GemRandomizer
           trigger={trigger}
           config={randomConfig}
+          setText={setText}
           />
 
         <EffectComposer>

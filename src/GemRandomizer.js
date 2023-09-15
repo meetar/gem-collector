@@ -22,7 +22,7 @@ import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal } from './textureUtils'
 
 
-export function GemRandomizer({ config, trigger }) {
+export function GemRandomizer({ config, trigger, setText }) {
   console.log('>> GemRandomizer <<');
 
   const [mode, setMode] = useState();
@@ -40,6 +40,7 @@ export function GemRandomizer({ config, trigger }) {
       label: 'Color',
       onChange: (v) => {
         setColor(v)
+        setText(v)
       }},
   }));
 
