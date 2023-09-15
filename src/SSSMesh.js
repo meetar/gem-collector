@@ -8,8 +8,9 @@ import { Center, MeshTransmissionMaterial, MeshBasicMaterial, Sphere } from '@re
 import { Leva, useControls, button } from 'leva'
 import { RGBELoader } from 'three-stdlib'
 import ParallaxMeshXP from './ParallaxMeshXP'
+import randomColor from 'randomcolor';
 
-export default function SSSMesh({geometry, config, normalMap, depthMap}) {
+export default function SSSMesh({geometry, color, config, normalMap, depthMap}) {
   diamondcontrols.normalScale = {value: 0.};
   const {...crystalconfig} = useControls('Crystal', diamondcontrols)
 // debugger
@@ -28,6 +29,7 @@ export default function SSSMesh({geometry, config, normalMap, depthMap}) {
             // <MeshBasicMaterial {...config} {...crystalconfig}
               normalMap={normalMap}
               envMap={texture}
+              color={color} 
               ior={crystalconfig.iorOuter}
               clearcoatNormalMap={normalMap}
               clearcoatNormalScale={new THREE.Vector2(.03,.03)}
@@ -36,13 +38,13 @@ export default function SSSMesh({geometry, config, normalMap, depthMap}) {
     </group>
 
     <group scale={1}>
-    <ParallaxMeshXP depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
+    <ParallaxMeshXP color={color} depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
       </group>
 
 
     <group scale={1 - spacing}>
     <mesh renderOrder={1} geometry={geometry} castShadow transparent={false} >
-    <SSSMat transparent={false} />
+    <SSSMat color={color} color2={randomColor()} transparent={false} />
     </mesh>
       </group>
     </>

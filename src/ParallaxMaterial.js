@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { useLoader } from '@react-three/fiber';
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
-const ParallaxMaterial = ({texture, config}) => {
+const ParallaxMaterial = ({texture, color, config}) => {
   const vertexShader = useLoader(THREE.FileLoader, './parallax.vert');
   const fragmentShader = useLoader(THREE.FileLoader, './parallax.frag');
 

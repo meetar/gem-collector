@@ -23,8 +23,8 @@ export default function MainStage() {
     // materialTrigger: button(() => {
     //   setTrigger(['material', Math.random()])
     // }),
-    colorTrigger: button(() => { setControls({color: randomColor()})}),
     RANDOMIZE: button( () => { setTrigger(['randomize', Math.random()] )}),
+    colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
     normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
     depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
     shapeTrigger: button(() => setTrigger(['shape', Math.random()])),

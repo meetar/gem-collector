@@ -4,7 +4,7 @@ import ParallaxMaterial from './ParallaxMaterial'
 import { parallaxcontrols } from './parallaxcontrols'
 import { useControls } from 'leva'
 
-function ParallaxMesh({geometry, config, textureUrl, ...props}) {
+function ParallaxMesh({geometry, color, config, textureUrl, ...props}) {
   const { ...pconfig } = useControls(parallaxcontrols)
   if (!textureUrl) textureUrl = './textures/speckles.png';
 

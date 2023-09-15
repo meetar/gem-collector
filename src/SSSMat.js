@@ -6,11 +6,11 @@ import { useControls, button } from 'leva'
 import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
-export default function SSSMat ({texture, config, depthMap}) {
-console.log('sss mat');
+export default function SSSMat ({texture, color, color2, config, depthMap}) {
+  // console.log('sss mat, color:', color, color2);
   const {...sssControls} = useControls('SSS', {
-    diffuse: 'red',
-    thicknessColor: 'blue',
+    diffuse: color,
+    thicknessColor: color2,
     shininess: { value: 500, min: 0, max: 10000, step: 10 },
     thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
     thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },
@@ -55,7 +55,7 @@ console.log('sss mat');
   const vertexShader = shader.vertexShader;
   const args = {uniforms, fragmentShader, vertexShader}
   return (
-    <shaderMaterial args={[args]} color={'#666'} lights={true} extensions={{derivatives: true}}
+    <shaderMaterial args={[args]} color={color} lights={true} extensions={{derivatives: true}}
     side={THREE.DoubleSide}
    />
   )

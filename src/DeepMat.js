@@ -50,7 +50,7 @@ const iceControls = {
 }
 
 
-export default function DeepMat({config, geometry, normalMap, depthMap, texture, ...props}) {
+export default function DeepMat({config, color, geometry, normalMap, depthMap, texture, ...props}) {
 // console.log('DeepMat', config.color);
 
 const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls))
@@ -87,7 +87,7 @@ deepConfig._displacement = -.01;
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
-        <MeshTransmissionMaterial {...parallaxConfig} {...deepConfig} {...config} normalMap={normalMap}
+        <MeshTransmissionMaterial color={color} {...parallaxConfig} {...deepConfig} {...config} normalMap={normalMap}
           envMap={texture}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
@@ -96,7 +96,7 @@ deepConfig._displacement = -.01;
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} >
-          <ParallaxMaterial texture={depthMap} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterial texture={depthMap} color={'red'} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   )

@@ -12,9 +12,10 @@ import {
 } from '@react-three/drei'
 import { PerformanceMonitor } from '@react-three/drei';
 
-export function DiamondMaterial({config, geometry, texture, normalMap, ...props}) {
-  console.log('diamond mat');
+export function DiamondMaterial({config, color, geometry, texture, normalMap, ...props}) {
+  // console.log('diamond mat');
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
+  // console.log('diamond color:', color);
   // const [dconfig, setDConfig] = useState(diamondconfig)
 
   // useEffect(() => {
@@ -48,7 +49,7 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
      {/* <PerformanceMonitor bounds={(fps) => [40, 60]} onIncline={(fps) => setTest(fps)} onDecline={(fps) => setTest(fps)} ></PerformanceMonitor> */}
       <group scale={0.999}>
 
-      <mesh geometry={geometry} {...config} {...diamondconfig} castShadow>
+      <mesh geometry={geometry} color={color} {...config} {...diamondconfig} castShadow>
         {/* don't set transparent to true here! I will crash your whole dang machine */}
         <MeshRefractionMaterial  {...diamondconfig} {...config} envMap={texture} 
         ior={diamondconfig.iorInner}
@@ -60,7 +61,7 @@ export function DiamondMaterial({config, geometry, texture, normalMap, ...props}
       </group>
 
       <mesh geometry={geometry} visible={true}>
-        <MeshTransmissionMaterial  {...diamondconfig} {...config}  transparent={true}
+        <MeshTransmissionMaterial color={color} {...diamondconfig} {...config}  transparent={true}
           envMap={texture}
           ior={diamondconfig.iorOuter}
           visible={diamondconfig.InnerVisible}

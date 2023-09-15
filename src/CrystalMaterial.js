@@ -33,7 +33,7 @@ const smokeyCrystal = {
 }
 
 
-export default function CrystalMaterial({config, geometry, texture, normalMap}) {
+export default function CrystalMaterial({config, color, geometry, texture, normalMap}) {
     console.log('crystalconfig');
 
   const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => (smokeyCrystal))
@@ -57,7 +57,7 @@ export default function CrystalMaterial({config, geometry, texture, normalMap}) 
 
   return (
     <>
-        <MeshTransmissionMaterial {...crystalconfig} {...config}
+        <MeshTransmissionMaterial color={color} {...crystalconfig} {...config}
           // normalMap={normalMap}
           envMap={texture}
           // clearcoatNormalMap={normalMap}

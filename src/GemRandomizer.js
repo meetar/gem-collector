@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the OBJLoader module
 import { useTexture, Plane } from '@react-three/drei'
+import { useControls } from 'leva'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Center } from '@react-three/drei'
@@ -23,46 +24,41 @@ import { randomDepth, randomNormal } from './textureUtils'
 
 export function GemRandomizer({ config, trigger }) {
   console.log('>> GemRandomizer <<');
-  // const [material, setMaterial] = useState([getMaterial(config), Math.random()]);
-  // const [mode, setMode] = useState(false);
+
   const [mode, setMode] = useState();
-  const [color, setColor] = useState();
   // const [mode, setMode] = useState('deep');
+  const [statecolor, setColor] = useState('#ff0000');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState()
   const [normalMap, setNormalMap] = useState()
   const [depthMap, setDepthMap] = useState()
-  // const [normaltrigger, setNormalTrigger] = useState(null)
-  // const [model, setModel] = useState(getModel)
-  // const [normalMap, setNormalMap] = useState(getNormal)
-  // const [depthMap, setDepthMap] = useState(getNormal)
-  // const [normaltrigger, setNormalTrigger] = useState(null)
 
-  // let normaltrigger = null;
-  // useEffect(() => {
-  //   console.log('normaltrigger effect');
-  //   async function fetchNormal() {
-  //     const res = await getNormal()
-  //     console.log('loaded normal map');
-  //     setNormalMap(res)
-  //   }
-  //   fetchNormal()
-  // }, [normaltrigger])
+  // leva color control - this setup both sets state and reflects state even if set by setColor elsewhere
+  const [{uicolor}, setUIColor] = useControls(() => ({
+    color: {
+      value: statecolor,
+      label: 'Color',
+      onChange: (v) => {
+        setColor(v)
+      }},
+  }));
+
+  useEffect(() => {
+    setUIColor({color: statecolor});
+  }, [statecolor])
 
   async function getNormal() {
-    console.warn('getNormal:');
-    const normalurl = randomNormal();
-    console.log('normal:', normalurl);
-    const map = await new THREE.TextureLoader().loadAsync(normalurl);
-    console.log('got map:', map);
+    // console.log('getNormal:');
+    const url = randomNormal();
+    const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
     map.repeat.set(2, 2); // Adjust the scale along U and V axes
-    console.log('>> returning');
     return map;
   }
-
+  
   async function getDepth() {
+    // console.log('getDepth');
     const url = randomDepth();
     const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
@@ -71,55 +67,47 @@ export function GemRandomizer({ config, trigger }) {
     return map;
   }
 
-  function resetAll() {
-    setModel(null)
-    setNormalMap(null)
-    setDepthMap(null)
-    setMode(null)
+  async function getColor() {
+    return randomColor()
   }
 
-  function getColor() {
-    config.color = randomColor()
+  async function getMode() {
+    return _.sample(['gem', 'crystal', 'deep', 'sss'])
   }
 
-  function readyAll() {
-    console.log(model)
-    console.log( normalMap);
-    console.log( depthMap);
-    console.log( mode);
-    console.log('Ready all?', (model && normalMap && depthMap && mode) ? true : false);
-    console.log(normalMap);
-    return  (model && normalMap && depthMap && mode) ? true : false;
-  }
-
-  async function randomizeAll() {
-    console.log('RANDOMZIE ZLL');
-    try {
-
-    // resetAll()
-    // setModel(getModel)
-    let model = await getModel()
-    let normal = await getNormal()
-    let depth = await getDepth()
+  async function randomizeAll(mode = null) {
+    // console.clear();
+    console.log('RANDOMIZE ALL');
+    // Promise.all so we wait to set any state until we have all the info at once –
+    // this prevents the model from being drawn with incomplete data
+    console.log(config.color);
+    let model, normal, depth, newcolor;
+    if (mode) {
+      [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
+    }
+    else {
+      [model, normal, depth, newcolor, mode] = await Promise.all([getModel(), getNormal(), getDepth(), getColor(), getMode()]);
+    }
+    console.log('mode, color', mode, newcolor);
     setModel(model)
     setNormalMap(normal)
     setDepthMap(depth)
+    setMode(mode)
+    setColor(newcolor)
+  }
 
-    // setNormalMap(getNormal)
-
-    // normaltrigger = Math.random();
-    // setNormalTrigger(Math.random())
-
-    let mode = _.sample(['gem', 'crystal', 'deep', 'sss'])
-    // console.log('normalMap2?', normalMap);
-      setMode(mode)
-      if (model) setColor(getColor)
-      // setReady(true)
-      // debugger
-      console.log('  >> DONE <<');
-    } catch(e) {
-      console.error('nope', e);
-    }
+  async function randomizeProps() {
+    // console.clear();
+    console.log('RANDOMIZE PROPS');
+    // Promise.all so we wait to set any state until we have all the info at once –
+    // this prevents the model from being drawn with incomplete data
+    console.log(config.color);
+    let [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
+    console.log('mode, color', mode, newcolor);
+    setModel(model)
+    setNormalMap(normal)
+    setDepthMap(depth)
+    setColor(newcolor)
   }
 
   // watch for triggers from app
@@ -129,35 +117,41 @@ export function GemRandomizer({ config, trigger }) {
     if (trigger) {
       trigger = trigger[0];
       if (trigger == 'shape') {
-        const n = async function () {
+        (async function () {
           const model = await getModel();
           setModel(model)
-        }()
+        })()
       }
       else if (trigger == 'depth') {
         // console.log('trigger: depth');
         // setDepthMap(getDepth)
-        const n = async function () {
+        (async function () {
           const depth = await getDepth();
           setDepthMap(depth)
-        }()
+        })()
       }
       else if (trigger == 'normal') {
         console.log('trigger: normal');
-        const n = async function () {
+        (async function () {
           const normal = await getNormal();
           setNormalMap(normal)
-        }()
-        // normaltrigger = Math.random();
-        // setNormalTrigger(Math.random())
-
+        })()
+      }
+      else if (trigger == 'color') {
+        console.log('trigger: color');
+        (async function () {
+          const newcolor = await getColor();
+          setColor(newcolor)
+        })()
       }
       else if (trigger == 'randomize') {
         // console.log('trigger: normal');
         randomizeAll()
       }
       else {
-        setMode(trigger)
+        // this randomizes everything except the mode, passed as the trigger
+        randomizeAll(trigger)
+        // setMode(trigger)
       }
       trigger = null;
     } else {
@@ -166,63 +160,48 @@ export function GemRandomizer({ config, trigger }) {
     }
   }, [trigger])
 
-  // useEffect(() => {
-  //   console.log('>> useeffect config');
-  //   if (material && material[0]) {
-  //     console.log('updating material');
-      
-  //     Object.assign(material[0], config)
-  //     material[0].needsUpdate = true;
-  //   }
-
-  // }, [config])
-
-  // useEffect(() => {
-  //   console.log('>> useeffect material');
-  //   if (trigger && trigger[0] == 'material') return // don't re-set the material if the materialtrigger has just been tripped
-  //   if (material && material[0]) {
-  //     material[0].needsUpdate = true;
-  //     setMaterial(material[0])
-  //   }
-  // }, [material])
-
-  console.log('gem mode', mode);
+  // console.log('gem mode', mode);
   if (!model) {
+    console.error('No model');
     return null;
   }
+  if (!mode) {
+    console.error('No mode');
+  }
 
-
+  const materialProps = {
+    geometry: model,
+    color: statecolor,
+    normalMap,
+    depthMap,
+    config
+  }
 // return ( ready &&
 return ( mode &&
     <>
-      {/* <Center top position={[0, 0, 0]}> */}
 
+      { mode == 'parallax' ? (
+        <ParallaxMesh geometry={model} color={statecolor} config={config} castShadow />
+      ) : mode == 'gem' ? (
+        <DiamondMaterial config={config} color={statecolor} normalMap={normalMap} geometry={model} castShadow />
+      ) : mode == 'crystal' ? (
+        <mesh geometry={model} castShadow >
+          <CrystalMaterial normalMap={normalMap} color={statecolor} geometry={model} config={config} />
+        </mesh>
+      ) : mode == 'sss' ? (
+        <SSSMesh geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />
+      ) : mode == 'deep' ? (
+        <DeepMat geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />
+      ) : (
+        <mesh geometry={model} castShadow>
+          <meshStandardMaterial {...config} />
+        </mesh>
+      )}
 
-
-          { mode == 'parallax' ? (
-            <ParallaxMesh geometry={model} config={config} castShadow />
-          ) : mode == 'gem' ? (
-            <DiamondMaterial config={config} normalMap={normalMap} geometry={model} castShadow />
-          ) : mode == 'crystal' ? (
-            <mesh geometry={model} castShadow >
-              <CrystalMaterial normalMap={normalMap} geometry={model} config={config} />
-            </mesh>
-          ) : mode == 'sss' ? (
-          // <mesh geometry={model} castShadow >
-            <SSSMesh geometry={model} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />
-          // </mesh>
-          ) : mode == 'deep' ? (
-            <DeepMat geometry={model} normalMap={normalMap} depthMap={depthMap} config={config} castShadow />
-          ) : mode == 'material' ? (
-            <mesh geometry={model} material={material[0]} castShadow />
-          ) : (
-            <mesh geometry={model} castShadow>
-              <meshStandardMaterial {...config} />
-            </mesh>
-          )}
-
-      {/* </Center> */}
-      <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={config.color} />
+      <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={statecolor} />
+      <Center bottom position={[0, .5, 0]}>
+          <Rock receiveShadow />
+        </Center>
     </>
   )
 }
