@@ -46,7 +46,7 @@ return (
       <Canvas shadows dpr={[1, 2]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <color attach="background" args={["black"]} />
         <SoftShadows {...softShadows} />
-        <axesHelper args={[1]} />
+        {/* <axesHelper args={[1]} /> */}
 
         <ambientLight intensity={0.1} />
         <directionalLight castShadow position={[0, 10, 0]} intensity={2} />
@@ -55,14 +55,6 @@ return (
           trigger={trigger}
           config={randomConfig}
           />
-        <Center bottom position={[0, .5, 0]}>
-          <Rock receiveShadow csg={false} />
-        </Center>
-
-{/* 
-        <Sphere args={[300, 20, 20]} rotation={[-1.5, 0, 0]} position={[0, 195, 0]} receiveShadow>
-          <meshStandardMaterial color="black" transparent={true} opacity={1} side={THREE.BackSide} />
-        </Sphere> */}
 
         <EffectComposer>
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />

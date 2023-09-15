@@ -11,30 +11,11 @@ export function Rock({insetGeo, csg=false }) {
   // rock.computeTangents(); unnecessary?
 
   // can't put space between the <> and the { or it complains about text in the r3f tree
-  return ( <>{ csg ? (
-
-<mesh scale={1} receiveShadow castShadow>
-      <RockMaterial  />
-
-      {/** This will yield a regular THREE.BufferGeometry which needs to be paired with a mesh. */}
-      <Geometry>
-        {/** The chain begins with a base geometry, where all operations are carried out on. */}
-        <Base geometry={rock} scale={1.5} />
-        {/** Chain your boolean operations: Addition, Subtraction, Difference and Intersection. */}
-        <Center top>
-        <group scale={1} position={[0, 0, 0]}>
-          <Subtraction geometry={insetGeo} />
-        </group>
-        </Center>
-      </Geometry>
-    </mesh>
-
-    ) : (
+  return ( <>{ 
     
     <mesh geometry={rock} receiveShadow scale={1.5}> 
       <RockMaterial  />
       </mesh>
 
-    )
   }</>)
 }

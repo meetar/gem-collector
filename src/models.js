@@ -18,9 +18,9 @@ export const models = [
   // 'rock1.obj',
   'rock2.obj',
   'shard.obj',
-  'shard1.obj',
-  'shardlo.obj',
-  'shardlo2.obj',
+  // 'shard1.obj',
+  // 'shardlo.obj',
+  // 'shardlo2.obj',
   'spiky1.obj',
   'spiky2.obj',
 ];

@@ -84,6 +84,7 @@ deepConfig._displacement = -.01;
   // eventually check out https://discourse.threejs.org/t/how-to-smooth-an-obj-with-threejs/3950/11
   // for converting from hard to smooth vertex normals - have to combine dupe verts first
 
+  // TODO: is the parallaxMaterial color being used?
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
@@ -96,7 +97,7 @@ deepConfig._displacement = -.01;
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} >
-          <ParallaxMaterial texture={depthMap} color={'red'} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterial texture={depthMap} color={color} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   )

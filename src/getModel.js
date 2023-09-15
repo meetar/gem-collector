@@ -7,36 +7,27 @@ import { shuffleArray, divideCircleIntoPoints } from './utils';
 import { models, combomodels } from './models';
 
 export const getModel = async () => {
-console.log('getmodel');
+  // console.log('getmodel');
   // first determine whether to get a single or a combo
   const combo = (Math.random() < .2); //20% chance of combo
   // const combo = true;
-
+  // console.log('obj combo:', combo);
   if (combo) {
-    return makeComboMesh();
+    let comboMesh = await makeComboMesh();
+    return comboMesh;
   }
 
-  // console.log('getModel');
   const mesh = './models/'+_.sample(models)
-  // const mesh = './models/crystal.obj';
-  // const mesh = './models/rock1.glb'
-  // console.log(models);
-  console.log(mesh);
-  // debugger
-  // const geo = await useLoader(OBJLoader, mesh).children[0].geometry;
   const loader = new OBJLoader();
   const obj = await loader.loadAsync(mesh)
+  // console.log('>> got obj', mesh);
   const geo = obj.children[0].geometry;
-  console.log('geo');
-// debugger
-  // const meshes = ['crystal', 'rock1', 'cube']
-  // const mesh = './models/' + _.sample(meshes) + '.stl'
-  // const geo = useLoader(STLLoader, mesh)
-  // console.log('new geo:', geo);
+  // console.log('>> returning geo', mesh);
   return geo
 }
 
-function makeComboMesh() {
+// create a mesh using multiple scaled and rotated instances of the same input geo
+async function makeComboMesh() {
   const mesh = './models/'+_.sample(combomodels)
     // const mesh = './models/icosphere.obj'
     console.log(mesh);
@@ -48,7 +39,10 @@ function makeComboMesh() {
     // console.log('distance', distance);
     let points = divideCircleIntoPoints(number, distance);
     shuffleArray(points);
-    const geo = useLoader(OBJLoader, mesh).children[0].geometry;
+
+    const loader = new OBJLoader();
+    const obj = await loader.loadAsync(mesh)
+    const geo = obj.children[0].geometry;
     // const geo1 = useLoader(OBJLoader, mesh).children[0].geometry;
     let clones = [];
     let targetY = .1;
