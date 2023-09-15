@@ -17,10 +17,10 @@ import { Rock } from './Rock'
 import { getMaterial } from './getMaterial'
 import { models, combomodels } from './models'
 import { getModel } from './getModel'
+import { getDescription } from './getDescription'
 import { getColor, shuffleArray } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal } from './textureUtils'
-
 
 export function GemRandomizer({ config, trigger, setText }) {
   console.log('>> GemRandomizer <<');
@@ -38,9 +38,10 @@ export function GemRandomizer({ config, trigger, setText }) {
     color: {
       value: statecolor,
       label: 'Color',
-      onChange: (v) => {
+      onChange: async (v) => {
         setColor(v)
-        setText(v)
+        let text = await getDescription(v)
+        setText(v+' '+text)
       }},
   }));
 
