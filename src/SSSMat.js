@@ -17,7 +17,7 @@ export default function SSSMat ({texture, color, color2, config, depthMap}) {
     thicknessAttenuation: { value: .8, min: 0, max: 2, step: .01 },
     thicknessPower: { value: 2, min: 0, max: 10, step: .01 },
     thicknessScale: { value: 16, min: 0, max: 64, step: .01 },
-  });
+  }, {collapsed: true});
 
 
 

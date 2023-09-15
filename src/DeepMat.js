@@ -53,9 +53,9 @@ const iceControls = {
 export default function DeepMat({config, color, geometry, normalMap, depthMap, texture, ...props}) {
 // console.log('DeepMat', config.color);
 
-const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls))
+const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
 
-const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols))
+const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols), {collapsed: true})
 // const [parallaxConfig, setParallaxConfig] = useState(pconfig)
 // const [{ ...dconfig }, setDeepControls] = useControls('Deep', () => (deepControls))
 // const [deepConfig, setDeepConfig] = useState(dconfig)

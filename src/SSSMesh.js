@@ -12,7 +12,7 @@ import randomColor from 'randomcolor';
 
 export default function SSSMesh({geometry, color, config, normalMap, depthMap}) {
   diamondcontrols.normalScale = {value: 0.};
-  const {...crystalconfig} = useControls('Crystal', diamondcontrols)
+  const {...crystalconfig} = useControls('Crystal', diamondcontrols, {collapsed: true})
 // debugger
 
   // const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')

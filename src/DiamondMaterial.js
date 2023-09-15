@@ -14,7 +14,7 @@ import { PerformanceMonitor } from '@react-three/drei';
 
 export function DiamondMaterial({config, color, geometry, texture, normalMap, ...props}) {
   // console.log('diamond mat');
-  const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols))
+  const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols), {collapsed: true})
   // console.log('diamond color:', color);
   // const [dconfig, setDConfig] = useState(diamondconfig)
 

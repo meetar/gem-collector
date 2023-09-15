@@ -36,7 +36,7 @@ const smokeyCrystal = {
 export default function CrystalMaterial({config, color, geometry, texture, normalMap}) {
     console.log('crystalconfig');
 
-  const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => (smokeyCrystal))
+  const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => (smokeyCrystal), {collapsed: true})
   // const [dconfig, setDConfig] = useState(crystalconfig)
 
   // useEffect(() => {
