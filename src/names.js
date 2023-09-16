@@ -53,9 +53,12 @@ module.exports = [
   "Paganini",
   "the botanist Karl Koch",
   "William the Silent",
-  "the notorious Conrad V. Zollbrecht",
   "Marianne Weber",
   "Clarence Hatry",
   "Antoine Lavoisier",
   "Felix Weil",
+  "an anonymous freemason",
+  "one of the founding fathers",
+  "a servant of Jahbulon",
+  "Avram of Sausalito"
 ]

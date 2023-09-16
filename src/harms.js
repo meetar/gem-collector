@@ -111,4 +111,6 @@ export const caveats = [
   'near a cliff edge',
   'near an active volcano',
   'during a lightning storm',
+  'while handling optics',
+  'near lasers of any power',
 ]
