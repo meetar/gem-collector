@@ -23,10 +23,10 @@ import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal } from './textureUtils'
 
 export function GemRandomizer({ config, trigger, setText }) {
-  console.log('>> GemRandomizer <<');
+  // console.log('>> GemRandomizer <<');
 
-  const [mode, setMode] = useState();
-  // const [mode, setMode] = useState('deep');
+  // const [mode, setMode] = useState();
+  const [mode, setMode] = useState('crystal');
   const [statecolor, setColor] = useState('#ff0000');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState()

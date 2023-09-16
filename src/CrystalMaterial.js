@@ -36,7 +36,7 @@ const smokeyCrystal = {
 export default function CrystalMaterial({config, color, geometry, texture, normalMap}) {
     console.log('crystalconfig');
 
-  const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => (smokeyCrystal), {collapsed: true})
+  const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => ({...smokeyCrystal}), {collapsed: false})
   // const [dconfig, setDConfig] = useState(crystalconfig)
 
   // useEffect(() => {
@@ -47,6 +47,7 @@ export default function CrystalMaterial({config, color, geometry, texture, norma
   // let { ...smokeyCrystal } = useControls(smokeyCrystal)
   // debugger
   // Object.assign(crystalconfig, smokeyCrystal)
+  // setDiamondControls({...smokeyCrystal})
   // console.log('crystal normal:', normalMap);
 
   texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')

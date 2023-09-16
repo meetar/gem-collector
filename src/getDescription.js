@@ -10,7 +10,7 @@ import * as adjectives from './adjectives'
 import * as secretadjectives from './secretadjectives'
 import * as adverbs from './adverbs'
 import * as names from './names'
-import { servants, relations, namers} from './people'
+import { jobs, relations, namers} from './people'
 import * as animals from './animals'
 import * as owners from './owners'
 import * as places from './places'
@@ -69,7 +69,7 @@ function removeDuplicateWords(str) {
 function gemVerb() {
   let verb = _.sample(gemverbs);
   let condition = _.sample(conditions);
-  return ` ${verb} ${roll(1) ? condition : _.sample(adverbs)}.`
+  return `${verb} ${roll() ? condition : _.sample(adverbs)}.`
 }
 
 function getDesc() {
@@ -122,10 +122,10 @@ function location() {
   :
   `${takenFrom()} ${adjPlace()}`
   loc += roll() ?
-        roll() ?
-          getOwner() :
-          getFinder() :
-    ''
+            roll() ?
+            getOwner() :
+            getFinder()
+      : ''
   return loc;
 }
 
@@ -143,14 +143,12 @@ function getProvenance() {
   const caveat = roll() ? rumorPast()+' ' : '';
   let verb = roll(.8) ? _.sample(provenance) :
    _.sample(['stashed', 'carried', 'hidden', 'lost', 'smuggled']) + ' in a '+_.sample(provenanceFunctions)();
-
-  console.warn(verb);
-  let val = `${caveat}${verb} by ${roll()?getDefiniteRelation():''} ${_.sample(owners.owners)}`;
+  let val = `${caveat}${verb} by ${roll()?getDefiniteRelation():''}${_.sample(owners.owners)}`;
   return val;
 }
 
 function getWarning() {
-  const caveat = roll(1) ? ' '+getCaveat() : '';
+  const caveat = roll() ? ' '+getCaveat() : '';
   return `Do not ${_.sample(harms.harms)}${caveat}`;
 }
 
@@ -158,37 +156,39 @@ function getCaveat() {
   return _.sample(harms.caveats)
 }
 
+function getStatus() {
+  return roll() ? _.sample(['true', 'biological', 'spiritual', 'ancestral', 'supposed', 'fugitive', 'former', 'disproved', 'disgraced', 'original', 'estranged', 'first', 'second', 'third', 'impostor', 'sometime', 'part-time'])+' ' : '';
+}
+
+function getRole() {
+  return roll() ? _.sample(relations) :
+  'personal '+_.sample(jobs);
+}
+
 function getRelation() {
-  const claim = roll() ? _.sample(['someone claiming to be', 'someone known as', 'a person claiming to be']) : '';
-  const status = roll() ? _.sample(['true', 'biological', 'supposed', 'fugitive', 'former', 'disproved', 'disgraced', 'original', 'estranged', 'first', 'second', 'third']) : '';
+  const claim = roll() ? _.sample(['someone', 'a person'])+' '+_.sample(['accused of being', 'recognized as', 'who resembled', 'claiming to be', 'known as', 'claiming to represent']) : '';
 
-  const relation = roll(1) ? _.sample(relations)+' of' :
-    'personal '+_.sample(servants)+' of';
-
-  return `${claim} the ${status} ${relation}`;
+  return `${claim} the ${getStatus()}${getRole()} of `;
 }
 
 function getDefiniteRelation() {
-  const relation = roll(1) ? _.sample(relations)+' of' :
-    'personal '+_.sample(servants)+' of';
-
-  return `the ${status} ${relation}`;
+  return `the ${getStatus()}${getRole()} of `;
 }
 
 function rumorVerb() {
-  return _.sample(['once', 'reportedly', 'famously', 'reputed to be', 'said to have been', 'presumed to be', 'rumored to be', 'claimed to be', 'widely supposed to be', 'formerly', 'once', 'occasionally', 'conclusively', 'legally', 'may once have been'])
+  return _.sample(['once', 'often', 'sometimes', 'reportedly', 'notably', 'famously', 'reputed to be', 'said to be', 'presumed to be', 'rumored to be', 'claimed to be', 'widely supposed to be', 'formerly', 'once', 'occasionally', 'conclusively', 'legally', 'possibly', 'theoretically'])
 }
 
 function rumorPast() {
-  return _.sample(['was once', 'was', 'famously', 'reputed to have been', 'said to have been', 'presumed to have been', 'rumored to have been', 'claimed to have been', 'widely supposed to have been', 'may once have been'])
+  return _.sample(['was once', 'was', 'famously', 'notably', 'reputed to have been', 'said to have been', 'presumed to have been', 'rumored to have been', 'claimed to have been', 'widely supposed to have been', 'may once have been'])
 }
 
 function rumor() {
-  return _.sample(['required to', 'necessary to', 'reputed to', 'said to', 'presumed to', 'rumored to', 'claimed to', ])
+  return _.sample(['reputed to', 'said to', 'presumed to', 'rumored to', 'claimed to', 'believed to', 'thought to', 'alleged to', 'reported to', ])
 }
 
 function pastVerb() {
-  return _.sample(['formerly', 'once', 'occasionally', 'sporadically', 'conclusively', 'legally'])
+  return _.sample(['ritually', 'formerly', 'once', 'occasionally', 'sporadically', 'conclusively', 'legally', 'illegally', 'sometimes'])
 }
 
 function grant() {
@@ -206,11 +206,11 @@ function getPower() {
 }
 
 function getOwner() {
-  const action = _.sample(['owned', 'occupied', 'inherited', 'disposed of', 'disguised', 'hidden', 'burnt', 'used', 'looted', 'destroyed', 'purchased', 'blessed', 'cursed', 'ritually cleansed'])
+  const action = _.sample(['owned', 'occupied', 'inherited', 'disposed of', 'disguised', 'hidden', 'burnt', 'used', 'looted', 'destroyed', 'purchased', 'blessed', 'cursed', 'cleansed', 'haunted', 'frequented'])
   const disguise = getDisguise();
   return roll() ?
-  ` ${pastVerb()} ${disguise} by ${roll()?getRelation():''} ${_.sample(names)}` :
-    ` ${rumorVerb()} ${action} by ${roll()?getRelation():''} ${_.sample(names)}`;
+  ` ${pastVerb()} ${disguise} by ${roll()?getRelation():''}${_.sample(names)}` :
+    ` ${rumorVerb()} ${action} by ${roll()?getRelation():''}${_.sample(names)}`;
 }
 
 
@@ -246,10 +246,6 @@ function getDisguise() {
   ])+' '+aPlace();
 }
 
-function getCar() {
-  return `${aDate()} ${carMake()}`
-}
-
 export function aDate(startYear = 1900, endYear=1987) {
   const randomYear = Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
   return randomYear;
@@ -274,7 +270,7 @@ function adjPlace() {
   return `${aan(_.sample(secretadjectives))} ${place()}`;
 }
 function foundIn() {
-  return `${_.sample(['found', 'seen', 'detected', 'located', ])} ${roll(1) ? ' in ' + aDate()+' ' : ''}in`;
+  return `${_.sample(['found', 'seen', 'detected', 'located', ])} ${roll() ? 'in ' + aDate()+' ' : ''}in`;
 }
 
 function aan(n) {
@@ -282,7 +278,7 @@ function aan(n) {
 }
 
 function takenFrom() {
-  return `${_.sample(['taken', 'excavated', 'retrieved', 'looted', 'harvested', 'collected'])} from`;
+  return `${_.sample(['pilfered', 'taken', 'excavated', 'retrieved', 'looted', 'harvested', 'collected'])} from`;
 }
 
 function adj() {
@@ -326,7 +322,7 @@ async function fetchColors(color) {
     }
 
     const data = await response.json();
-    console.log('Response:', data);
+    // console.log('Response:', data);
 
     // Assuming the data structure has a 'value' property
     let colorValue = data.colors[0].name;

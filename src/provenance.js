@@ -8,11 +8,8 @@ function animal() {
 }
 
 function car() {
-console.log(_.sample(makes));
-console.log(_.sample(types));
-  const val = roll(1) ? aDate(1890, 1950) + ' ' + _.sample(makes) + ' ' + _.sample(types) :
+  const val = roll() ? aDate(1890, 1950) + ' ' + _.sample(makes) + ' ' + _.sample(types) :
     aDate(1910, 1930) + ' ' + _.sample(models);
-    console.error('car:', val);
     return val
 }
 

@@ -1,4 +1,4 @@
-  export const servants = [
+  export const jobs = [
     'chef',
     'gardener',
     'secretary',
@@ -92,7 +92,7 @@
   'son',
   'brother',
   'sister',
-  'spiritual advisor',
+  'advisor',
   'butler',
   'reincarnation',
   'ghost',
@@ -156,6 +156,7 @@
     'Priestley',
     'Pythagoras',
     'Sedgwick',
+    'Shane',
     'Smith',
     'Thales',
     'Vesalius',

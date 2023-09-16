@@ -18,7 +18,7 @@ export const conditions = [
   'on cold winter nights',
   'in complete darkness',
   'at high noon',
-  'in a crowded room',
+  'in crowded rooms',
   'when crushed and mixed with water',
   'during a solar eclipse',
   'during a lunar eclipse',
@@ -44,7 +44,10 @@ export const conditions = [
   'during a total eclipse of the sun',
   'when subjected to extreme pressure',
   'when observed by a scientist',
-  'when sat upon by a bird'
+  'when sat upon by a bird',
+  'in the presence of royalty',
+  'in a magnetic field',
+  'when subjected to electric current',
 ]
 
 export const gemverbs = [
@@ -101,17 +104,20 @@ export const gemverbs = [
   'trembles',
   'fizzes',
   'bubbles',
-  'refracts only certain colors of light',
+  'refracts ultraviolet light',
   'focuses moonlight',
   'calms the mind',
   'tells fortunes',
   'predicts the weather',
   'glimmers like moonlight',
-  'smells like socks',
+  'smells faintly like socks',
+  'fades',
+  'brightens',
+  'reddens',
+  'emits noxious fumes',
   'turns purple',
   'turns bright orange',
   'shimmers like a star',
   'sharply retracts',
-  'burrows deeply into the ground',
-  
+  'burrows deeply into the ground',  
 ]

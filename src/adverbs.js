@@ -313,7 +313,7 @@ module.exports = [
   "surgically",
   "tellingly",
   "thankfully",
-  "timely",
+  "timelessly",
   "unpredictably",
   "visually",
   "accordantly",
