@@ -2,6 +2,7 @@ import { pies } from './pies'
 import { makes, models, types } from './cars.js'
 import { roll } from './getDescription';
 import { aDate } from './getDescription';
+import { getPlace } from './getDescription'
 
 function animal() {
   return _.sample(['moose', 'skunk', 'jaguar', 'weasel', 'squirrel', 'lemur', 'goose', 'frog', 'rat', 'rabbit', 'musk ox'])
@@ -19,15 +20,23 @@ function pie() {
 
 export const provenance = [
   'owned',
+  'purchased',
+  'bought',
   'stolen',
   'seen',
   'smelled',
   'touched',
   'sniffed',
+  'accepted',
+  'rejected',
+  'coveted',
+  'loathed',
+  'sung to',
   'dismissed',
+  'destroyed',
+  'gazed upon',
   'tripped over',
   'given as a gift',
-  'looked at',
   'thrown away',
   'thrown through a window',
   'hidden in a stocking',
@@ -51,6 +60,10 @@ export const provenance = [
   'lost',
   'carried for good luck',
   'sought after',
+  'used for nefarious ends',
+  'used in alchemical experiments',
+  'won in a wager',
+  'lost in a wager',
 ]
 
 export const provenanceFunctions = [

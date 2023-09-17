@@ -238,7 +238,6 @@ export const superpowers = [
   ]
   
   export const animalLikeVerbs = [
-    'feed',
     'run',
     'swim',
     'fly',
@@ -288,7 +287,6 @@ export const superpowers = [
     "ride",
     "talk to",
     "care for",
-    "observe",
     "hug",
     "milk",
     "walk with",
@@ -309,8 +307,6 @@ export const superpowers = [
     "train",
     "track",
     "learn from",
-    "admire",
-    "examine",
     "herd",
     "whisper to",
     "understand",
@@ -318,6 +314,9 @@ export const superpowers = [
     "feed",
     "command",
     "coexist with",
+    "summon",
+    "detect",
+    "repel",
   ]
 
   export const remotePlaces = [

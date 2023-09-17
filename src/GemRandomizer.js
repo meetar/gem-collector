@@ -41,7 +41,7 @@ export function GemRandomizer({ config, trigger, setText }) {
       onChange: async (v) => {
         setColor(v)
         let desc = await getDescription(v)
-        console.log('desc', desc);
+        // console.log('desc', desc);
         setText(desc)
       }},
   }));
@@ -83,7 +83,7 @@ export function GemRandomizer({ config, trigger, setText }) {
     console.log('RANDOMIZE ALL');
     // Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn with incomplete data
-    console.log(config.color);
+    console.log('color:', config.color);
     let model, normal, depth, newcolor;
     if (mode) {
       [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
@@ -91,7 +91,7 @@ export function GemRandomizer({ config, trigger, setText }) {
     else {
       [model, normal, depth, newcolor, mode] = await Promise.all([getModel(), getNormal(), getDepth(), getColor(), getMode()]);
     }
-    console.log('mode, color', mode, newcolor);
+    console.log('mode:', mode, newcolor);
     setModel(model)
     setNormalMap(normal)
     setDepthMap(depth)
@@ -115,7 +115,7 @@ export function GemRandomizer({ config, trigger, setText }) {
 
   // watch for triggers from app
   useEffect(() => {
-    console.log('>> useeffect trigger', trigger)
+    // console.log('>> useeffect trigger', trigger)
     // console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
@@ -134,14 +134,14 @@ export function GemRandomizer({ config, trigger, setText }) {
         })()
       }
       else if (trigger == 'normal') {
-        console.log('trigger: normal');
+        // console.log('trigger: normal');
         (async function () {
           const normal = await getNormal();
           setNormalMap(normal)
         })()
       }
       else if (trigger == 'color') {
-        console.log('trigger: color');
+        // console.log('trigger: color');
         (async function () {
           const newcolor = await getColor();
           setColor(newcolor)
@@ -165,13 +165,14 @@ export function GemRandomizer({ config, trigger, setText }) {
 
   // console.log('gem mode', mode);
   if (!model) {
-    console.error('No model');
+    // console.error('No model');
     return null;
   }
   if (!mode) {
-    console.error('No mode');
+    // console.error('No mode');
   }
 
+  // unused, the materials and mesh setups are too idiosyncratic to formalize yet
   const materialProps = {
     geometry: model,
     color: statecolor,
@@ -179,7 +180,7 @@ export function GemRandomizer({ config, trigger, setText }) {
     depthMap,
     config
   }
-// return ( ready &&
+
 return ( mode &&
     <>
 
@@ -203,8 +204,8 @@ return ( mode &&
 
       <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={statecolor} />
       <Center bottom position={[0, .5, 0]}>
-          <Rock receiveShadow />
-        </Center>
+        <Rock receiveShadow />
+      </Center>
     </>
   )
 }

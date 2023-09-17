@@ -79,18 +79,18 @@ function getDesc() {
   roll() ? `${cap(adv())} ${adj()}`
   : `${cap(adj())} and ${adj()}`
 
-  if (roll(.3)) {
+  if (roll(1)) {
     intro += '.'
   } else {
     intro += `, it ${gemVerb()}`
   }
-  const loc = roll(.3) ? ` ${cap(location())}.` : '';
+  const loc = roll(1) ? ` ${cap(location())}.` : '';
 
-  const prov = roll(.3) ? ` ${cap(getProvenance())}.` : '';
+  const prov = roll(1) ? ` ${cap(getProvenance())}.` : '';
 
-  const power = roll(.3) ? ` ${cap(getPower())}.` : '';
+  const power = roll(1) ? ` ${cap(getPower())}.` : '';
 
-  const warning = roll(.3) ? ` ${cap(getWarning())}.` : '';
+  const warning = roll(1) ? ` ${cap(getWarning())}.` : '';
 
   // return power;
   return intro + loc + prov + power + warning;
@@ -142,7 +142,7 @@ function caps(string) {
 function getProvenance() {
   const caveat = roll() ? rumorPast()+' ' : '';
   let verb = roll(.8) ? _.sample(provenance) :
-   _.sample(['stashed', 'carried', 'hidden', 'lost', 'smuggled']) + ' in a '+_.sample(provenanceFunctions)();
+   _.sample(['stashed', 'carried', 'hidden', 'lost', 'smuggled']) + ' in '+aan(_.sample(provenanceFunctions)());
   let val = `${caveat}${verb} by ${roll()?getDefiniteRelation():''}${_.sample(owners.owners)}`;
   return val;
 }
@@ -251,15 +251,15 @@ export function aDate(startYear = 1900, endYear=1987) {
   return randomYear;
 }
 
-function placeAdj() {
+export function placeAdj() {
   return aan(_.sample(['abandoned', 'secret', 'disused', 'hidden', 'antique', 'underground', 'sunken', 'deserted', 'forgotten', 'ruined', 'burned', 'cryptic']))
 }
-function place() {
+export function place() {
   return _.sample(places)
 }
 
-function getPlace() {
-  return `${placeAdj} ${place()}`
+export function getPlace() {
+  return `${placeAdj()} ${place()}`
 }
 
 function aPlace() {

@@ -20,7 +20,7 @@ export const getModel = async () => {
   const mesh = './models/'+_.sample(models)
   const loader = new OBJLoader();
   const obj = await loader.loadAsync(mesh)
-  // console.log('>> got obj', mesh);
+  console.log('obj:', mesh);
   const geo = obj.children[0].geometry;
   // console.log('>> returning geo', mesh);
   return geo
@@ -30,7 +30,7 @@ export const getModel = async () => {
 async function makeComboMesh() {
   const mesh = './models/'+_.sample(combomodels)
     // const mesh = './models/icosphere.obj'
-    console.log(mesh);
+    console.log('combo obj:', mesh);
     // const mesh = './models/pointer.obj';
 
     const number = Math.ceil(Math.random()*10)+1;
