@@ -16,7 +16,7 @@ import { Rock } from './Rock'
 export default function MainStage({setText}) {
   const [trigger, setTrigger] = useState()
 
-  const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls))
+  const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls), {collapsed: true})
 
   // leva controls which use functions defined in this component
   useControls('Triggers', {
@@ -24,10 +24,10 @@ export default function MainStage({setText}) {
     //   setTrigger(['material', Math.random()])
     // }),
     RANDOMIZE: button( () => { setTrigger(['randomize', Math.random()] )}),
-    colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
-    normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
-    depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
-    shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
+    // colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
+    // normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
+    // depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
+    // shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     // parallax: button(() => setTrigger(['parallax', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),
     crystal: button(() => setTrigger(['crystal', Math.random()])),

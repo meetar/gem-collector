@@ -12,16 +12,102 @@ import {
 } from '@react-three/drei'
 import { PerformanceMonitor } from '@react-three/drei';
 
-export function DiamondMaterial({config, color, geometry, texture, normalMap, ...props}) {
-  // console.log('diamond mat');
-  const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (diamondcontrols), {collapsed: true})
-  // console.log('diamond color:', color);
-  // const [dconfig, setDConfig] = useState(diamondconfig)
+function simpleControls(controlObject) {
+  console.log('simpleControls');
+  const simplifiedObject = {};
+  
+  for (const key in controlObject) {
+    if (controlObject.hasOwnProperty(key)) {
+      if (typeof controlObject[key] == 'boolean') {
+        simplifiedObject[key] = controlObject[key];
+      }
+      else if (typeof controlObject[key] == 'object') {
+        simplifiedObject[key] = controlObject[key].value;
+      }
+      else {
+        // debugger
+        throw new Error(key, typeof controlObject[key])
+      }
+
+    }
+  }
+  console.log('returning', simplifiedObject);
+  return simplifiedObject;
+}
+
+function randomizeLevaControls(controlsObject) {
+  console.log('randomize');
+  const randomizedObject = {};
+
+  for (const key in controlsObject) {
+    if (controlsObject.hasOwnProperty(key)) {
+      const attribute = controlsObject[key];
+      if (typeof attribute === 'object' && 'value' in attribute && 'min' in attribute && 'max' in attribute && 'step' in attribute) {
+        const { min, max, step } = attribute;
+        const range = (max - min) / step;
+        const randomSteps = Math.floor(Math.random() * (range + 1));
+        const randomizedValue = (min + randomSteps * step).toFixed(2); // Round to 2 decimal places for floating-point steps
+        const stepMultiplier = Math.round(randomizedValue / step); // Calculate the multiple of 'step'
+        const finalValue = step * stepMultiplier; // Adjust the value to align with the step
+
+
+        randomizedObject[key] = {
+          value: finalValue, // Convert the result back to a float
+          min,
+          max,
+          step,
+        };
+      } else {
+        randomizedObject[key] = attribute;
+      }
+    }
+  }
+
+  return randomizedObject;
+}
+
+// Example usage:
+const levaControls = {
+  resolution: { value: 2048, min: 64, max: 2048, step: 64 },
+  // Add more attributes as needed
+};
+
+
+export function DiamondMaterial({trigger, config, color, geometry, texture, normalMap, ...props}) {
+  console.log('diamond mat');
 
   // useEffect(() => {
-  //   console.log('diamondconfig update');
-  //   setDConfig(diamondconfig)
-  // }, [diamondconfig])
+  //   // console.log('>> useeffect trigger', trigger)
+  //   if (trigger) {
+  //     randomizeLevaControls(diamondcontrols)
+  //   }
+  // }, [trigger])
+
+
+  // State variable to hold the randomized controls
+  const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(diamondcontrols));
+
+  const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (randomizedControls), {collapsed: true})
+  // console.log(JSON.stringify(randomizedControls));
+
+  // Function to re-randomize and update the controls
+  const reloadControls = () => {
+    // console.log('>>>reloadControls');
+    const newRandomizedControls = randomizeLevaControls(diamondcontrols);
+    setRandomizedControls(newRandomizedControls);
+    // console.log('newRandomizedControls', JSON.stringify(newRandomizedControls));
+    // console.warn(simpleControls(newRandomizedControls));
+    setDiamondControls(simpleControls(newRandomizedControls));
+  };
+
+  // useEffect to re-randomize on component mount
+  useEffect(() => {
+    console.warn('     *** RELOAD');
+    reloadControls();
+  }, [trigger]);
+
+
+
 
   // fps testing - TODO later
   // const [test, setTest] = useState(null)

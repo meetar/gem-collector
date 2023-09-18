@@ -26,12 +26,14 @@ export function GemRandomizer({ config, trigger, setText }) {
   // console.log('>> GemRandomizer <<');
 
   // const [mode, setMode] = useState();
-  const [mode, setMode] = useState('crystal');
+  const [mode, setMode] = useState('gem');
   const [statecolor, setColor] = useState('#ff0000');
   // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState()
   const [normalMap, setNormalMap] = useState()
   const [depthMap, setDepthMap] = useState()
+  // this sends a trigger to update and reload a material
+  const [mattrigger, setMattrigger] = useState()
 
   // leva color control - this setup both sets state and reflects state even if set by setColor elsewhere
   const [{uicolor}, setUIColor] = useControls(() => ({
@@ -79,7 +81,6 @@ export function GemRandomizer({ config, trigger, setText }) {
   }
 
   async function randomizeAll(mode = null) {
-    // console.clear();
     console.log('RANDOMIZE ALL');
     // Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn with incomplete data
@@ -92,9 +93,11 @@ export function GemRandomizer({ config, trigger, setText }) {
       [model, normal, depth, newcolor, mode] = await Promise.all([getModel(), getNormal(), getDepth(), getColor(), getMode()]);
     }
     console.log('mode:', mode, newcolor);
-    setModel(model)
+    // setModel(model)
     setNormalMap(normal)
     setDepthMap(depth)
+    // trigger material to reload if there's already a mode set
+    setMattrigger(Math.random())
     setMode(mode)
     setColor(newcolor)
   }
@@ -115,8 +118,8 @@ export function GemRandomizer({ config, trigger, setText }) {
 
   // watch for triggers from app
   useEffect(() => {
-    // console.log('>> useeffect trigger', trigger)
-    // console.log('mode:', mode);
+    console.log('>> useeffect trigger', trigger)
+    console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
       if (trigger == 'shape') {
@@ -159,7 +162,7 @@ export function GemRandomizer({ config, trigger, setText }) {
       trigger = null;
     } else {
       console.log('no trigger, initializing with new randomize');
-      randomizeAll()
+      randomizeAll(mode)
     }
   }, [trigger])
 
@@ -187,7 +190,7 @@ return ( mode &&
       { mode == 'parallax' ? (
         <ParallaxMesh geometry={model} color={statecolor} config={config} castShadow />
       ) : mode == 'gem' ? (
-        <DiamondMaterial config={config} color={statecolor} normalMap={normalMap} geometry={model} castShadow />
+        <DiamondMaterial trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} geometry={model} castShadow />
       ) : mode == 'crystal' ? (
         <mesh geometry={model} castShadow >
           <CrystalMaterial normalMap={normalMap} color={statecolor} geometry={model} config={config} />

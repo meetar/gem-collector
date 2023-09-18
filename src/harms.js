@@ -7,6 +7,7 @@ export const harms = [
   'inhale',
   'smoke',
   'ignite',
+  'pierce',
   'mix with water',
   'shake vigorously',
   'store near heat source',

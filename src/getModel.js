@@ -5,13 +5,11 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the 
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { shuffleArray, divideCircleIntoPoints } from './utils';
 import { models, combomodels } from './models';
+import { roll } from './getDescription';
 
 export const getModel = async () => {
-  // console.log('getmodel');
   // first determine whether to get a single or a combo
-  const combo = (Math.random() < .2); //20% chance of combo
-  // const combo = true;
-  // console.log('obj combo:', combo);
+  const combo = roll();
   if (combo) {
     let comboMesh = await makeComboMesh();
     return comboMesh;

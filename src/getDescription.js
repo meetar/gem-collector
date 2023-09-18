@@ -105,8 +105,13 @@ function getNamer() {
 
 async function getPrefix(color) {
   let adjective = roll(.3) ? adj() +' ' : '';
-  const name = await fetchColors(color).then(r => r);
-  let col = roll(.3) ? name+' ' : '';
+  let col = '';
+  if (roll(.3)) {
+    const name = await fetchColors(color).then(r => r);
+    if (name) {
+      col = name+' ';
+    }
+  }
   let returnval = roll() ?
   `${adjective}${col}` :
   `${col}${adjective}`;
@@ -322,7 +327,7 @@ async function fetchColors(color) {
     }
 
     const data = await response.json();
-    // console.log('Response:', data);
+    console.log('Response:', data);
 
     // Assuming the data structure has a 'value' property
     let colorValue = data.colors[0].name;
@@ -333,6 +338,7 @@ async function fetchColors(color) {
     return colorValue;
   } catch (error) {
     console.error('Error:', error);
-    throw error; // Rethrow the error if needed
+    // throw error; // Rethrow the error if needed
+    return false;
   }
 }
