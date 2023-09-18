@@ -101,7 +101,7 @@ export function clamp(n) {
 export function randomExp() {
   const lambda = 2;
   const rand = Math.random();
-  console.log('rand:', rand);
+  // console.log('rand:', rand);
   return clamp(Math.log(1.1 - Math.random()) / (-lambda));
 }
   

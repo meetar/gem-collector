@@ -80,50 +80,30 @@ export function GemRandomizer({ config, trigger, setText }) {
     return _.sample(['gem', 'crystal', 'deep', 'sss'])
   }
 
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  // console.log(randomExp())
-  
-  async function randomizeAll(mode = null) {
-    console.log('RANDOMIZE ALL');
+  async function randomizeAll(mode = null, oldmodel = null) {
+    console.log('RANDOMIZE ALL', mode, oldmodel);
     // Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn with incomplete data
-    console.log('color:', config.color);
+    // console.log('color:', config.color);
     let model, normal, depth, newcolor;
-    if (mode) {
+    if (mode && oldmodel) {
+      [normal, depth, newcolor] = await Promise.all([getNormal(), getDepth(), getColor()]);
+      setModel(oldmodel)
+    }
+    else if (mode) {
       [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
+      setModel(model)
     }
     else {
       [model, normal, depth, newcolor, mode] = await Promise.all([getModel(), getNormal(), getDepth(), getColor(), getMode()]);
+      setModel(model)
     }
     console.log('mode:', mode, newcolor);
-    // setModel(model)
     setNormalMap(normal)
     setDepthMap(depth)
     // trigger material to reload if there's already a mode set
     setMattrigger(Math.random())
     setMode(mode)
-    setColor(newcolor)
-  }
-
-  async function randomizeProps() {
-    // console.clear();
-    console.log('RANDOMIZE PROPS');
-    // Promise.all so we wait to set any state until we have all the info at once –
-    // this prevents the model from being drawn with incomplete data
-    console.log(config.color);
-    let [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
-    console.log('mode, color', mode, newcolor);
-    setModel(model)
-    setNormalMap(normal)
-    setDepthMap(depth)
     setColor(newcolor)
   }
 
@@ -167,7 +147,7 @@ export function GemRandomizer({ config, trigger, setText }) {
       }
       else {
         // this randomizes everything except the mode, passed as the trigger
-        randomizeAll(trigger)
+        randomizeAll(trigger, model)
         // setMode(trigger)
       }
       trigger = null;
