@@ -93,3 +93,15 @@ export function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+export function clamp(n) {
+  return Math.min(Math.max(n, 0), 1)
+}
+
+export function randomExp() {
+  const lambda = 2;
+  const rand = Math.random();
+  console.log('rand:', rand);
+  return clamp(Math.log(1.1 - Math.random()) / (-lambda));
+}
+  

@@ -80,6 +80,17 @@ export function GemRandomizer({ config, trigger, setText }) {
     return _.sample(['gem', 'crystal', 'deep', 'sss'])
   }
 
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  // console.log(randomExp())
+  
   async function randomizeAll(mode = null) {
     console.log('RANDOMIZE ALL');
     // Promise.all so we wait to set any state until we have all the info at once –

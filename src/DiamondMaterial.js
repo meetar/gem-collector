@@ -11,6 +11,7 @@ import {
   MeshTransmissionMaterial,
 } from '@react-three/drei'
 import { PerformanceMonitor } from '@react-three/drei';
+import { clamp, randomExp } from './utils'
 
 function simpleControls(controlObject) {
   console.log('simpleControls');
@@ -45,7 +46,8 @@ function randomizeLevaControls(controlsObject) {
       if (typeof attribute === 'object' && 'value' in attribute && 'min' in attribute && 'max' in attribute && 'step' in attribute) {
         const { min, max, step } = attribute;
         const range = (max - min) / step;
-        const randomSteps = Math.floor(Math.random() * (range + 1));
+        // const randomSteps = Math.floor(Math.random() * (range + 1));
+        const randomSteps = Math.floor(randomExp() * (range + 1));
         const randomizedValue = (min + randomSteps * step).toFixed(2); // Round to 2 decimal places for floating-point steps
         const stepMultiplier = Math.round(randomizedValue / step); // Calculate the multiple of 'step'
         const finalValue = step * stepMultiplier; // Adjust the value to align with the step
@@ -75,14 +77,6 @@ const levaControls = {
 
 export function DiamondMaterial({trigger, config, color, geometry, texture, normalMap, ...props}) {
   console.log('diamond mat');
-
-  // useEffect(() => {
-  //   // console.log('>> useeffect trigger', trigger)
-  //   if (trigger) {
-  //     randomizeLevaControls(diamondcontrols)
-  //   }
-  // }, [trigger])
-
 
   // State variable to hold the randomized controls
   const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(diamondcontrols));
