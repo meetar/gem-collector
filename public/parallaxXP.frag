@@ -3,6 +3,7 @@ uniform float _height;
 uniform float _scale;
 uniform float _opacity;
 uniform sampler2D _texture;
+uniform sampler2D _colorMap;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vViewPosition;
@@ -65,7 +66,8 @@ vec2 parallaxMap( in vec3 V , in float offset) {
 void main() {
 float lum;
 // vec4 color = vec4(.5, 1., .5, 1.);
-vec4 color = vec4(0., 1., 0., 0.);
+// vec4 color = vec4(0., 1., 0., 0.);
+vec4 color = vec4(texture2D( _colorMap, vUv ).rgb, 0.);
 float offset;
 
 for (float i = _steps + 1.; i >= 0.; i--) {
