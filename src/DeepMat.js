@@ -5,7 +5,6 @@ import { EquirectangularReflectionMapping } from 'three';
 import { RGBELoader } from 'three-stdlib'
 import { useLoader } from '@react-three/fiber'
 import { Leva, useControls, button } from 'leva'
-import { diamondcontrols } from './diamondcontrols'
 import {
   MeshRefractionMaterial,
   MeshTransmissionMaterial,
@@ -14,48 +13,66 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
-
-const deepControls = {
-  samples: { value: 6, min: 1, max: 64, step: 1 },
-  transmission: { value: 1, min: 0, max: 1, step: 0.01 },
-  thickness: { value: .1, min: 0, max: 1, step: 0.01 },
-  chromaticAberration: { value: .2, min: 0, max: 1, step: 0.01 },
-  anisotropy: { value: 1, min: 0, max: 1, step: 0.01 },
-  roughness: { value: .2, min: 0, max: 10, step: 0.01 },
-  distortion: { value:  0.5, min: 0, max: 1, step: 0.01 },
-  distortionScale: { value:  0.15, min: 0, max: 1, step: 0.01 },
-  ior: { value:  1.5, min: 0, max: 10, step: 0.01 },
-  opacity: { value: .9, min: 0, max: 1, step: 0.01 },
-  envMapIntensity: { value:  1.5, min: 0, max: 10, step: 0.01 },
-  reflectivity: { value:  .5, min: 0, max: 1, step: 0.01 },
-  clearcoat: { value:  1, min: 0, max: 1, step: 0.01 },
-  clearcoatRoughness: { value: .28, min: 0, max: 1, step: 0.01 },
-  normalScale: { value: .28, min: 0, max: 1, step: 0.01 },
-}
-
-const iceControls = {
-  samples: 32,
-  transmission: 1,
-  thickness: .65,
-  chromaticAberration: .79,
-  anisotropy: 4.3,
-  roughness: .4,
-  distortion: 0,
-  iorOuter:  1.5 ,
-  color: '#fff',
-  envMapIntensity:  .6 ,
-  reflectivity:  .5 ,
-  clearcoat:  1 ,
-  clearcoatRoughness: .28
-}
+import { randomizeLevaControls, simpleControls } from './utils'
+import { deepControls } from './deepControls';
 
 
-export default function DeepMat({config, color, geometry, normalMap, depthMap, texture, ...props}) {
+export default function DeepMat({trigger, config, color, geometry, normalMap, depthMap, envMap, texture, ...props}) {
 // console.log('DeepMat', config.color);
 
-const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
+// const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
+// const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols), {collapsed: true})
 
-const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols), {collapsed: true})
+  // State variables to hold the randomized controls
+  const [randomDeepControls, setRandomDeepControls] = useState();
+  // const [randomDeepControls, setRandomDeepControls] = useState(randomDeep());
+  const [randomPxControls, setRandomPxControls] = useState();
+  // const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
+
+  function roundToNearest(x, n) {
+    return Math.round(x / n) * n;
+  }
+
+  function roundValue(attribute) {
+    roundToNearest(attribute.value, attribute.step)
+  }
+  
+  function randomDeep() {
+    const controls = randomizeLevaControls(deepControls);
+    controls.transmission.value = 1 - ( controls.transmission.value / 2 );
+    controls.opacity.value = 1 - ( controls.opacity.value / 2 );
+    controls.roughness.value = controls.roughness.value / 2;
+
+    roundValue(controls.transmission)
+    roundValue(controls.opacity)
+    roundValue(controls.roughness)
+    return controls;
+  }
+
+  // set up leva with first version of the randomized controls – don't rely on state being set here yet
+  // const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (randomDeepControls), {collapsed: true})
+  const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
+  const [{ ...parallaxConfig }, setPxControls] = useControls('Parallax', () => (randomPxControls), {collapsed: true})
+
+  // Function to re-randomize and update the controls
+  const reloadControls = () => {
+    const newRandomDeepControls = randomDeep()
+    setRandomDeepControls(newRandomDeepControls);
+    setDeepControls(simpleControls(newRandomDeepControls));
+
+    const newRandomPxControls = randomizeLevaControls(parallaxcontrols);
+    setRandomDeepControls(newRandomPxControls);
+    setPxControls(simpleControls(newRandomPxControls));
+  };
+
+  // useEffect to re-randomize on component mount
+  useEffect(() => {
+    reloadControls();
+  }, [trigger]);
+
+
+
+
 // const [parallaxConfig, setParallaxConfig] = useState(pconfig)
 // const [{ ...dconfig }, setDeepControls] = useControls('Deep', () => (deepControls))
 // const [deepConfig, setDeepConfig] = useState(dconfig)
@@ -68,9 +85,9 @@ const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () 
 // }, [dconfig])
 
 deepConfig._displacement = -.01;
-  
-  texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  texture.mapping = EquirectangularReflectionMapping; 
+
+
+  envMap.mapping = EquirectangularReflectionMapping; 
   normalMap.wrapT = THREE.RepeatWrapping;
   normalMap.wrapS = THREE.RepeatWrapping;
   // normalMap.magFilter = THREE.NearestFilter;
@@ -89,7 +106,7 @@ deepConfig._displacement = -.01;
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
         <MeshTransmissionMaterial color={color} {...parallaxConfig} {...deepConfig} {...config} normalMap={normalMap}
-          envMap={texture}
+          envMap={envMap}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
           side={THREE.DoubleSide}

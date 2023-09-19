@@ -24,11 +24,11 @@ export default function MainStage({setText}) {
     //   setTrigger(['material', Math.random()])
     // }),
     RANDOMIZE: button( () => { setTrigger(['randomize', Math.random()] )}),
-    // colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
-    // normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
-    // depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
-    // shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
-    // parallax: button(() => setTrigger(['parallax', Math.random()])),
+    colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
+    normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
+    // envTrigger: button( () => { setTrigger(['env', Math.random()] )}),
+    depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
+    shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
     gem: button(() => setTrigger(['gem', Math.random()])),
     crystal: button(() => setTrigger(['crystal', Math.random()])),
     deep: button(() => setTrigger(['deep', Math.random()])),
@@ -43,7 +43,7 @@ export default function MainStage({setText}) {
   const [{ ...softShadows }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
 
 return (
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [10, 15, -10], zoom: 2, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows dpr={[1, 2]} camera={{ position: [10, 15, -10], zoom: 10, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <color attach="background" args={["black"]} />
         <SoftShadows {...softShadows} />
         {/* <axesHelper args={[1]} /> */}

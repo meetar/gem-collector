@@ -6,11 +6,11 @@ import { useControls, button } from 'leva'
 import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
-export default function SSSMat ({texture, color, color2, config, depthMap}) {
+export default function SSSMat ({texture, color, config, depthMap}) {
   // console.log('sss mat, color:', color, color2);
   const {...sssControls} = useControls('SSS', {
     diffuse: color,
-    thicknessColor: color2,
+    // thicknessColor: color2,
     shininess: { value: 500, min: 0, max: 10000, step: 10 },
     thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
     thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },
@@ -35,7 +35,7 @@ export default function SSSMat ({texture, color, color2, config, depthMap}) {
   uniforms[ 'shininess' ].value = sssControls.shininess;
 
   // uniforms[ 'thicknessMap' ].value = thicknessTexture;
-  uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
+  // uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
   uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
   uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;
   uniforms[ 'thicknessAttenuation' ].value = sssControls.thicknessAttenuation;

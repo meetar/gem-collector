@@ -24,7 +24,7 @@ export default function SSSMesh({geometry, color, config, normalMap, depthMap}) 
   return (
 <>
     <group scale={1 + spacing}>
-      <mesh renderOrder={0} geometry={geometry} castShadow transparent={true} opacity={1}>
+      {/* <mesh renderOrder={0} geometry={geometry} castShadow transparent={true} opacity={1}>
             <MeshTransmissionMaterial {...config} {...crystalconfig}
             // <MeshBasicMaterial {...config} {...crystalconfig}
               normalMap={normalMap}
@@ -34,17 +34,17 @@ export default function SSSMesh({geometry, color, config, normalMap, depthMap}) 
               clearcoatNormalMap={normalMap}
               clearcoatNormalScale={new THREE.Vector2(.03,.03)}
             />
-      </mesh>
+      </mesh> */}
     </group>
 
     <group scale={1}>
-    <ParallaxMeshXP color={color} depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
+    <ParallaxMeshXP color={'color'} depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
       </group>
 
 
     <group scale={1 - spacing}>
     <mesh renderOrder={1} geometry={geometry} castShadow transparent={false} >
-    <SSSMat color={color} color2={randomColor()} transparent={false} />
+    {/* <SSSMat color={color} transparent={false} /> */}
     </mesh>
       </group>
     </>

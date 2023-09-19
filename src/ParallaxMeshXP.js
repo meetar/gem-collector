@@ -7,13 +7,6 @@ import { useControls } from 'leva'
 function ParallaxMeshXP({geometry, config, textureUrl, depthMap, ...props}) {
   const { ...pconfig } = useControls('Parallax', parallaxcontrols, {collapsed: true})
 
-  // if (!textureUrl) textureUrl = './textures/speckles.png';
-  // if (!textureUrl) textureUrl = './textures/streaks3.png';
-  // if (!textureUrl) textureUrl = './textures/cracks3.png';
-  // if (!textureUrl) textureUrl = './textures/streaks4.png';
-
-  // const texture = useTexture(textureUrl);
-
   depthMap.minFilter = THREE.NearestFilter;
   depthMap.magFilter = THREE.NearestFilter;
   depthMap.wrapS = THREE.RepeatWrapping;

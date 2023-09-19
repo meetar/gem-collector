@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import * as THREE from 'three'
 import { EquirectangularReflectionMapping } from 'three';
 import { RGBELoader } from 'three-stdlib'
@@ -11,96 +12,29 @@ import {
   MeshTransmissionMaterial,
 } from '@react-three/drei'
 import { PerformanceMonitor } from '@react-three/drei';
-import { clamp, randomExp } from './utils'
-
-function simpleControls(controlObject) {
-  console.log('simpleControls');
-  const simplifiedObject = {};
-  
-  for (const key in controlObject) {
-    if (controlObject.hasOwnProperty(key)) {
-      if (typeof controlObject[key] == 'boolean') {
-        simplifiedObject[key] = controlObject[key];
-      }
-      else if (typeof controlObject[key] == 'object') {
-        simplifiedObject[key] = controlObject[key].value;
-      }
-      else {
-        // debugger
-        throw new Error(key, typeof controlObject[key])
-      }
-
-    }
-  }
-  console.log('returning', simplifiedObject);
-  return simplifiedObject;
-}
-
-function randomizeLevaControls(controlsObject) {
-  console.log('randomize');
-  const randomizedObject = {};
-
-  for (const key in controlsObject) {
-    if (controlsObject.hasOwnProperty(key)) {
-      const attribute = controlsObject[key];
-      if (typeof attribute === 'object' && 'value' in attribute && 'min' in attribute && 'max' in attribute && 'step' in attribute) {
-        const { min, max, step } = attribute;
-        const range = (max - min) / step;
-        // const randomSteps = Math.floor(Math.random() * (range + 1));
-        const randomSteps = Math.floor(randomExp() * (range + 1));
-        const randomizedValue = (min + randomSteps * step).toFixed(2); // Round to 2 decimal places for floating-point steps
-        const stepMultiplier = Math.round(randomizedValue / step); // Calculate the multiple of 'step'
-        const finalValue = step * stepMultiplier; // Adjust the value to align with the step
+import { randomizeLevaControls, simpleControls } from './utils'
 
 
-        randomizedObject[key] = {
-          value: finalValue, // Convert the result back to a float
-          min,
-          max,
-          step,
-        };
-      } else {
-        randomizedObject[key] = attribute;
-      }
-    }
-  }
-
-  return randomizedObject;
-}
-
-// Example usage:
-const levaControls = {
-  resolution: { value: 2048, min: 64, max: 2048, step: 64 },
-  // Add more attributes as needed
-};
-
-
-export function DiamondMaterial({trigger, config, color, geometry, texture, normalMap, ...props}) {
-  console.log('diamond mat');
+export function DiamondMaterial({trigger, config, color, geometry, envMap, normalMap, ...props}) {
+  // console.log('diamond mat, envmap:', envMap);
+  // envMap = useLoader(TextureLoader, './textures/UVs.jpeg')
 
   // State variable to hold the randomized controls
   const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(diamondcontrols));
-
+  // set up leva with first version of the randomized controls – don't rely on state being set here yet
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (randomizedControls), {collapsed: true})
-  // console.log(JSON.stringify(randomizedControls));
 
   // Function to re-randomize and update the controls
   const reloadControls = () => {
-    // console.log('>>>reloadControls');
     const newRandomizedControls = randomizeLevaControls(diamondcontrols);
     setRandomizedControls(newRandomizedControls);
-    // console.log('newRandomizedControls', JSON.stringify(newRandomizedControls));
-    // console.warn(simpleControls(newRandomizedControls));
     setDiamondControls(simpleControls(newRandomizedControls));
   };
 
   // useEffect to re-randomize on component mount
   useEffect(() => {
-    console.warn('     *** RELOAD');
     reloadControls();
   }, [trigger]);
-
-
 
 
   // fps testing - TODO later
@@ -119,9 +53,6 @@ export function DiamondMaterial({trigger, config, color, geometry, texture, norm
   // console.log('diamond mat, #faces:', geometry.attributes.normal.array.length / 3 / 3);
 
 
-  texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  texture.mapping = EquirectangularReflectionMapping; 
-
   geometry = BufferGeometryUtils.mergeVertices(geometry, 0); // this forces vertex indexing which fixes the 'BufferGeometry is already non-indexed' warning
 
   return (
@@ -131,7 +62,8 @@ export function DiamondMaterial({trigger, config, color, geometry, texture, norm
 
       <mesh geometry={geometry} color={color} {...config} {...diamondconfig} castShadow>
         {/* don't set transparent to true here! I will crash your whole dang machine */}
-        <MeshRefractionMaterial  {...diamondconfig} {...config} envMap={texture} 
+        <MeshRefractionMaterial  {...diamondconfig} {...config}
+        envMap={envMap} 
         ior={diamondconfig.iorInner}
         visible={diamondconfig.GemVisible}
         side={THREE.DoubleSide}
@@ -142,7 +74,7 @@ export function DiamondMaterial({trigger, config, color, geometry, texture, norm
 
       <mesh geometry={geometry} visible={true}>
         <MeshTransmissionMaterial color={color} {...diamondconfig} {...config}  transparent={true}
-          envMap={texture}
+          // envMap={envMap}
           ior={diamondconfig.iorOuter}
           visible={diamondconfig.InnerVisible}
           normalMap={normalMap}

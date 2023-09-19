@@ -98,6 +98,10 @@ export function clamp(n) {
   return Math.min(Math.max(n, 0), 1)
 }
 
+export function randomBetween(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 export function randomExp() {
   const lambda = 2;
   const rand = Math.random();
@@ -105,3 +109,69 @@ export function randomExp() {
   return clamp(Math.log(1.1 - Math.random()) / (-lambda));
 }
   
+
+export function simpleControls(controlObject) {
+  // console.log('simpleControls');
+  const simplifiedObject = {};
+  
+  for (const key in controlObject) {
+    if (controlObject.hasOwnProperty(key)) {
+      if (typeof controlObject[key] == 'boolean') {
+        simplifiedObject[key] = controlObject[key];
+      }
+      else if (typeof controlObject[key] == 'object') {
+        simplifiedObject[key] = controlObject[key].value;
+      }
+      else {
+        // debugger
+        throw new Error(key, typeof controlObject[key])
+      }
+
+    }
+  }
+  // console.log('returning', simplifiedObject);
+  return simplifiedObject;
+}
+
+export function randomizeLevaControls(controlsObject) {
+  // console.log('randomize');
+  const randomizedObject = {};
+
+  for (const key in controlsObject) {
+    if (controlsObject.hasOwnProperty(key)) {
+      const attribute = controlsObject[key];
+      if (typeof attribute === 'object' && 'value' in attribute && 'min' in attribute && 'max' in attribute && 'step' in attribute) {
+        const { min, max, step } = attribute;
+        const range = (max - min) / step;
+        // const randomSteps = Math.floor(Math.random() * (range + 1));
+        const randomSteps = Math.floor(randomExp() * (range + 1));
+        const randomizedValue = (min + randomSteps * step).toFixed(2); // Round to 2 decimal places for floating-point steps
+        const stepMultiplier = Math.round(randomizedValue / step); // Calculate the multiple of 'step'
+        const finalValue = step * stepMultiplier; // Adjust the value to align with the step
+
+
+        randomizedObject[key] = {
+          value: finalValue, // Convert the result back to a float
+          min,
+          max,
+          step,
+        };
+      } else {
+        randomizedObject[key] = attribute;
+      }
+    }
+  }
+
+  return randomizedObject;
+}
+
+export function createColorTexture(color) {
+  // Create a Uint8Array with RGB values
+  const data = new Uint8Array([color.r * 255, color.g * 255, color.b * 255, 255]);
+
+  // Create a DataTexture with a width and height of 1
+  const texture = new THREE.DataTexture(data, 1, 1, THREE.RGBAFormat);
+  texture.needsUpdate = true; // Ensure the texture is updated
+
+  return texture;
+}
