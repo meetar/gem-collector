@@ -153,6 +153,7 @@ function getProvenance() {
 }
 
 function getWarning() {
+  if (roll(.001)) return `Cannot be depicted by a computer.`;
   const caveat = roll() ? ' '+getCaveat() : '';
   return `Do not ${_.sample(harms.harms)}${caveat}`;
 }
@@ -168,6 +169,7 @@ function getStatus() {
 function getRole() {
   return roll() ? _.sample(relations) :
   'personal '+_.sample(jobs);
+  // 'pet '+_.sample(animals.animals);
 }
 
 function getRelation() {
@@ -300,7 +302,7 @@ function anAdv() {
 }
 
 function noun() {
-  return _.sample(['specimen', 'example', 'fragment', 'instance', 'variety', 'sample'])
+  return _.sample(['specimen', 'example', 'fragment', 'variety', 'sample'])
 }
 
 function stripColors(colorName) {
@@ -327,7 +329,7 @@ async function fetchColors(color) {
     }
 
     const data = await response.json();
-    console.log('Response:', data);
+    // console.log('Response:', data);
 
     // Assuming the data structure has a 'value' property
     let colorValue = data.colors[0].name;

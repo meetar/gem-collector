@@ -53,7 +53,7 @@ export const superpowers = [
     "jerboa",
     "okapi",
     "coelacanth",
-    "Glaucus atlanticus",
+    "sea slug Glaucus atlanticus, also known as the blue sea dragon",
     "Sunda colugo",
     "pink fairy armadillo",
     "Irrawaddy dolphin",

@@ -136,7 +136,6 @@ module.exports = [
   'cowardly',
   'crabby',
   'craven',
-  'crazy',
   'creepy',
   'crooked',
   'crowded',
