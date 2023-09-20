@@ -23,7 +23,7 @@ import { getColor, shuffleArray, randomBetween } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
-export function GemRandomizer({ config, trigger, setText, intensity, gemDone }) {
+export function GemRandomizer({ config, trigger, setText, gemDone }) {
   // console.log('>> GemRandomizer <<', intensity);
 
   // const [mode, setMode] = useState();
@@ -97,7 +97,7 @@ export function GemRandomizer({ config, trigger, setText, intensity, gemDone }) 
   }
 
   async function randomizeAll(mode = null, oldmodel = null) {
-    // console.log('RANDOMIZE ALL', mode, oldmodel);
+    console.trace('RANDOMIZE ALL', mode, oldmodel);
     // use Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn multiple times with incomplete data every time one of the states updates
     let model, normal, depth, newcolor;
@@ -126,7 +126,7 @@ export function GemRandomizer({ config, trigger, setText, intensity, gemDone }) 
 
   // watch for triggers from app
   useEffect(() => {
-    console.trace('>> useeffect trigger', trigger)
+    // console.trace('>> useeffect trigger', trigger)
     // console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
@@ -225,7 +225,7 @@ return ( mode &&
         </mesh>
       )}
 
-      <directionalLight position={[0, .5, 0]} intensity={intensity} penumbra={1} distance={2} color={statecolor} />
+      <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={statecolor} />
       <Center bottom position={[0, .5, 0]}>
         <Rock receiveShadow />
       </Center>
