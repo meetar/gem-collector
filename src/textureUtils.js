@@ -26,22 +26,16 @@ export const randomNormal = () => {
 export const randomDepth = () => {
   // console.log('randomDepth');
   let maps = [
-// 'streaks4.png',
-// 'cracks3.png',
-// // 'cracks2.png',
-// 'cracks.png',
+'streaks4.png',
+'cracks3.png',
+'cracks.png',
 'speckles.png',
-// 'speck.png',
-// 'streaks3.png',
-// 'streaks.png',
-// // 'streak.png',
-// // 'squares.jpg', // meh
-// // 'fractal1.png', // nah
-// 'spatter.jpg',
-// 'spatter2.jpg',
+'speck.png',
+'streaks3.png',
+'streaks.png',
+'spatter.jpg',
+'spatter2.jpg',
 // 'stripes.jpg',
-// 'diffusion-reaction.jpg'
-// 'diffreact2.jpg'
 ];
   let map = _.sample(maps);
   // console.log('fetching', './textures/'+map);
@@ -51,8 +45,8 @@ export const randomDepth = () => {
 export const colorMap = () => {
   // console.log('randomDepth');
   let maps = [
-  'redsquare.png',
-  // 'rainbow.png',
+  // 'redsquare.png',
+  'rainbow.png',
   // 'ice.jpeg',
   // 'redblue.jpeg',
   // 'peach.jpeg',

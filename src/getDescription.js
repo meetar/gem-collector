@@ -319,6 +319,7 @@ function stripColors(colorName) {
 }
 
 async function fetchColors(color) {
+  return false // turn off for now
   color = color.replace('#', ''); // Removes the '#' character
   try {
     const response = roll() ? await fetch(`https://api.color.pizza/v1/?values=${color}&list=thesaurus`) :

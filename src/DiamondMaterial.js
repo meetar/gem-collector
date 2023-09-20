@@ -60,13 +60,15 @@ export function DiamondMaterial({trigger, config, color, geometry, envMap, norma
      {/* <PerformanceMonitor bounds={(fps) => [40, 60]} onIncline={(fps) => setTest(fps)} onDecline={(fps) => setTest(fps)} ></PerformanceMonitor> */}
       <group scale={0.999}>
 
-      <mesh geometry={geometry} color={color} {...config} {...diamondconfig} castShadow>
+      <mesh geometry={geometry} castShadow>
         {/* don't set transparent to true here! I will crash your whole dang machine */}
         <MeshRefractionMaterial  {...diamondconfig} {...config}
         envMap={envMap} 
+        color={color}
+        envMapIntensity={diamondconfig.envMapIntensity}
         ior={diamondconfig.iorInner}
-        visible={diamondconfig.GemVisible}
         side={THREE.DoubleSide}
+        visible={diamondconfig.InnerVisible}
         />
       </mesh>
 
@@ -76,9 +78,8 @@ export function DiamondMaterial({trigger, config, color, geometry, envMap, norma
         <MeshTransmissionMaterial color={color} {...diamondconfig} {...config}  transparent={true}
           // envMap={envMap}
           ior={diamondconfig.iorOuter}
-          visible={diamondconfig.InnerVisible}
+          visible={diamondconfig.GemVisible}
           normalMap={normalMap}
-
         />
       </mesh>
 

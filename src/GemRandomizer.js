@@ -24,8 +24,6 @@ import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
 export function GemRandomizer({ config, trigger, setText }) {
-  const { gl } = useThree();
-
   // console.log('>> GemRandomizer <<');
 
   // const [mode, setMode] = useState();
@@ -95,10 +93,10 @@ export function GemRandomizer({ config, trigger, setText }) {
   }
 
   async function getMode() {
-    return _.sample(['gem', 'crystal', 'deep', 'sss'])
+    return _.sample(['gem', 'crystal', 'deep', 'deep'])
   }
 
-  async function randomizeAll(mode = null, oldmodel = null, gl) {
+  async function randomizeAll(mode = null, oldmodel = null) {
     // console.log('RANDOMIZE ALL', mode, oldmodel);
     // use Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn multiple times with incomplete data every time one of the states updates
@@ -173,17 +171,17 @@ export function GemRandomizer({ config, trigger, setText }) {
       }
       else if (trigger == 'randomize') {
         // console.log('trigger: normal');
-        randomizeAll(null, null, gl)
+        randomizeAll()
       }
       else {
         // this randomizes everything except the mode, passed as the trigger
-        randomizeAll(trigger, model, gl)
+        randomizeAll(trigger, model)
         // setMode(trigger)
       }
       trigger = null;
     } else {
       console.log('no trigger, initializing with new randomize');
-      randomizeAll(mode, null, gl)
+      randomizeAll(mode)
     }
   }, [trigger])
 

@@ -33,7 +33,7 @@ const smokeyCrystal = {
 }
 
 
-export default function CrystalMaterial({config, color, geometry, texture, normalMap}) {
+export default function CrystalMaterial({config, color, geometry, texture, envMap, normalMap}) {
   // console.log('crystalconfig');
 
   const [{ ...crystalconfig }, setDiamondControls] = useControls('Crystal', () => ({...smokeyCrystal}), {collapsed: true})
@@ -50,8 +50,6 @@ export default function CrystalMaterial({config, color, geometry, texture, norma
   // setDiamondControls({...smokeyCrystal})
   // console.log('crystal normal:', normalMap);
 
-  texture = useLoader(RGBELoader, 'https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/aerodynamics_workshop_1k.hdr')
-  texture.mapping = EquirectangularReflectionMapping; 
   normalMap.wrapT = THREE.RepeatWrapping;
   normalMap.wrapS = THREE.RepeatWrapping;
   normalMap.repeat.set(2, 2); // Adjust the scale along U and V axes
@@ -59,9 +57,9 @@ export default function CrystalMaterial({config, color, geometry, texture, norma
   return (
     <>
         <MeshTransmissionMaterial color={color} {...crystalconfig} {...config}
-          // normalMap={normalMap}
-          envMap={texture}
-          // clearcoatNormalMap={normalMap}
+          normalMap={normalMap}
+          envMap={envMap}
+          clearcoatNormalMap={normalMap}
           side={THREE.DoubleSide}
         />
     </>

@@ -43,7 +43,7 @@ export default function MainStage({setText}) {
   const [{ ...softShadows }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
 
 return (
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [10, 15, -10], zoom: 10, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas shadows dpr={[1, 2]} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
         <color attach="background" args={["black"]} />
         <SoftShadows {...softShadows} />
         {/* <axesHelper args={[1]} /> */}
