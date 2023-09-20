@@ -78,8 +78,6 @@ for (float i = _steps + 1.; i >= 0.; i--) {
   // offset = ( _height * percent) + mapUv * _scale;
   vec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ), offset);
 
-  gl_FragColor = vec4(mapUv, 0., 1.);
-
   lum = texture2D( _texture, mapUv  * _scale ).r; //
   // lum = ( texture2D( _texture, offset ) ).r; //
   // if the value of the sampled texture is less than the sampling distance, use it --

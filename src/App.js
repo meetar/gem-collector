@@ -1,7 +1,7 @@
-import DebugStage from './DebugStage'
-import MainStage from './MainStage'
-import { useEffect, useState } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { useState } from 'react'
 import WikipediaLinksComponent from './WikiLinks'
+import Scene from './Scene.js'
 
 export function App() {
   const [name, setName] = useState("")
@@ -21,7 +21,9 @@ export function App() {
 </div>
 
 <div style={{height: '100%', backgroundColor: 'black', zIndex: 0, }}>
-    <MainStage setText={setText} />
+    <Canvas shadows dpr={[1, 2]} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <Scene setText={setText} />
+    </Canvas>
     {/* <DebugStage /> */}
 </div>
 </>

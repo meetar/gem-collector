@@ -23,8 +23,8 @@ import { getColor, shuffleArray, randomBetween } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
-export function GemRandomizer({ config, trigger, setText }) {
-  // console.log('>> GemRandomizer <<');
+export function GemRandomizer({ config, trigger, setText, intensity, gemDone }) {
+  // console.log('>> GemRandomizer <<', intensity);
 
   // const [mode, setMode] = useState();
   const [mode, setMode] = useState('deep');
@@ -121,11 +121,12 @@ export function GemRandomizer({ config, trigger, setText }) {
     setMattrigger(Math.random())
     setMode(mode)
     setColor(newcolor)
+    gemDone()
   }
 
   // watch for triggers from app
   useEffect(() => {
-    // console.log('>> useeffect trigger', trigger)
+    console.trace('>> useeffect trigger', trigger)
     // console.log('mode:', mode);
     if (trigger) {
       trigger = trigger[0];
@@ -224,7 +225,7 @@ return ( mode &&
         </mesh>
       )}
 
-      <directionalLight position={[0, .5, 0]} intensity={1} penumbra={1} distance={2} color={statecolor} />
+      <directionalLight position={[0, .5, 0]} intensity={intensity} penumbra={1} distance={2} color={statecolor} />
       <Center bottom position={[0, .5, 0]}>
         <Rock receiveShadow />
       </Center>

@@ -15,4 +15,5 @@ body,
 body {
   overscroll-behavior-y: none;
   color: black;
+  font-family: Calibri, 'Trebuchet MS', sans-serif
 }
