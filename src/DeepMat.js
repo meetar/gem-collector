@@ -24,10 +24,10 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
 // const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols), {collapsed: true})
 
   // State variables to hold the randomized controls
-  const [randomDeepControls, setRandomDeepControls] = useState();
-  // const [randomDeepControls, setRandomDeepControls] = useState(randomDeep());
-  const [randomPxControls, setRandomPxControls] = useState();
-  // const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
+  // const [randomDeepControls, setRandomDeepControls] = useState();
+  const [randomDeepControls, setRandomDeepControls] = useState(randomDeep());
+  // const [randomPxControls, setRandomPxControls] = useState();
+  const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
 
   function roundToNearest(x, n) {
     return Math.round(x / n) * n;
