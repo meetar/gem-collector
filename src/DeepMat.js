@@ -105,16 +105,24 @@ deepConfig._displacement = -.01;
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
-        <MeshTransmissionMaterial color={color} {...parallaxConfig} {...deepConfig} {...config} normalMap={normalMap}
+        <MeshTransmissionMaterial {...parallaxConfig} {...deepConfig} {...config}
+          color={color}
+          normalMap={normalMap}
           envMap={envMap}
           clearcoatNormalMap={normalMap}
           clearcoatNormalScale={new THREE.Vector2(.03,.03)}
           side={THREE.DoubleSide}
-
         />
         </mesh>
         <mesh scale={.99} renderOrder={1} geometry={geometry} >
-          <ParallaxMaterial texture={depthMap} color={color} isShaderMaterial config={{...config, ...parallaxConfig, ...deepConfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterial
+          config={{...config, ...parallaxConfig, ...deepConfig}}
+          texture={depthMap}
+          color={color}
+          isShaderMaterial
+          opacity={config.opacity}
+          transparent={true}
+          />
         </mesh>
     </>
   )
