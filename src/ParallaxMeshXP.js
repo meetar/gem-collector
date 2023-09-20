@@ -4,7 +4,7 @@ import ParallaxMaterialXP from './ParallaxMaterialXP'
 import { parallaxcontrols } from './parallaxcontrols'
 import { useControls } from 'leva'
 
-function ParallaxMeshXP({geometry, config, textureUrl, depthMap, ...props}) {
+function ParallaxMeshXP({trigger, geometry, config, textureUrl, depthMap, ...props}) {
   const { ...pconfig } = useControls('Parallax', parallaxcontrols, {collapsed: true})
 
   depthMap.minFilter = THREE.NearestFilter;
@@ -15,7 +15,7 @@ function ParallaxMeshXP({geometry, config, textureUrl, depthMap, ...props}) {
   return (
     <>
         <mesh geometry={geometry} {...props}>
-          <ParallaxMaterialXP texture={depthMap} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
+          <ParallaxMaterialXP trigger={trigger} texture={depthMap} isShaderMaterial config={{...config, ...pconfig}} opacity={config.opacity} transparent={true} />
         </mesh>
     </>
   );

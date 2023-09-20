@@ -29,9 +29,8 @@ export function GemRandomizer({ config, trigger, setText }) {
   // console.log('>> GemRandomizer <<');
 
   // const [mode, setMode] = useState();
-  const [mode, setMode] = useState('sss');
+  const [mode, setMode] = useState('deep');
   const [statecolor, setColor] = useState('#ff0000');
-  // TODO figure out why GemRandomizer is rendering 12 times - something to do with useState(getModel)
   const [model, setModel] = useState()
   const [normalMap, setNormalMap] = useState()
   const [depthMap, setDepthMap] = useState()
@@ -215,10 +214,10 @@ return ( mode &&
         <DiamondMaterial trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
       ) : mode == 'crystal' ? (
         <mesh geometry={model} castShadow >
-          <CrystalMaterial normalMap={normalMap} color={statecolor} geometry={model} envMap={envMap} config={config} />
+          <CrystalMaterial trigger={mattrigger} normalMap={normalMap} color={statecolor} geometry={model} envMap={envMap} config={config} />
         </mesh>
       ) : mode == 'sss' ? (
-        <SSSMesh geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
+        <SSSMesh trigger={mattrigger} geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
       ) : mode == 'deep' ? (
         <DeepMat trigger={mattrigger} geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
       ) : (
