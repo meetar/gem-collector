@@ -7,10 +7,8 @@ import { hexToVec3 } from './utils'
 
 // Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 export default function SSSMat ({texture, color, config, depthMap}) {
-  // console.log('sss mat, color:', color, color2);
   const {...sssControls} = useControls('SSS', {
-    diffuse: color,
-    // thicknessColor: color2,
+    thicknessColor: color,
     shininess: { value: 500, min: 0, max: 10000, step: 10 },
     thicknessDistortion: { value: .1, min: 0, max: 2, step: .01 },
     thicknessAmbient: { value: .4, min: 0, max: 2, step: .01 },
@@ -19,23 +17,14 @@ export default function SSSMat ({texture, color, config, depthMap}) {
     thicknessScale: { value: 16, min: 0, max: 64, step: .01 },
   }, {collapsed: true});
 
-
-
   const shader = SubsurfaceScatteringShader;
   const uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 
-  // const imgTexture = useTexture('./textures/J3QeZ.jpg')
-  // imgTexture.colorSpace = THREE.SRGBColorSpace;
-
-  // const thicknessTexture = useTexture('./textures/J3QeZ.jpg')
-  // imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
-
-  // uniforms[ 'map' ].value = imgTexture;
-  uniforms[ 'diffuse' ].value = hexToVec3(sssControls.diffuse);
+  uniforms[ 'map' ].value = texture;
+  uniforms[ 'diffuse' ].value = hexToVec3(color);
   uniforms[ 'shininess' ].value = sssControls.shininess;
 
-  // uniforms[ 'thicknessMap' ].value = thicknessTexture;
-  // uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
+  uniforms[ 'thicknessColor' ].value = hexToVec3(sssControls.thicknessColor);
   uniforms[ 'thicknessDistortion' ].value = sssControls.thicknessDistortion;
   uniforms[ 'thicknessAmbient' ].value = sssControls.thicknessAmbient;
   uniforms[ 'thicknessAttenuation' ].value = sssControls.thicknessAttenuation;

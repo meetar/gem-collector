@@ -32,7 +32,7 @@ export default function MainStage({setText}) {
     gem: button(() => setTrigger(['gem', Math.random()])),
     crystal: button(() => setTrigger(['crystal', Math.random()])),
     deep: button(() => setTrigger(['deep', Math.random()])),
-    sss: button(() => setTrigger(['sss', Math.random()]))
+    // sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
   const softShadowsProps = {

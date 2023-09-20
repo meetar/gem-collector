@@ -10,7 +10,7 @@ import { RGBELoader } from 'three-stdlib'
 import ParallaxMeshXP from './ParallaxMeshXP'
 import randomColor from 'randomcolor';
 
-export default function SSSMesh({geometry, color, config, normalMap, depthMap}) {
+export default function SSSMesh({trigger, geometry, color, config, normalMap, depthMap}) {
   diamondcontrols.normalScale = {value: 0.};
   const {...crystalconfig} = useControls('Crystal', diamondcontrols, {collapsed: true})
 // debugger
@@ -38,13 +38,13 @@ export default function SSSMesh({geometry, color, config, normalMap, depthMap}) 
     </group>
 
     <group scale={1}>
-    <ParallaxMeshXP color={'color'} depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent />
+    {/* <ParallaxMeshXP trigger={trigger} depthMap={depthMap} renderOrder={2} geometry={geometry} config={config} transparent /> */}
       </group>
 
 
     <group scale={1 - spacing}>
     <mesh renderOrder={1} geometry={geometry} castShadow transparent={false} >
-    {/* <SSSMat color={color} transparent={false} /> */}
+    <SSSMat color={color} transparent={false} />
     </mesh>
       </group>
     </>
