@@ -14,6 +14,8 @@ export const models = [
   'egg1.obj',
   'gem.obj',
   'icosphere.obj',
+  'icosphere-beveledge.obj',
+  'icosphere-bevelverts.obj',
   'nugget.obj',
   // 'rock1.obj',
   'rock2.obj',

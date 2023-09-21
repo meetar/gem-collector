@@ -54,7 +54,7 @@ export const provenance = [
   'studied',
   'accidentally dropped',
   'set in a ring',
-  'inspired a poem',
+  'the inspiration for a poem',
   'used in a spell',
   'swallowed accidentally',
   'lost',

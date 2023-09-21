@@ -265,7 +265,7 @@ export const superpowers = [
     'scuttle',
     'scurry',
     'dive',
-    'build nests',
+    'build intricate nests',
     'sing',
     'chirp',
     'howl',

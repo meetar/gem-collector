@@ -96,6 +96,7 @@ export const caveats = [
   'without appropriate headgear',
   'while wearing fur',
   'while using electronic devices',
+  'near a hydroelectric generator',
   'without wearing socks',
   'while wearing red clothing',
   'in a thunderstorm',
@@ -114,4 +115,5 @@ export const caveats = [
   'during a lightning storm',
   'while handling optics',
   'near lasers of any power',
+  "unless you're absolutely certain",
 ]
