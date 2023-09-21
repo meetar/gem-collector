@@ -27,21 +27,22 @@ const vowels = ['a', 'e', 'i', 'o', 'u'];
 const consonants = ['b', 'g', 'd', 'z', 'th', 'k', 'l', 'm', 'n', 'x', 'p', 'r', 's', 't', 'ph', 'ch', 'ps']
 
 export const getDescription = async (color) => {
-
+  const name = await getName(color);
+  const desc = getDesc();
   return {
-    name: await getName(color),
-    desc: getDesc()
+    name,
+    desc
   }
 }
 
 async function getName(color) {
-  const n = _.random(2, 5);
+  const n = _.random(1, 2);
   let string = '';
   for (let i = 0; i < n; i++) {
     string += _.sample(consonants) + _.sample(vowelsy)
   }
 
-  let suffix = _.sample(['ine', 'orum', 'orundum', 'inium', 'itite', 'ite'])
+  let suffix = _.sample(['ine', 'orum', 'orundum', 'inium', 'itite', 'ite', 'ite', 'ite', 'ine'])
 
   const prefix = await getPrefix(color);
   let name = `${prefix}${string}${_.sample(consonants)}${suffix}`;
@@ -106,7 +107,7 @@ function getNamer() {
 async function getPrefix(color) {
   let adjective = roll(.3) ? adj() +' ' : '';
   let col = '';
-  if (roll(.3)) {
+  if (roll(1)) {
     const name = await fetchColors(color).then(r => r);
     if (name) {
       col = name+' ';
@@ -319,7 +320,7 @@ function stripColors(colorName) {
 }
 
 async function fetchColors(color) {
-  return false // turn off for now
+  // return false // turn off for now
   color = color.replace('#', ''); // Removes the '#' character
   try {
     const response = roll() ? await fetch(`https://api.color.pizza/v1/?values=${color}&list=thesaurus`) :

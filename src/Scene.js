@@ -11,17 +11,16 @@ import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
-import grayscaleShader from './grayscale.frag'; // Import your custom shader code
 
 
 
-export default function Scene({setText, gemDone, randomizeTrigger}) {
+export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
   const [trigger, setTrigger] = useState()
 
   const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls), {collapsed: true})
 
 useEffect(() => {
-  console.log('saw randomizeTrigger');    
+  // console.log('saw randomizeTrigger');
   setTrigger(['randomize', Math.random()]  )
 }, [randomizeTrigger])
 
@@ -48,7 +47,7 @@ useEffect(() => {
 
 return (
       <>
-        <color attach="background" args={["black"]} />
+        <color attach="background" args={[nightMode ? "black" : "white"]} />
         <SoftShadows {...softShadows} />
         {/* <axesHelper args={[1]} /> */}
 

@@ -28,7 +28,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
 
   // const [mode, setMode] = useState();
   const [mode, setMode] = useState('deep');
-  const [statecolor, setColor] = useState('#ff0000');
+  const [statecolor, setColor] = useState('');
   const [model, setModel] = useState()
   const [normalMap, setNormalMap] = useState()
   const [depthMap, setDepthMap] = useState()
@@ -42,9 +42,11 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       value: statecolor,
       label: 'Color',
       onChange: async (v) => {
+        console.log('color changed:', v);
+        if (v == '') return;
         setColor(v)
         let desc = await getDescription(v)
-        // console.log('desc', desc);
+        console.log('new desc', desc);
         setText(desc)
       }},
   }));
@@ -97,7 +99,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
   }
 
   async function randomizeAll(mode = null, oldmodel = null) {
-    console.trace('RANDOMIZE ALL', mode, oldmodel);
+    console.log('RANDOMIZE ALL', mode, oldmodel);
     // use Promise.all so we wait to set any state until we have all the info at once –
     // this prevents the model from being drawn multiple times with incomplete data every time one of the states updates
     let model, normal, depth, newcolor;
@@ -181,8 +183,8 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       }
       trigger = null;
     } else {
-      console.log('no trigger, initializing with new randomize');
-      randomizeAll(mode)
+      // console.log('no trigger, initializing with new randomize');
+      // randomizeAll(mode)
     }
   }, [trigger])
 
