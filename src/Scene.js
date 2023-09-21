@@ -47,7 +47,7 @@ useEffect(() => {
 
 return (
       <>
-        <color attach="background" args={[nightMode ? "black" : "white"]} />
+        {/* <color attach="background" args={[nightMode ? "black" : "white"]} /> */}
         <SoftShadows {...softShadows} />
         {/* <axesHelper args={[1]} /> */}
 

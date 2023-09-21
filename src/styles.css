@@ -15,11 +15,10 @@ body,
 body {
   overscroll-behavior-y: none;
   color: black;
-  font-family: Calibri, 'Trebuchet MS', sans-serif
+  font-family: Calibri, 'Trebuchet MS', sans-serif;
 }
 
-
-#curtain {
+#curtain, #bg {
   position: absolute;
   top: 0;
   left: 0;
@@ -29,5 +28,13 @@ body {
   z-index: 2;
   opacity: 1;
   visibility: visible;
-  transition: opacity 1s ease; /* Transition duration, easing function */
+  transition: opacity 1s ease, background-color 1s ease; /* Transition duration, easing function */
+}
+
+#curtain {
+  z-index: 2
+}
+
+#bg {
+  z-index: 0
 }
