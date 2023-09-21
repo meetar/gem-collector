@@ -39,10 +39,48 @@ body {
   z-index: 0
 }
 
-.centered-button {
+.interface {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  margin-bottom: 50px;
+  height: 20%;
+  width: 100%;
+  text-align: center;
+  align-content: center;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 20px;
-  background-color: #f0f0f0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center
 }
+
+#summon {
+  bottom: 0;
+  padding: 10px;
+  background-color: pink;
+  border: 2px solid purple;
+  color: purple;
+  font-family: cursive;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#summon:hover {
+  transform: scale(1.05); /* Enlarge the button slightly */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add a shadow */
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); /* Shimmer effect */
+  background-size: 200% 200%; /* Background size for the shimmer */
+  animation: shimmer 1s; /* Animation for shimmer effect */
+}
+
+/* Keyframes for the shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
