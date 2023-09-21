@@ -26,10 +26,11 @@ import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
 export function GemRandomizer({ config, trigger, setText, gemDone }) {
   // console.log('>> GemRandomizer <<', intensity);
-    
+
   // const [mode, setMode] = useState();
   const [mode, setMode] = useState('deep');
-  const [statecolor, setColor] = useState('');
+  const [statecolor, setColor] = useState('#000000');
+  const [desc, setDescription] = useState('');
   const [model, setModel] = useState()
   const [normalMap, setNormalMap] = useState()
   const [depthMap, setDepthMap] = useState()
@@ -52,6 +53,11 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     setUIColor({color: statecolor});
   }, [statecolor])
 
+  async function fetchDescription(v) {
+    const desc = await getDescription(v)
+    return desc;
+  }
+
   async function getNormal() {
     const url = randomNormal();
     const map = await new THREE.TextureLoader().loadAsync(url);
@@ -61,7 +67,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     map.repeat.set(scale, scale); // Adjust the scale along U and V axes
     return map;
   }
-  
+
   async function getDepth() {
     const url = randomDepth();
     const map = await new THREE.TextureLoader().loadAsync(url);
@@ -94,37 +100,40 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
   }
 
   async function randomizeAll(mode = null, oldmodel = null) {
-    console.log('RANDOMIZE ALL', mode, oldmodel);
-    // use Promise.all so we wait to set any state until we have all the info at once –
-    // this prevents the model from being drawn multiple times with incomplete data every time one of the states updates
-    let model, normal, depth, newcolor;
+    // console.log('RANDOMIZE ALL', mode, oldmodel);
+
+    // use Promise.all so we don't set any state before we have all the info at once –
+    // this prevents the model from being drawn multiple times with incomplete data every time one of the state values updates
+    let model, normal, depth, description;
+    const newcolor = randomColor();
     if (mode && oldmodel) {
-      [normal, depth, newcolor] = await Promise.all([getNormal(), getDepth(), getColor()]);
+      [normal, depth, description] = await Promise.all([getNormal(), getDepth(), fetchDescription(newcolor)]);
       setModel(oldmodel)
     }
     else if (mode) {
-      [model, normal, depth, newcolor] = await Promise.all([getModel(), getNormal(), getDepth(), getColor()]);
+      [model, normal, depth, description] = await Promise.all([getModel(), getNormal(), getDepth(), fetchDescription(newcolor)]);
       setModel(model)
     }
     else {
-      [model, normal, depth, newcolor, mode] = await Promise.all([getModel(), getNormal(), getDepth(), getColor(), getMode()]);
+      [model, normal, depth, description, mode] = await Promise.all([getModel(), getNormal(), getDepth(), fetchDescription(newcolor), getMode()]);
       setModel(model)
     }
-    console.log('mode:', mode, newcolor);
+    // console.log('mode:', mode, description);
     setNormalMap(normal)
     setDepthMap(depth)
-    // setEnvMap(env)
-    // trigger material to reload if there's already a mode set
-    setMattrigger(Math.random())
+    // setEnvMap(env) // not worth the trouble
     setMode(mode)
     setColor(newcolor)
+    setDescription(description)
     gemDone()
   }
 
-  // watch for triggers from app
   useEffect(() => {
-    // console.trace('>> useeffect trigger', trigger)
-    // console.log('mode:', mode);
+    setText(desc)
+  }, [desc])
+
+    // watch for triggers from app
+  useEffect(() => {
     if (trigger) {
       trigger = trigger[0];
       if (trigger == 'shape') {
