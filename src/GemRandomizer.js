@@ -1,13 +1,10 @@
 
 import * as THREE from 'three'
 import { useEffect, useState } from 'react'
-import { useLoader, useThree } from '@react-three/fiber'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the OBJLoader module
-import { useTexture, Plane } from '@react-three/drei'
+import { useLoader } from '@react-three/fiber'
 import { useControls } from 'leva'
 import { RGBELoader } from 'three-stdlib'
 import { EquirectangularReflectionMapping } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Center } from '@react-three/drei'
 import * as _ from 'lodash'
 import ParallaxMesh from './ParallaxMesh'
@@ -16,11 +13,9 @@ import CrystalMaterial from './CrystalMaterial'
 import DeepMat from './DeepMat'
 import SSSMesh from './SSSMesh'
 import { Rock } from './Rock'
-import { getMaterial } from './getMaterial'
-import { models, combomodels } from './models'
 import { getModel } from './getModel'
 import { getDescription } from './getDescription.js'
-import { getColor, shuffleArray, randomBetween } from './utils';
+import { randomBetween } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
@@ -64,7 +59,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
     const scale = randomBetween(1, 10)
-    map.repeat.set(scale, scale); // Adjust the scale along U and V axes
+    map.repeat.set(scale, scale); // adjust the scale along U and V axes
     return map;
   }
 
@@ -73,7 +68,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
-    map.repeat.set(2, 2); // Adjust the scale along U and V axes (this is further adjusted in the shader)
+    map.repeat.set(2, 2); // adjust the scale along U and V axes (this is further adjusted in the shader)
     return map;
   }
 
@@ -83,11 +78,11 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     // const map = await useLoader(RGBELoader, url)
     const map = useLoader(RGBELoader, './textures/env/aerodynamics_workshop_1k.hdr')
 
-    map.mapping = EquirectangularReflectionMapping; 
-    
+    map.mapping = EquirectangularReflectionMapping;
+
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
-    map.repeat.set(2, 2); // Adjust the scale along U and V axes
+    map.repeat.set(2, 2); // adjust the scale along U and V axes
     return map;
   }
 
@@ -171,14 +166,13 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
         (async function () {
           const color = await getColor();
           const desc = await fetchDescription(color);
-          console.log('color:', color);
             setColor(color)
             setText(desc)
           })()
         } catch (e) {
           console.log(e);
         }
-  
+
       }
       else if (trigger == 'randomize') {
         randomizeAll()

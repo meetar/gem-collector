@@ -1,31 +1,10 @@
 import React from 'react';
 
-const people = [
-  'Atahualpa',
-  'Dom Pedro II',
- 'Shaka Zulu',
- 'Menelik II',
- 'Osei Kofi Tutu I',
- 'Ahmad al-Mansur',
- 'Simón Bolívar',
- 'Haile Selassie',
- 'José de San Martín',
- "Bernardo O'Higgins",
- 'Tupac Amaru II',
- 'Dom João VI',
- 'Yaa Asantewaa',
- 'Cetshwayo kaMpande',
- 'Tewodros II',
- 'Tiradentes',
- 'Emperor Pedro I'
-
-]
-
+const people = []
 
 class WikipediaLinksComponent extends React.Component {
-  // Define your list of names here
 
-  // Function to generate Wikipedia links
+  // function to generate Wikipedia links
   generateWikipediaLinks(names) {
     const wikipediaLinks = [];
 
@@ -38,12 +17,12 @@ class WikipediaLinksComponent extends React.Component {
     return wikipediaLinks;
   }
 
-  // Function to open Wikipedia pages in new tabs
+  // function to open Wikipedia pages in new tabs
   openWikipediaTabs() {
     const wikipediaLinks = this.generateWikipediaLinks(people);
 
     wikipediaLinks.forEach((link) => {
-      window.open(link, '_blank'); // Open each link in a new tab
+      window.open(link, '_blank'); // open each link in a new tab
     });
   }
 

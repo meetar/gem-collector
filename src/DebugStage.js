@@ -32,7 +32,7 @@ export default function DebugStage() {
     console.log('map:', map);
     map.wrapT = THREE.RepeatWrapping;
     map.wrapS = THREE.RepeatWrapping;
-    map.repeat.set(2, 2); // Adjust the scale along U and V axes
+    map.repeat.set(2, 2); // adjust the scale along U and V axes
     return map;
   }
 
@@ -109,10 +109,10 @@ export default function DebugStage() {
     // normalmap.normalMapType = THREE.TangentSpaceNormalMap;
     
 
-    // btexture.repeat.set(3, 3); // Adjust the scale along U and V axes
-    normalmap.repeat.set(2, 2); // Adjust the scale along U and V axes
-    // normalmap.repeat.set(3, 3); // Adjust the scale along U and V axes
-    // normalTexture.repeat.set(3, 3); // Adjust the scale along U and V axes
+    // btexture.repeat.set(3, 3); // adjust the scale along U and V axes
+    normalmap.repeat.set(2, 2); // adjust the scale along U and V axes
+    // normalmap.repeat.set(3, 3); // adjust the scale along U and V axes
+    // normalTexture.repeat.set(3, 3); // adjust the scale along U and V axes
     const test = new THREE.PlaneGeometry(1., 1, 10);
     return (normalMap && 
       <>

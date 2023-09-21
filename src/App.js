@@ -39,11 +39,11 @@ export function App() {
 
   useControls({
     RANDOMIZE: button( () => { 
-      console.clear()
       lowerCurtain()
     }),
     NightMode: button( () => { 
       setNightMode(val => !val)
+
     }),
   });
 
@@ -53,7 +53,7 @@ export function App() {
     raiseCurtain()
   }
 
-  // Function to start the opacity animation
+  // function to start the opacity animation
   const lowerCurtain = () => {
     setCurtainOpacity(1);
     setCurtainVisibility('visible')
@@ -92,6 +92,11 @@ export function App() {
     </Canvas>
     {/* <DebugStage /> */}
 </div>
+
+<div className="centered-button">
+  <button>Centered Button</button>
+</div>
+
 </>
   )
 }

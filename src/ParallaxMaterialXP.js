@@ -6,7 +6,7 @@ import { randomBetween, createColorTexture } from './utils';
 import { colorMap } from './textureUtils';
 import { roll } from './getDescription';
 
-// Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
+// tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 const ParallaxMaterialXP = ({trigger, texture, config}) => {
   const vertexShader = useLoader(THREE.FileLoader, './vertexShader.vert');
   const fragmentShader = useLoader(THREE.FileLoader, './parallaxXP.frag');
@@ -29,7 +29,7 @@ const ParallaxMaterialXP = ({trigger, texture, config}) => {
       map.wrapS = THREE.MirroredRepeatWrapping;
       
       const scale = randomBetween(2, 10)
-      map.repeat.set(scale, scale); // Adjust the scale along U and V axes
+      map.repeat.set(scale, scale); // adjust the scale along U and V axes
       return map
     } : createColorTexture({r: Math.random(), g: Math.random(), b: Math.random()}); // create a single-pixel texture of a random color  
   }

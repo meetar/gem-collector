@@ -19,12 +19,12 @@ export function DiamondMaterial({trigger, config, color, geometry, envMap, norma
   // console.log('diamond mat, envmap:', envMap);
   // envMap = useLoader(TextureLoader, './textures/UVs.jpeg')
 
-  // State variable to hold the randomized controls
+  // state variable to hold the randomized controls
   const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(diamondcontrols));
   // set up leva with first version of the randomized controls – don't rely on state being set here yet
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (randomizedControls), {collapsed: true})
 
-  // Function to re-randomize and update the controls
+  // function to re-randomize and update the controls
   const reloadControls = () => {
     const newRandomizedControls = randomizeLevaControls(diamondcontrols);
     setRandomizedControls(newRandomizedControls);

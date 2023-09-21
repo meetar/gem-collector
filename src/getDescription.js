@@ -1,7 +1,7 @@
 import * as _ from 'lodash'
 import * as THREE from 'three'
 import { useLoader } from '@react-three/fiber'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the OBJLoader module
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { shuffleArray, divideCircleIntoPoints } from './utils';
 import { models, combomodels } from './models';
@@ -53,16 +53,13 @@ async function getName(color) {
 }
 
 function removeDuplicateWords(str) {
-  // Split the string into words
+  // split the string into words
   const words = str.split(' ');
 
-  // Use a Set to store unique words
-  const uniqueWords = new Set();
+  // add the words to a Set to remove duplicates
+  const uniqueWords = new Set(words);
 
-  // Iterate through the words and add them to the Set (which automatically removes duplicates)
-  words.forEach(word => uniqueWords.add(word));
-
-  // Convert the Set back to an array and join the words into a string
+  // convert the Set back to an array and join the words into a string
   const uniqueString = Array.from(uniqueWords).join(' ');
 
   return uniqueString;
@@ -81,20 +78,19 @@ function getDesc() {
   roll() ? `${cap(adv())} ${adj()}`
   : `${cap(adj())} and ${adj()}`
 
-  if (roll(1)) {
+  if (roll(.4)) {
     intro += '.'
   } else {
     intro += `, it ${gemVerb()}`
   }
-  const loc = roll(1) ? ` ${cap(location())}.` : '';
+  const loc = roll(.4) ? ` ${cap(location())}.` : '';
 
-  const prov = roll(1) ? ` ${cap(getProvenance())}.` : '';
+  const prov = roll(.4) ? ` ${cap(getProvenance())}.` : '';
 
-  const power = roll(1) ? ` ${cap(getPower())}.` : '';
+  const power = roll(.4) ? ` ${cap(getPower())}.` : '';
 
-  const warning = roll(1) ? ` ${cap(getWarning())}.` : '';
+  const warning = roll(.4) ? ` ${cap(getWarning())}.` : '';
 
-  // return power;
   return intro + loc + prov + power + warning;
 }
 
@@ -320,9 +316,10 @@ function stripColors(colorName) {
     return filteredWords.join(' ');
 }
 
+// this gets and processes names for a given hex color
 async function fetchColors(color) {
   // return false // turn off for now
-  color = color.replace('#', ''); // Removes the '#' character
+  color = color.replace('#', ''); // removes the '#' character
   try {
     const response = roll() ? await fetch(`https://api.color.pizza/v1/?values=${color}&list=thesaurus`) :
                               await fetch(`https://api.color.pizza/v1/?values=${color}&list=ridgway`);
@@ -334,16 +331,15 @@ async function fetchColors(color) {
     const data = await response.json();
     // console.log('Response:', data);
 
-    // Assuming the data structure has a 'value' property
+    // assuming the data structure has a 'value' property
     let colorValue = data.colors[0].name;
 
     colorValue = stripColors(colorValue)
 
-    // Now you can use 'colorValue' for further processing
     return colorValue;
   } catch (error) {
     console.error('Error:', error);
-    // throw error; // Rethrow the error if needed
+    // throw error; // rethrow the error if needed
     return false;
   }
 }

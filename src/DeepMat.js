@@ -18,7 +18,7 @@ import { deepControls } from './deepControls';
 
 // a material with inner depths
 export default function DeepMat({trigger, config, color, geometry, normalMap, depthMap, envMap, texture, ...props}) {
-  // State variables to hold the randomized controls
+  // state variables to hold the randomized controls
   const [randomDeepControls, setRandomDeepControls] = useState(randomizeDeep());
   const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
 
@@ -46,7 +46,7 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
   const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
   const [{ ...parallaxConfig }, setPxControls] = useControls('Parallax', () => (randomPxControls), {collapsed: true})
 
-  // Function to re-randomize and update the controls
+  // function to re-randomize and update the controls
   const reloadControls = () => {
     const randomDeep = randomizeDeep()
     setRandomDeepControls(randomDeep);
@@ -70,7 +70,7 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
   
   depthMap.wrapT = THREE.RepeatWrapping;
   depthMap.wrapS = THREE.RepeatWrapping;
-  depthMap.repeat.set(2, 2); // Adjust the scale along U and V axes
+  depthMap.repeat.set(2, 2); // adjust the scale along U and V axes
 
   return (
     <>

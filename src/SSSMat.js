@@ -5,7 +5,7 @@ import { useTexture } from '@react-three/drei'
 import { useControls, button } from 'leva'
 import { hexToVec3 } from './utils'
 
-// Tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
+// tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 export default function SSSMat ({texture, color, config, depthMap}) {
   const {...sssControls} = useControls('SSS', {
     thicknessColor: color,

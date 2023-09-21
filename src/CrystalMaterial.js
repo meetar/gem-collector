@@ -46,13 +46,13 @@ export default function CrystalMaterial({config, color, geometry, texture, envMa
 
   // let { ...smokeyCrystal } = useControls(smokeyCrystal)
   // debugger
-  // Object.assign(crystalconfig, smokeyCrystal)
+  // object.assign(crystalconfig, smokeyCrystal)
   // setDiamondControls({...smokeyCrystal})
   // console.log('crystal normal:', normalMap);
 
   normalMap.wrapT = THREE.RepeatWrapping;
   normalMap.wrapS = THREE.RepeatWrapping;
-  normalMap.repeat.set(2, 2); // Adjust the scale along U and V axes
+  normalMap.repeat.set(2, 2); // adjust the scale along U and V axes
 
   return (
     <>

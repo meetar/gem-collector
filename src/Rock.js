@@ -2,7 +2,7 @@ import * as CSG from '@react-three/csg'
 import { Geometry, Base, Addition, Subtraction, Intersection, Difference } from '@react-three/csg'
 import RockMaterial from './RockMaterial'
 import { useLoader } from '@react-three/fiber'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'; // Import the OBJLoader module
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Center, MeshTransmissionMaterial, Sphere } from '@react-three/drei'
 
 
