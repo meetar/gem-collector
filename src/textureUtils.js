@@ -19,7 +19,7 @@ export const randomNormal = () => {
   'lava-normal2.jpeg'
   ];
   let map = _.sample(maps);
-  console.log('fetching', './textures/'+map);
+  // console.log('fetching', './textures/'+map);
   return './textures/normal/'+map;
 }
 

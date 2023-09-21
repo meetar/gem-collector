@@ -18,6 +18,7 @@ import * as harms from './harms'
 import { provenance, provenanceFunctions } from './provenance'
 import { conditions, gemverbs } from './conditions'
 
+// flip a coin with a n * 100 percent chance of success
 export function roll(chance = .5) {
   return Math.random() < chance;
 }
@@ -42,7 +43,7 @@ async function getName(color) {
     string += _.sample(consonants) + _.sample(vowelsy)
   }
 
-  let suffix = _.sample(['ine', 'orum', 'orundum', 'inium', 'itite', 'ite', 'ite', 'ite', 'ine'])
+  let suffix = _.sample(['ine', 'orum', 'ium', 'orundum', 'nium', 'tite', 'inium', 'itite', 'ite', 'ite', 'ite', 'ine'])
 
   const prefix = await getPrefix(color);
   let name = `${prefix}${string}${_.sample(consonants)}${suffix}`;

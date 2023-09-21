@@ -16,17 +16,10 @@ import { parallaxcontrols } from './parallaxcontrols';
 import { randomizeLevaControls, simpleControls } from './utils'
 import { deepControls } from './deepControls';
 
-
+// a material with inner depths
 export default function DeepMat({trigger, config, color, geometry, normalMap, depthMap, envMap, texture, ...props}) {
-// console.log('DeepMat', config.color);
-
-// const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
-// const [{ ...parallaxConfig }, setParallaxControls] = useControls('Parallax', () => (parallaxcontrols), {collapsed: true})
-
   // State variables to hold the randomized controls
-  // const [randomDeepControls, setRandomDeepControls] = useState();
-  const [randomDeepControls, setRandomDeepControls] = useState(randomDeep());
-  // const [randomPxControls, setRandomPxControls] = useState();
+  const [randomDeepControls, setRandomDeepControls] = useState(randomizeDeep());
   const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
 
   function roundToNearest(x, n) {
@@ -37,7 +30,7 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
     roundToNearest(attribute.value, attribute.step)
   }
   
-  function randomDeep() {
+  function randomizeDeep() {
     const controls = randomizeLevaControls(deepControls);
     controls.transmission.value = 1 - ( controls.transmission.value / 2 );
     controls.opacity.value = 1 - ( controls.opacity.value / 2 );
@@ -50,19 +43,18 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
   }
 
   // set up leva with first version of the randomized controls – don't rely on state being set here yet
-  // const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (randomDeepControls), {collapsed: true})
   const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
   const [{ ...parallaxConfig }, setPxControls] = useControls('Parallax', () => (randomPxControls), {collapsed: true})
 
   // Function to re-randomize and update the controls
   const reloadControls = () => {
-    const newRandomDeepControls = randomDeep()
-    setRandomDeepControls(newRandomDeepControls);
-    setDeepControls(simpleControls(newRandomDeepControls));
+    const randomDeep = randomizeDeep()
+    setRandomDeepControls(randomDeep);
+    setDeepControls(simpleControls(randomDeep));
 
-    const newRandomPxControls = randomizeLevaControls(parallaxcontrols);
-    setRandomDeepControls(newRandomPxControls);
-    setPxControls(simpleControls(newRandomPxControls));
+    const randomPX = randomizeLevaControls(parallaxcontrols);
+    setRandomDeepControls(randomPX);
+    setPxControls(simpleControls(randomPX));
   };
 
   // useEffect to re-randomize on component mount
@@ -70,38 +62,16 @@ export default function DeepMat({trigger, config, color, geometry, normalMap, de
     reloadControls();
   }, [trigger]);
 
-
-
-
-// const [parallaxConfig, setParallaxConfig] = useState(pconfig)
-// const [{ ...dconfig }, setDeepControls] = useControls('Deep', () => (deepControls))
-// const [deepConfig, setDeepConfig] = useState(dconfig)
-
-// useEffect(() => {
-//   setParallaxConfig(pconfig)
-// }, [pconfig])
-// useEffect(() => {
-//   setDeepConfig(dconfig)
-// }, [dconfig])
-
-deepConfig._displacement = -.01;
-
+  deepConfig._displacement = -.01;
 
   envMap.mapping = EquirectangularReflectionMapping; 
   normalMap.wrapT = THREE.RepeatWrapping;
   normalMap.wrapS = THREE.RepeatWrapping;
-  // normalMap.magFilter = THREE.NearestFilter;
-  // normalMap.repeat.set(2, 2); // Adjust the scale along U and V axes
   
   depthMap.wrapT = THREE.RepeatWrapping;
   depthMap.wrapS = THREE.RepeatWrapping;
   depthMap.repeat.set(2, 2); // Adjust the scale along U and V axes
-  // ptexture.magFilter = THREE.NearestFilter;
 
-  // eventually check out https://discourse.threejs.org/t/how-to-smooth-an-obj-with-threejs/3950/11
-  // for converting from hard to smooth vertex normals - have to combine dupe verts first
-
-  // TODO: is the parallaxMaterial color being used?
   return (
     <>
       <mesh scale={1} renderOrder={2} geometry={geometry} transparent={true} castShadow >
@@ -118,7 +88,7 @@ deepConfig._displacement = -.01;
           <ParallaxMaterial
           config={{...config, ...parallaxConfig, ...deepConfig}}
           texture={depthMap}
-          color={color}
+          color={color} // TODO: is the parallaxMaterial color being used?
           isShaderMaterial
           opacity={config.opacity}
           transparent={true}

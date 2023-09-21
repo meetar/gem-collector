@@ -32,7 +32,7 @@ const smokeyCrystal = {
   normalScale: { value: .28, min: 0, max: 1, step: 0.01 },
 }
 
-
+// a hazy material with an inner glow
 export default function CrystalMaterial({config, color, geometry, texture, envMap, normalMap}) {
   // console.log('crystalconfig');
 

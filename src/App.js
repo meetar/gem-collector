@@ -47,13 +47,12 @@ export function App() {
   const raiseCurtain = () => {
     setCurtainOpacity(0);
     setTimeout(() => {
-      console.log('setting to none');
       setCurtainVisibility('hidden');
     }, 1000); // synchronize this timing with the curtain opacity transition timing
   };
 
   const textColor = nightMode ? "white" : "black";
-  const bgColor = nightMode ? "#222" : "#ccc";
+  const bgColor = nightMode ? "#222" : "#eee";
 
   return (
     <>

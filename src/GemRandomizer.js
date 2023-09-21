@@ -1,3 +1,4 @@
+
 import * as THREE from 'three'
 import { useEffect, useState } from 'react'
 import { useLoader, useThree } from '@react-three/fiber'
@@ -25,7 +26,7 @@ import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
 export function GemRandomizer({ config, trigger, setText, gemDone }) {
   // console.log('>> GemRandomizer <<', intensity);
-
+    
   // const [mode, setMode] = useState();
   const [mode, setMode] = useState('deep');
   const [statecolor, setColor] = useState('');
@@ -42,13 +43,9 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       value: statecolor,
       label: 'Color',
       onChange: async (v) => {
-        console.log('color changed:', v);
-        if (v == '') return;
         setColor(v)
-        let desc = await getDescription(v)
-        console.log('new desc', desc);
-        setText(desc)
-      }},
+      }
+    },
   }));
 
   useEffect(() => {
@@ -56,7 +53,6 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
   }, [statecolor])
 
   async function getNormal() {
-    // console.log('getNormal:');
     const url = randomNormal();
     const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
@@ -67,7 +63,6 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
   }
   
   async function getDepth() {
-    // console.log('getDepth');
     const url = randomDepth();
     const map = await new THREE.TextureLoader().loadAsync(url);
     map.wrapT = THREE.RepeatWrapping;
@@ -139,86 +134,70 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
         })()
       }
       else if (trigger == 'depth') {
-        // console.log('trigger: depth');
-        // setDepthMap(getDepth)
         (async function () {
           const depth = await getDepth();
           setDepthMap(depth)
         })()
       }
       else if (trigger == 'normal') {
-        // console.log('trigger: normal');
         (async function () {
           const normal = await getNormal();
           setNormalMap(normal)
         })()
       }
-      else if (trigger == 'env') {
-        console.log('trigger: env');
-        (function () {
-
-          // const env = await getEnv();
-          const env = getEnv();
-          // giving up on dynamic imports for now - might have something to do with the requirement for PMREMGenerator ¯\_(ツ)_/¯
-          // const env = useLoader(RGBELoader, './textures/env/aerodynamics_workshop_1k.hdr')
-
-          setEnvMap(env)
-        })()
-      }
+      // else if (trigger == 'env') {
+      //   (function () {
+      //     const env = getEnv();
+      //     // const env = await getEnv();
+      //     // giving up on dynamic hdr imports for now - unstable and heisenbuggy
+      //     // might have something to do with the requirement for PMREMGenerator ¯\_(ツ)_/¯
+      //     // const env = useLoader(RGBELoader, './textures/env/aerodynamics_workshop_1k.hdr')
+      //     setEnvMap(env)
+      //   })()
+      // }
       else if (trigger == 'color') {
-        // console.log('trigger: color');
+        // debugger
+        try {
+
         (async function () {
-          const newcolor = await getColor();
-          setColor(newcolor)
-        })()
+          const color = await getColor();
+          const desc = await fetchDescription(color);
+          console.log('color:', color);
+            setColor(color)
+            setText(desc)
+          })()
+        } catch (e) {
+          console.log(e);
+        }
+  
       }
       else if (trigger == 'randomize') {
-        // console.log('trigger: normal');
         randomizeAll()
       }
       else {
-        // this randomizes everything except the mode, passed as the trigger
+        // this randomizes everything except the mode, passed as the trigger // unused
         randomizeAll(trigger, model)
-        // setMode(trigger)
       }
-      trigger = null;
     } else {
-      // console.log('no trigger, initializing with new randomize');
+      // console.log('no trigger, initializing with new randomize'); // unused
       // randomizeAll(mode)
     }
   }, [trigger])
 
-  // console.log('gem mode', mode);
   if (!model) {
-    // console.error('No model');
+    // the async functions haven't returned yet, don't render anything
     return null;
-  }
-  if (!mode) {
-    // console.error('No mode');
-  }
-
-  // unused, the materials and mesh setups are too idiosyncratic to formalize yet
-  const materialProps = {
-    geometry: model,
-    color: statecolor,
-    normalMap,
-    depthMap,
-    config
   }
 
 return ( mode &&
     <>
 
-      { mode == 'parallax' ? (
-        <ParallaxMesh geometry={model} color={statecolor} config={config} castShadow />
-      ) : mode == 'gem' ? (
+      { mode == 'gem' ? (
         <DiamondMaterial trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
       ) : mode == 'crystal' ? (
         <mesh geometry={model} castShadow >
           <CrystalMaterial trigger={mattrigger} normalMap={normalMap} color={statecolor} geometry={model} envMap={envMap} config={config} />
         </mesh>
-      ) : mode == 'sss' ? (
-        <SSSMesh trigger={mattrigger} geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
       ) : mode == 'deep' ? (
         <DeepMat trigger={mattrigger} geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
       ) : (

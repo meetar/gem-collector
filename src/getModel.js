@@ -18,9 +18,8 @@ export const getModel = async () => {
   const mesh = './models/'+_.sample(models)
   const loader = new OBJLoader();
   const obj = await loader.loadAsync(mesh)
-  console.log('obj:', mesh);
+  // console.log('obj:', mesh);
   const geo = obj.children[0].geometry;
-  // console.log('>> returning geo', mesh);
   return geo
 }
 

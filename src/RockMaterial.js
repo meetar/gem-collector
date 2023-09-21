@@ -18,7 +18,7 @@ const RockMaterial = ({texture, config}) => {
   normalmap.repeat.set(2, 2); // Adjust the scale along U and V axes
 
   return (
-    <meshPhongMaterial transparent={true} side={THREE.DoubleSide} color={'grey'} normalMap={normalmap} specularMap={normalmap} specular={'#fff'} />
+    <meshPhongMaterial transparent={true} side={THREE.DoubleSide} color={'grey'} normalMap={normalmap} specularMap={normalmap} specular={'#666'} />
   )
 }
 

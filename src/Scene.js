@@ -39,17 +39,25 @@ useEffect(() => {
   });
 
   const softShadowsProps = {
-    size: { value: 10, min: 0, max: 50, step: 1 },
-    samples: { value: 10, min: 1, max: 50, step: 1 },
-    focus: { value: 10, min: 0, max: 50, step: 1 },
+    size: 10,
+    samples: 10,
+    focus: 10,
   }
-  const [{ ...softShadows }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
+
+  // for use with Leva controls
+  // const softShadowsProps = {
+  //   size: { value: 10, min: 0, max: 50, step: 1 },
+  //   samples: { value: 10, min: 1, max: 50, step: 1 },
+  //   focus: { value: 10, min: 0, max: 50, step: 1 },
+  // }
+  // const [{ ...softShadowsUI }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
 
 return (
       <>
         {/* <color attach="background" args={[nightMode ? "black" : "white"]} /> */}
-        <SoftShadows {...softShadows} />
-        {/* <axesHelper args={[1]} /> */}
+
+        {/* <SoftShadows {...softShadowsUI} /> */}
+        <SoftShadows {...softShadowsProps} />
 
         <ambientLight intensity={0.1} />
         <directionalLight castShadow position={[0, 10, 0]} intensity={1} />
@@ -62,13 +70,7 @@ return (
           />
 
         <EffectComposer>
-          {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
-
-          {/* <renderPass attachArray="passes" scene={undefined} camera={undefined} />
-          <shaderPass attachArray="passes" args={[grayscaleShader]} /> */}
-
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
-          {/* <TextureEffect /> */}
         </EffectComposer>
 
         {/** Controls */}
