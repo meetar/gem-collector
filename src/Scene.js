@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { Canvas, useFrame,  } from '@react-three/fiber'
-import { EffectComposer, Bloom, DepthOfField } from '@react-three/postprocessing'
-import { Stats, SoftShadows, useTexture } from '@react-three/drei'
+import { EffectComposer, Bloom, Pixelation } from '@react-three/postprocessing'
+import { Stats, SoftShadows, useTexture, AdaptiveDpr } from '@react-three/drei'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
 import { useState, useRef, useEffect } from 'react'
@@ -11,17 +11,30 @@ import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
+import { AnimatedPixelize } from './AnimatedPixelize';
 
 
 
 export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
   const [trigger, setTrigger] = useState()
+  const [pixelSize, setPixelSize] = useState(256)
+  const [pixelTrigger, setPixelTrigger] = useState('in')
 
   const [{ ...randomConfig }, setControls] = useControls('General', () => (randomControls), {collapsed: true})
 
-useEffect(() => {
-  // console.log('saw randomizeTrigger');
-  setTrigger(['randomize', Math.random()]  )
+  // animate in when a new gem is ready
+  // wrap the gemDone function with the pixelTrigger
+  function gemReady() {
+    gemDone()
+    setPixelTrigger('in')
+  }
+
+  // animate out and make a new one
+  useEffect(() => {
+    setPixelTrigger('out')
+    setTimeout(() => {
+      setTrigger(['randomize', Math.random()])
+    }, 500); // synchronize this timing with the curtain opacity transition timing
 }, [randomizeTrigger])
 
   // leva controls which use functions defined in this component
@@ -52,6 +65,26 @@ useEffect(() => {
   // }
   // const [{ ...softShadowsUI }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
 
+
+  useEffect(() => {
+    const animatePixelize = async () => {
+      let c = pixelTrigger == 'in' ? 256 : 1;
+      setPixelSize(c)
+      // set 10 timeouts to animate the pixel size
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          c = pixelTrigger == 'in' ?
+            Math.floor(c /= 2) // half the previous value
+            : Math.min(128, Math.floor(c *= 2)) // twice the previous value
+          setPixelSize(c); // Update the state
+        }, i * 100); // delay each update by 100ms
+      }
+    };
+    animatePixelize();
+  }, [pixelTrigger]);
+
+
+
 return (
       <>
         {/* <color attach="background" args={[nightMode ? "black" : "white"]} /> */}
@@ -66,13 +99,15 @@ return (
           trigger={trigger}
           config={randomConfig}
           setText={setText}
-          gemDone={gemDone}
+          gemDone={gemReady}
           />
 
         <EffectComposer>
+          <Pixelation granularity={pixelSize} />
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
         </EffectComposer>
 
+ 
         {/** Controls */}
         <OrbitControls autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.3} enableRotate={true} />
 
