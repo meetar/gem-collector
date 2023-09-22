@@ -176,6 +176,7 @@ body {
   padding-top: 20px;
   color: black;
   font-style: normal;
+  display: block;
 }
 .nightmode .coda {
   color: white;
