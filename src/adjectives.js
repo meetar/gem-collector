@@ -220,7 +220,7 @@ module.exports = [
   'early',
   'earthy',
   'easy',
-  'eatable',
+  'edible',
   'economic',
   'educated',
   'effervescent',

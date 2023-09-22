@@ -29,35 +29,32 @@ export function App() {
         setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden') // toggle value
       }
     };
-
-    // add the event listener when the component mounts
     window.addEventListener('keydown', handleKeyPress);
 
     // remove the event listener when the component unmounts
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []); // empty dependency array means this effect runs once, like componentDidMount
+  }, []);
 
-
+  function toggleNightMode() {
+    setNightMode(val => !val)
+  }
   function setText(text='') {
     setName(text.name);
     setDesc(text.desc);
   }
 
   useControls({
-    RANDOMIZE: button( () => { 
+    RANDOMIZE: button( () => {
       lowerCurtain()
     }),
-    NightMode: button( () => { 
-      setNightMode(val => !val)
-
+    NightMode: button( () => {
+      toggleNightMode()
     }),
   });
 
-
   function gemDone() {
-    // console.warn('GEM DONE');
     raiseCurtain()
   }
 
@@ -65,9 +62,7 @@ export function App() {
   const lowerCurtain = () => {
     setCurtainOpacity(1);
     setCurtainVisibility('visible')
-    setTimeout(() => {
-      setTrigger(Math.random())
-    }, 1000); // synchronize this timing with the curtain opacity transition timing
+    setTrigger(Math.random())
   };
 
   const raiseCurtain = () => {
@@ -88,15 +83,12 @@ export function App() {
     <Leva />
   </div>
 
-  <div className="interface" style={{color: textColor}}>
-    <p className="gemName" style={{fontSize: '2em'}}>{name}</p>
-    <p className="description" style={{color: textColor, fontSize: '1.2em', width: '800px'}}>{desc}</p>
-    <button id="summon" onClick={lowerCurtain}>Summon Another</button>
-  </div>
+<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} name={name} desc={desc} next={lowerCurtain}/>
 
+  {/* <button id="summon" onClick={lowerCurtain}>LOOK AGAIN</button> */}
   <div id="bg" style={{ backgroundColor: bgColor}}></div>
 
-<div style={{height: '100%', zIndex: 0, }}>
+  <div style={{height: '100%', zIndex: 0, }}>
     <Canvas shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
       <PerformanceMonitor onChange={(stats) => {
 
@@ -128,7 +120,8 @@ export function App() {
         // let dpr = _.round(0.5 + .25 * factor, 1);
         // console.log('dpr:', dpr);
         return setDpr(dpr)
-      }}>
+
+}}>
 
 
       {/* put everything into a component inside Canvas, to avoid the R3F Hooks warning - this provides the Canvas context */}

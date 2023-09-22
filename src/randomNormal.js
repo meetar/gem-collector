@@ -1,12 +1,9 @@
 import * as _ from 'lodash'
-import * as THREE from 'three'
-import { useLoader } from '@react-three/fiber'
 import { TextureLoader } from 'three';
 
 
 export const randomNormal = () => {
-  console.log('randomNormal');
-  // const normalMap = useLoader(TextureLoader, './textures/6056-normal.jpg')
+  // console.log('randomNormal');
   let maps = [
 '6056-normal.jpg',
 // '4979-normal.jpg',
@@ -17,7 +14,7 @@ export const randomNormal = () => {
 'normals2.jpeg',
 ];
   let map = _.sample(maps);
-  console.log('fetching', './textures/'+map);
+  // console.log('fetching', './textures/'+map);
   return './textures/'+map;
 }
 

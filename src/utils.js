@@ -175,3 +175,12 @@ export function createColorTexture(color) {
 
   return texture;
 }
+
+
+export function roundToNearest(x, n) {
+  return Math.round(x / n) * n;
+}
+
+export function roundValue(attribute) {
+  roundToNearest(attribute.value, attribute.step)
+}

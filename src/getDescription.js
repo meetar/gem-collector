@@ -325,7 +325,7 @@ async function fetchColors(color) {
                               await fetch(`https://api.color.pizza/v1/?values=${color}&list=ridgway`);
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      // throw new Error('Network response was not ok');
     }
 
     const data = await response.json();
@@ -338,7 +338,7 @@ async function fetchColors(color) {
 
     return colorValue;
   } catch (error) {
-    console.error('Error:', error);
+    // console.error('Error:', error);
     // throw error; // rethrow the error if needed
     return false;
   }

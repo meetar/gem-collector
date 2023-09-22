@@ -13,47 +13,37 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
-import { randomizeLevaControls, simpleControls } from './utils'
+import { randomizeLevaControls, simpleControls, roundValue, roundToNearest } from './utils'
 import { deepControls } from './deepControls';
 
 // a material with inner depths
 export default function DeepMat({trigger, config, color, geometry, normalMap, depthMap, envMap, texture, ...props}) {
-  // state variables to hold the randomized controls
-  const [randomDeepControls, setRandomDeepControls] = useState(randomizeDeep());
-  const [randomPxControls, setRandomPxControls] = useState(randomizeLevaControls(parallaxcontrols));
-
-  function roundToNearest(x, n) {
-    return Math.round(x / n) * n;
-  }
-
-  function roundValue(attribute) {
-    roundToNearest(attribute.value, attribute.step)
-  }
   
   function randomizeDeep() {
     const controls = randomizeLevaControls(deepControls);
+
+    // tune these
     controls.transmission.value = 1 - ( controls.transmission.value / 2 );
     controls.opacity.value = 1 - ( controls.opacity.value / 2 );
     controls.roughness.value = controls.roughness.value / 2;
 
+    // round these off to their nearest 'step' value, or Leva will barf
     roundValue(controls.transmission)
     roundValue(controls.opacity)
     roundValue(controls.roughness)
     return controls;
   }
 
-  // set up leva with first version of the randomized controls – don't rely on state being set here yet
-  const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (deepControls), {collapsed: true})
-  const [{ ...parallaxConfig }, setPxControls] = useControls('Parallax', () => (randomPxControls), {collapsed: true})
+  // Leva setup - initialize controls with the same methods used to update them in reloadControls
+  const [{ ...deepConfig }, setDeepControls] = useControls('Deep', () => (randomizeDeep()), {collapsed: true})
+  const [{ ...parallaxConfig }, setPxControls] = useControls('Parallax', () => (randomizeLevaControls(parallaxcontrols)), {collapsed: true})
 
   // function to re-randomize and update the controls
   const reloadControls = () => {
     const randomDeep = randomizeDeep()
-    setRandomDeepControls(randomDeep);
     setDeepControls(simpleControls(randomDeep));
 
     const randomPX = randomizeLevaControls(parallaxcontrols);
-    setRandomDeepControls(randomPX);
     setPxControls(simpleControls(randomPX));
   };
 

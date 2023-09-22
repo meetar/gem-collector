@@ -120,6 +120,8 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     setMode(mode)
     setColor(newcolor)
     setDescription(description)
+    // trigger material to reload if there's already a mode set
+    setMattrigger(Math.random())
     gemDone()
   }
 
