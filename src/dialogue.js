@@ -16,7 +16,7 @@ export const greetings = [
   "Want to see some more weird rocks?",
   "I'm pretty sure these are all haunted.",
   "Can you help me lift this one?",
-  "Hang on a second, I need a fresh ledger book."
+  "Hang on, I need a fresh ledger book."
 ]
 
 export function getCoda() {
@@ -27,7 +27,9 @@ export function getCoda() {
     " ...This one makes me nervous.",
     " ...I'm not sure this is accurate.",
     " ...I wouldn't get too close.",
+    " ...It's heavier than it looks.",
     " ...I can't look away.",
-    " ...I think that's most of them. Oh wait, here's another crate."
+    " ...I think that's most of them. Oh wait, here's another crate.",
+    " ...We might have two of these."
   ])
 }

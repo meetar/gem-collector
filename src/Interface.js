@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react'
 
 
 export const Interface = ({nightMode, toggleNightMode, name, desc, next}) => {
-
+console.log(nightMode);
+  const nightModeClass = nightMode ? 'nightmode' : '';
   const [coda, setCoda] = useState()
 
   useEffect(() => {
@@ -12,19 +13,20 @@ export const Interface = ({nightMode, toggleNightMode, name, desc, next}) => {
   }, [desc])
 
   const textColor = nightMode ? "white" : "black";
-  const bgColor = nightMode ? "#222" : "#eee";
+  // const bgColor = nightMode ? "#222" : "#eee";
+  const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
   function Coda() {
     return coda && (<div className="coda">{coda}</div>)
   }
 return (
 <>
-  <div className="interface bottom" style={{color: textColor}}>
+  <div className={`interface bottom ${nightModeClass}`}>
     <div className="dialog">
       <div id="portrait"><img src="textures/person/gameboy.webp"></img></div>
-      <div id="text">
+      <div id="dialogtext">
         <div id="charname">RESEARCHER</div>
-        <div id="dialogtext"><span className="gemname">{name}</span>. {desc}<Coda /></div>
+        <div id="gemtext"><span id="gemname">{name}.</span> {desc}<Coda /></div>
         <div id="continue" onClick={next}>▾</div>
       </div>
     </div>

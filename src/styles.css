@@ -123,30 +123,47 @@ body {
   width: 100%;
   /* border: 3px solid green; */
   padding: 20px;
-  padding-top: 30px;
-  background: rgba(255, 255, 255, 0.5);
+  padding-top: 40px;
   justify-content: left;
   align-items: left;
   text-align: left;
   font-style: italic;
 }
+.nightmode #dialogtext {
+  background: rgba(64, 64, 64, 0.8)
+}
 
-#text {
+#dialogtext {
   position: relative;
 }
+.nightmode #dialogtext {
+  color: white;
+}
+
 #charname {
   position: absolute;
   left: 20px;
   top: -20px;
   border: 2px solid green;
-  background-color: white;
+  background: rgba(64, 64, 64, 0.8);
   padding: 10px;
   color: grey;
 }
 
-.gemname {
+#gemtext {
+
+}
+
+.nightmode #gemtext{
+  color: white;
+}
+
+#gemname {
   color: blue;
   font-style: italic;
+}
+.nightmode #gemname {
+  color: lightblue;
 }
 
 .gemquote {
@@ -156,12 +173,16 @@ body {
 
 .coda {
   /* border: 2px solid blue; */
-  padding-top: 10px;
+  padding-top: 20px;
   color: black;
   font-style: normal;
 }
+.nightmode .coda {
+  color: white;
+}
 
 #continue {
+  font-style: normal;
   position: absolute;
   right: 30px;
   bottom: -20px;
@@ -169,6 +190,17 @@ body {
   -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 3px;
   animation: bob 1s ease-in-out infinite;
+}
+
+#continue:hover {
+  color: grey;
+  cursor: pointer;
+}
+
+.nightmode #continue {
+  -webkit-text-stroke-color: #222;
+  -webkit-text-stroke-width: 3px;
+
 }
 
 @keyframes bob {
