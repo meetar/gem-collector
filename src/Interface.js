@@ -3,40 +3,26 @@ import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
 
 export const Interface = ({nightMode, toggleNightMode, name, desc, next}) => {
+console.log('Interface');
 
-let typer = useRef();
- 
 console.log(nightMode);
-  const nightModeClass = nightMode ? 'nightmode' : '';
-  const [coda, setCoda] = useState('');
-  const [continueButton, setContinueButton] = useState(false)
-console.log(coda);
+const nightModeClass = nightMode ? 'nightmode' : '';
+const [coda, setCoda] = useState('');
+const [continueButton, setContinueButton] = useState(false)
+
   useEffect(() => {
-    console.log('desc');
-    console.log('typer?', typer);
     setCoda(getCoda())
-    // typer.current.typing = 0;
-    // typer.current.typing = 1;
-    setTimeout(() => setContinueButton(true), 1000)
+    setContinueButton(false)
   }, [desc])
 
-  var delays = [{
-    // Add a 400ms delay following every period character.
-    at: new RegExp(/\s/),
-    delay: 400
-  }];
-  
+  useEffect(() => {
+    console.log('continueButton', continueButton);
+  }, [continueButton])
+
   const textColor = nightMode ? "white" : "black";
   // const bgColor = nightMode ? "#222" : "#eee";
   const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
-  const typeprops = {
-    delayMap: delays,
-    ref: typer,
-    typing: 1,
-    maxDelay: 10,
-    minDelay: 0,
-  }
   function Typist() {
     return (
       <TypeIt
@@ -47,7 +33,10 @@ console.log(coda);
           strings: [
             `<div id="gemtext"><span id="gemname">${name}.</span> ${desc}`,
             `${coda && '<span className="coda">'+coda+'</span>'}</div>`
-          ]
+          ],
+          afterComplete: () => {
+            setContinueButton(true)
+          }
         }}>
       </TypeIt>
     )
@@ -60,8 +49,8 @@ return (
       <div id="dialogtext">
         <div id="charname">RESEARCHER</div>
         <Typist />
-        {continueButton ? <div id="continue" onClick={next}>▾</div> : null }
       </div>
+        <div key="continue" className={`continue ${continueButton ? 'visible' : ''}`} id="continue" onClick={next}>▾</div>
     </div>
   </div>
 
@@ -70,10 +59,6 @@ return (
     <div id="info">?</div>
   </div>
 
-
-
-    {/* <p className="gemName" style={{fontSize: '2em'}}>{name}</p> */}
-    {/* <p className="description" style={{color: textColor, fontSize: '1.2em', width: '800px'}}>{desc}</p> */}
 </>
 )  
 }

@@ -191,11 +191,15 @@ body {
   -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 3px;
   animation: bob 1s ease-in-out infinite;
+  visibility: hidden;
 }
 
 #continue:hover {
   color: grey;
   cursor: pointer;
+}
+#continue.visible {
+  visibility: visible;
 }
 
 .nightmode #continue {
