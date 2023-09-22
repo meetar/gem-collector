@@ -78,6 +78,7 @@ export function App() {
 
   // function to start the opacity animation
   const lowerCurtain = () => {
+    setText()
     setCurtainOpacity(1);
     setCurtainVisibility('visible')
     setTrigger(Math.random())

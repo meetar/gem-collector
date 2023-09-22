@@ -1,14 +1,16 @@
 import { getCoda } from './dialogue.js'
 import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
+import TypistWrapper from './TypeistWrapper.js';
 
 export const Interface = ({nightMode, toggleNightMode, name, desc, next}) => {
-console.log('Interface');
-
+console.log('NAME', name);
+const typistRef = useRef()
 console.log(nightMode);
 const nightModeClass = nightMode ? 'nightmode' : '';
 const [coda, setCoda] = useState('');
 const [continueButton, setContinueButton] = useState(false)
+const [complete, setComplete] = useState(false)
 
   useEffect(() => {
     setCoda(getCoda())
@@ -23,24 +25,7 @@ const [continueButton, setContinueButton] = useState(false)
   // const bgColor = nightMode ? "#222" : "#eee";
   const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
-  function Typist() {
-    return (
-      <TypeIt
-        options={{
-          speed: 1,
-          waitUntilVisible: true,
-          cursor: false,
-          strings: [
-            `<div id="gemtext"><span id="gemname">${name}.</span> ${desc}`,
-            `${coda && '<span className="coda">'+coda+'</span>'}</div>`
-          ],
-          afterComplete: () => {
-            setContinueButton(true)
-          }
-        }}>
-      </TypeIt>
-    )
-  }
+ 
 return (
 <>
   <div className={`interface bottom ${nightModeClass}`}>
@@ -48,7 +33,21 @@ return (
       <div id="portrait"><img src="textures/person/gameboy.webp"></img></div>
       <div id="dialogtext">
         <div id="charname">RESEARCHER</div>
-        <Typist />
+        {desc ? <TypeIt
+        options={{
+          speed: 1,
+          cursor: false,
+          afterComplete: () => {
+            setComplete(true)
+            setContinueButton(true)
+          },
+          strings: [
+          `<div id="gemtext"><span id="gemname">${name}.</span> ${desc}`,
+          `${coda && '<span className="coda">'+coda+'</span>'}</div>`
+        ],
+
+        }} /> : <></>}
+
       </div>
         <div key="continue" className={`continue ${continueButton ? 'visible' : ''}`} id="continue" onClick={next}>▾</div>
     </div>
