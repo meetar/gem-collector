@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react'
 import WikipediaLinksComponent from './WikiLinks'
 import Scene from './Scene.js'
 import { Leva, useControls, button } from 'leva'
-
-
+import { getCoda } from './dialogue'
+import { Interface } from './Interface'
 
 export function App() {
   const [name, setName] = useState("")
@@ -17,6 +17,11 @@ export function App() {
   const [curtainOpacity, setCurtainOpacity] = useState(1);
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(1.5)
+  
+  const [first, setFirst] = useState(() => {
+    const savedCount = localStorage.getItem('count');
+    return savedCount ? parseInt(savedCount) : 0;
+  });
 
   useEffect(() => {
     const handleKeyPress = (event) => {
