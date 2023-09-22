@@ -101,7 +101,6 @@ module.exports = [
   'capricious',
   'careful',
   'careless',
-  'caring',
   'cautious',
   'charming',
   'chatoyant',

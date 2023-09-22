@@ -26,6 +26,8 @@ export function getCoda() {
     " ...I think I read about this one once.",
     " ...This one makes me nervous.",
     " ...I'm not sure this is accurate.",
-    " ...I wouldn't get too close."
+    " ...I wouldn't get too close.",
+    " ...I can't look away.",
+    " ...I think that's most of them. Oh wait, here's another crate."
   ])
 }
