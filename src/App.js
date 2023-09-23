@@ -7,6 +7,7 @@ import Scene from './Scene.js'
 import { Leva, useControls, button } from 'leva'
 import { getCoda } from './dialogue'
 import { Interface } from './Interface'
+import { Stats } from '@react-three/drei'
 
 function computeDPRScale(fps) {
   // Define the threshold values for DPR
@@ -24,13 +25,14 @@ function computeDPRScale(fps) {
 }
 
 export function App() {
-  const [desc, setDesc] = useState("")
+  const [desc, setDesc] = useState()
   const [randomizeTrigger, setTrigger] = useState()
   const [nightMode, setNightMode] = useState(false)
   const [showLeva, setshowLeva] = useState('hidden')
   const [curtainOpacity, setCurtainOpacity] = useState(1);
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
+  const [intro, setIntro] = useState(false)
   
   const [first, setFirst] = useState(() => {
     const savedCount = localStorage.getItem('count');
@@ -39,12 +41,11 @@ export function App() {
 
   useEffect(() => {
     const handleKeyPress = (event) => {
-      if (event.key === 'u') {
-        setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden') // toggle value
+      let key = event.key; // react won't act on it unless I manipulate it here 
+      if (key === 'u') {
+        // show Leva UI
+        setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden')
       }
-      // if (event.key === 'Enter') {
-      //   lowerCurtain()
-      // }
     };
     window.addEventListener('keydown', handleKeyPress);
   }, []);
@@ -89,8 +90,7 @@ export function App() {
     }, 1000); // synchronize this timing with the curtain opacity transition timing
   };
 
-  const textColor = nightMode ? "white" : "black";
-  const bgColor = nightMode ? "#222" : "#eee";
+  const bgColor = nightMode ? "#222" : "#ddd";
 
   return (
     <>
@@ -100,9 +100,8 @@ export function App() {
     <Leva />
   </div>
 
-<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
+<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain} intro={intro}/>
 
-  {/* <button id="summon" onClick={lowerCurtain}>LOOK AGAIN</button> */}
   <div id="bg" style={{ backgroundColor: bgColor}}></div>
 
   <div style={{height: '100%', zIndex: 0, }}>
@@ -120,6 +119,7 @@ export function App() {
       {/* put everything into a component inside Canvas, to avoid the R3F Hooks warning - this provides the Canvas context */}
       <Scene {... {nightMode, setText, gemDone, randomizeTrigger}} />
       {/* </PerformanceMonitor> */}
+      {showLeva == 'visible' && <Stats />}
     </Canvas>
     {/* <DebugStage /> */}
 </div>

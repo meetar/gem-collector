@@ -1,11 +1,5 @@
 import * as _ from 'lodash'
 import * as THREE from 'three'
-import { useLoader } from '@react-three/fiber'
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-import { shuffleArray, divideCircleIntoPoints } from './utils';
-import { models, combomodels } from './models';
-import * as namer from 'color-namer'
 import * as adjectives from './adjectives'
 import * as secretadjectives from './secretadjectives'
 import * as adverbs from './adverbs'
@@ -316,20 +310,27 @@ function stripColors(colorName) {
     return filteredWords.join(' ');
 }
 
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 1500 } = options; // default timeout length in ms
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+  return response;
+}
+
 // this gets and processes names for a given hex color
 async function fetchColors(color) {
-  // return false // turn off for now
   color = color.replace('#', ''); // removes the '#' character
   try {
-    const response = roll() ? await fetch(`https://api.color.pizza/v1/?values=${color}&list=thesaurus`) :
-                              await fetch(`https://api.color.pizza/v1/?values=${color}&list=ridgway`);
-
-    if (!response.ok) {
-      // throw new Error('Network response was not ok');
-    }
+    let colorurl = `https://api.color.pizza/v1/?values=${color}&list=${roll() ? 'thesaurus' : 'ridgway'}`; 
+    const response = await fetchWithTimeout(colorurl); // the api gets really slow on weekends
 
     const data = await response.json();
-    // console.log('Response:', data);
 
     // assuming the data structure has a 'value' property
     let colorValue = data.colors[0].name;
@@ -338,7 +339,7 @@ async function fetchColors(color) {
 
     return colorValue;
   } catch (error) {
-    // console.error('Error:', error);
+    console.error('Color API timed out. It gets really slow on the weekends\n', error);
     // throw error; // rethrow the error if needed
     return false;
   }

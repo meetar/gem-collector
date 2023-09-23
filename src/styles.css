@@ -38,38 +38,6 @@ body {
   z-index: 0
 }
 
-#summon {
-  position: absolute;
-  bottom: 0;
-  padding: 10px;
-  background-color: pink;
-  border: 2px solid purple;
-  color: purple;
-  font-family: cursive;
-  font-size: 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 10;
-}
-#summon:hover {
-  transform: scale(1.05); /* Enlarge the button slightly */
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add a shadow */
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent); /* Shimmer effect */
-  background-size: 200% 200%; /* Background size for the shimmer */
-  animation: shimmer 1s; /* Animation for shimmer effect */
-}
-
-/* Keyframes for the shimmer effect */
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-
 .interface {
   position: absolute;
   z-index: 1;
@@ -81,7 +49,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border: 2px solid red; */
+  /* border: var(--border-width) solid red; */
 }
 
 .dialog {
@@ -95,10 +63,11 @@ body {
   font-family: Calibri, 'Trebuchet MS', sans-serif;
   color: black;
   margin: 20px;
-  border-top: 2px solid gold;
-  border-bottom: 2px solid gold;
+  border-top: var(--border-width) solid var(--border-color);
+  border-bottom: var(--border-width) solid var(--border-color);
   top : 0px;
-  background: rgba(256, 256, 256, 0.8)
+  background: rgba(256, 256, 256, 0.8);
+  color: #dbc7ad
   /* z-index: 3; */
 }
 
@@ -108,13 +77,13 @@ body {
 
 .bottom {
   width: 100%;
-  /* border: 2px solid red; */
+  /* border: var(--border-width) solid red; */
   bottom : 0px;
   z-index: 3;
 }
 
 #portrait {
-  /* border: 3px solid green; */
+  /* border: var(--border-width) solid green; */
   display: flex;
   align-items: center;
 }
@@ -127,11 +96,12 @@ body {
 #dialogtext {
   position: relative;
   width: 100%;
-  /* border: 3px solid green; */
+  /* border: var(--border-width) solid green; */
   padding: 10px 20px 30px;
   text-align: left;
   font-style: italic;
   min-height: 200px;
+  color: black;
 }
 
 .nightmode #dialogtext {
@@ -142,7 +112,7 @@ body {
   position: absolute;
   left: 20px;
   top: -30px;
-  border: 2px solid gold;
+  border: var(--border-width) solid var(--border-color);
   background: rgba(256, 256, 256, 1);
   padding: 10px;
   color: grey;
@@ -154,7 +124,7 @@ body {
 }
 
 #gemtext {
-  /* border: 2px solid red; */
+  /* border: var(--border-width) solid red; */
 }
 
 .nightmode #gemtext{
@@ -177,7 +147,7 @@ body {
 }
 
 .coda {
-  /* border: 2px solid blue; */
+  /* border: var(--border-width) solid blue; */
   padding-top: 20px;
   font-style: normal;
   display: block;
@@ -217,7 +187,7 @@ body {
   content: attr(data-char);
   position: absolute;
   z-index: -1;
-  -webkit-text-stroke: 7px gold;
+  -webkit-text-stroke: 7px var(--border-color);
 }
 
 @keyframes bob {
@@ -228,14 +198,33 @@ body {
     transform: translateY(-10px); /* Adjust the vertical distance as needed */
   }
 }
-#nightmode, #info {
+
+#moon, #info {
+  position: absolute;
+  top: -30px;
+  margin: 20px;
   width: 50px;
   height: 50px;
-  margin: 10px;
-  padding: 10px;
-  border: 2px solid grey;
+  font-size: 30px;
+  border: var(--border-width) solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
 }
 
-.buttons {
-  justify-items: left;
+.nightmode #moon, .nightmode #info {
+  background-color: #666;
+}
+#moon {
+  left: 0px;
+}
+
+#info {
+  right: 0px;
+}
+
+:root {
+  --border-color: #e29b0e;
+  --border-width: 3px;
 }
