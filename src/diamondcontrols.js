@@ -15,7 +15,7 @@ export const diamondcontrols = {
     iorInner: { value: 2.15, min: 1.02, max: 2.147, step: 0.01 },
     iorOuter: { value: 1.03, min: 0.9, max: 2.147, step: 0.01 },
     opacity: { value: .7, min: 0, max: 1, step: 0.01 },
-    bounces: { value: 2, min: 1, max: 3, step: 1 },
+    bounces: { value: 2, min: 1, max: 2, step: 1 },
     InnerVisible: true,
     GemVisible: true,
 

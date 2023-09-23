@@ -43,16 +43,11 @@ export function App() {
       if (event.key === 'u') {
         setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden') // toggle value
       }
-      if (event.key === 'Enter') {
-        lowerCurtain()
-      }
+      // if (event.key === 'Enter') {
+      //   lowerCurtain()
+      // }
     };
     window.addEventListener('keydown', handleKeyPress);
-
-    // remove the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
   }, []);
 
   function toggleNightMode() {

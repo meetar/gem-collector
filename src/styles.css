@@ -81,7 +81,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px solid red;
+  /* border: 2px solid red; */
 }
 
 .dialog {
@@ -95,18 +95,23 @@ body {
   font-family: Calibri, 'Trebuchet MS', sans-serif;
   color: black;
   margin: 20px;
-  border: 2px solid gold;
+  border-top: 2px solid gold;
+  border-bottom: 2px solid gold;
   top : 0px;
+  background: rgba(256, 256, 256, 0.8)
   /* z-index: 3; */
+}
+
+.nightmode .dialog {
+  background: rgba(64, 64, 64, 0.8)
 }
 
 .bottom {
   width: 100%;
-  border: 2px solid red;
+  /* border: 2px solid red; */
   bottom : 0px;
   z-index: 3;
 }
-
 
 #portrait {
   /* border: 3px solid green; */
@@ -120,22 +125,15 @@ body {
 }
 
 #dialogtext {
+  position: relative;
   width: 100%;
   /* border: 3px solid green; */
-  padding: 20px;
-  padding-top: 40px;
-  justify-content: left;
-  align-items: left;
+  padding: 10px 20px 30px;
   text-align: left;
   font-style: italic;
-}
-.nightmode #dialogtext {
-  background: rgba(64, 64, 64, 0.8)
+  min-height: 200px;
 }
 
-#dialogtext {
-  position: relative;
-}
 .nightmode #dialogtext {
   color: white;
 }
@@ -143,19 +141,24 @@ body {
 #charname {
   position: absolute;
   left: 20px;
-  top: -20px;
-  border: 2px solid green;
-  background: rgba(64, 64, 64, 0.8);
+  top: -30px;
+  border: 2px solid gold;
+  background: rgba(256, 256, 256, 1);
   padding: 10px;
   color: grey;
 }
 
-#gemtext {
+.nightmode #charname {
+  background: rgba(33, 33, 33, 1);
 
 }
 
+#gemtext {
+  /* border: 2px solid red; */
+}
+
 .nightmode #gemtext{
-  color: white;
+  /* color: white; */
 }
 
 #gemname {
@@ -163,7 +166,9 @@ body {
   font-style: italic;
 }
 .nightmode #gemname {
-  color: lightblue;
+  color: #bbf;
+  font-weight: bold;
+  /* text-shadow: 0px 0px 10px white; */
 }
 
 .gemquote {
@@ -173,8 +178,6 @@ body {
 
 .coda {
   /* border: 2px solid blue; */
-  padding-top: 20px;
-  color: black;
   font-style: normal;
   display: block;
 }
@@ -186,7 +189,7 @@ body {
   font-style: normal;
   position: absolute;
   right: 30px;
-  bottom: -20px;
+  bottom: -15px;
   font-size: 60px;
   -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 3px;
@@ -203,9 +206,17 @@ body {
 }
 
 .nightmode #continue {
+  color: tan;
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0);
   -webkit-text-stroke-color: #222;
   -webkit-text-stroke-width: 3px;
+}
 
+#continue::before {
+  content: attr(data-char);
+  position: absolute;
+  z-index: -1;
+  -webkit-text-stroke: 7px gold;
 }
 
 @keyframes bob {
