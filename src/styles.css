@@ -64,8 +64,9 @@ body {
 
 .interface {
   position: absolute;
-  z-index: 1;
-  margin: 30px 0px;
+  /* height: 100%; */
+  z-index: 3;
+  margin: 3% 0px;
   width: 100%;
   text-align: center;
   align-content: center;
@@ -78,48 +79,53 @@ body {
 
 .dialog {
   width: 100%;
-  margin: auto;
-  padding: 10px 30px;
+  padding: 1% 20px 1% 30px;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   font-size: 24px;
-  /* font-family: Optima; */
   font-family: Calibri, 'Trebuchet MS', sans-serif;
   color: black;
-  margin: 1%;
+  margin: 0;
   border-top: var(--border-width) solid var(--border-color);
   border-bottom: var(--border-width) solid var(--border-color);
-  top : 0px;
+  position: absolute;
+  height: 25vh;
+  bottom : 0px;
   background: rgba(256, 256, 256, 0.8);
   color: #dbc7ad;
-  /* z-index: 3; */
-  cursor: pointer;
+  /* border: 2px solid blue; */
 }
 
 .nightmode .dialog {
   background: rgba(64, 64, 64, 0.8)
 }
 
+.top {
+  margin: 0;
+  top : 0px;
+  z-index: 3;
+}
 .bottom {
-  width: 100%;
-  /* border: var(--border-width) solid red; */
   bottom : 0px;
   z-index: 3;
 }
 
 #portrait {
-  padding-top: 20px;
+  position: absolute;
+  bottom: 0vh;
+  left:0;
+  margin-left: 2%;
+
+  height: 25vh;
+  width: 25%;
   /* border: var(--border-width) solid green; */
-  /* display: flex; */
-  /* align-items: center; */
-  max-width: 25%;
+  display: flex;
+  align-items: center;
+  max-width: 30%;
 }
 
 #portrait > img {
-  position: absolute;
-  min-height: 256px;
-  min-width: 256px;
-  bottom: 0;
+  width: 100%;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -127,16 +133,17 @@ body {
 }
 
 #dialogtext {
-  position: relative;
-  width: 80%;
-  margin-left: 266px;
+  /* position: relative; */
+  /* width: 80%; */
+  margin-left: 27%;
   /* border: var(--border-width) solid green; */
-  padding: 10px 20px 30px;
+  /* padding: 10px 20px 30px; */
   text-align: left;
   font-style: italic;
-  height: 200px;
+  /* height: 200px; */
   overflow-y: scroll;
   color: black;
+  align-items: baseline;
 }
 
 .nightmode #dialogtext {
@@ -146,7 +153,7 @@ body {
 #charname {
   position: absolute;
   left: 30%;
-  top: -15px;
+  top: -30px;
   border: var(--border-width) solid var(--border-color);
   background: rgba(256, 256, 256, 1);
   padding: 10px;
@@ -194,14 +201,16 @@ body {
 
 #continue {
   font-style: normal;
+  color: rgb(241, 141, 105);
   position: absolute;
   right: 30px;
   bottom: -15px;
   font-size: 60px;
   -webkit-text-stroke-color: white;
-  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-width: 2px;
   animation: bob 1s ease-in-out infinite;
   visibility: hidden;
+  text-shadow: 0px 0px 1px var(--border-color);
 }
 
 #continue:hover {
@@ -213,7 +222,7 @@ body {
 }
 
 .nightmode #continue {
-  color: tan;
+  color: rgb(228, 161, 72);
   text-shadow: 0px 0px 1px rgba(0, 0, 0, 0);
   -webkit-text-stroke-color: #222;
   -webkit-text-stroke-width: 3px;
@@ -237,8 +246,8 @@ body {
 
 #moon, #info {
   position: absolute;
-  top: -30px;
-  margin: 20px;
+  top: 0px;
+  margin: 1%;
   width: 50px;
   height: 50px;
   font-size: 30px;
@@ -266,10 +275,17 @@ body {
 }
 
 :root {
-  --border-color: #b469dc;
+  --border-color: #7c2fa5;
   --border-width: 3px;
 }
 
 #about {
 
+}
+
+@media only screen and (max-width: 767px) {
+  .dialog {
+      font-size: 20px;
+    }
+  /* Your CSS styles for iPhones in portrait mode go here */
 }

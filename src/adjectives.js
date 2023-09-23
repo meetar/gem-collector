@@ -549,7 +549,6 @@ module.exports = [
   'neighborly',
   'nervous',
   'new',
-  'next',
   'nice',
   'nimble',
   'nippy',

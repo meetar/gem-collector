@@ -32,7 +32,7 @@ export function App() {
   const [curtainOpacity, setCurtainOpacity] = useState(1);
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
-  
+
   const [first, setFirst] = useState(() => {
     const savedCount = localStorage.getItem('count');
     return savedCount ? parseInt(savedCount) : 0;
@@ -40,7 +40,7 @@ export function App() {
 
   useEffect(() => {
     const handleKeyPress = (event) => {
-      let key = event.key; // react won't act on it unless I manipulate it here 
+      let key = event.key; // react won't act on it unless I manipulate it here
       if (key === 'u') {
         // show Leva UI
         setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden')
@@ -50,9 +50,10 @@ export function App() {
   }, []);
 
   function toggleNightMode() {
+    console.log('NIGHTMODE');
     setNightMode(val => !val)
   }
-  function setText(text='') {
+  function setText(text={}) {
     setDesc({
       desc: text.desc,
       name: text.name,

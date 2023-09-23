@@ -1,43 +1,64 @@
 import { getCoda } from './dialogue.js'
 import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
-import { Intro } from './dialogue.js';
+import { Intro, asides } from './dialogue.js';
+import { roll } from './getDescription.js';
 
 export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
   const [continueButton, setContinueButton] = useState(false)
   const [complete, setComplete] = useState(false)
   const [intro, setIntro] = useState(true)
+  const [aside, setAside] = useState()
   const [introStep, setIntroStep] = useState(0)
+  const [infomode, setInfomode] = useState(false)
 
   function getIntroText() {
     return <div id="gemtext">{Intro[introStep]}</div>;
   }
   const [introText, setIntroText] = useState(getIntroText(introStep))
 
-  useEffect(() => {
-    console.log(introText);
+  function getAside() {
+    return <div id="gemtext">{_.sample(asides)}</div>;
+  }
 
+  useEffect(() => {
+    // console.log(introText);
   }, [])
 
-console.log('complete:', complete);
-  function handleInteraction() {
-    console.log('interac');
+  function handleTextInteraction() {
     if (!complete) {
+      // skip the typing animation
+      setComplete(true);
+    }
+  }
+
+  function handleInteraction() {
+    if (!complete) {
+      // skip the typing animation
       setComplete(true);
     }
     if (complete) {
+      if (aside) {
+        console.log('set aside null, complete:', complete);
+        setAside()
+      }
       if (intro) {
-        if (introStep >= Intro.length) {
+        if (introStep >= Intro.length - 1) {
           setIntro(false)
-          next()
         }
-        console.log('?', introStep);
         setIntroStep(v => v+1)
         setIntroText(getIntroText(introStep));
         setComplete(false)
       } else {
-        next()
+        if (!aside && roll(.5)) {
+          console.log('getaside');
+          setComplete(false)
+          setAside(getAside())
+        } else {
+          console.log('next, complete:', complete);
+          next()
+        }
       }
     }
 
@@ -80,10 +101,9 @@ useEffect(() => {
     // return "The quick brown fox jumps over the lazy dog."
   }
 function typeText(speed, text) {
-  console.log('typing, speed', speed, ', complted?', complete);
+  // console.log('typing, speed', speed, ', complted?', complete);
   let textelement = document.getElementById('dialogtext');
-  // let startDelay = speed === 0 ? 0 : 750;
-  let startDelay = 0;
+  let startDelay = speed === 0 ? 1 : 750;
   let nextStringDelay = speed == 0 ? 0 : 750;
     return (<TypeIt key={speed}
         getAfterInit={(instance) => {
@@ -91,19 +111,23 @@ function typeText(speed, text) {
           return instance;
         }}
         options={{
-          speed: 1,
+          speed: speed,
           cursor: false,
           startDelay,
           nextStringDelay,
           beforeStep: async (instance) => {
+            if (complete) {
+              // if (speed != 0) instance.reset();
+            }
           },
           afterStep: () => {
             textelement.scrollTop = textelement.scrollHeight;
           },
           afterComplete: () => {
+            // if (speed == 0) return;
+            textelement.scrollTop = textelement.scrollHeight;
             setComplete(true)
             setContinueButton(true)
-            textelement.scrollTop = textelement.scrollHeight;
           },
         }}>{text}</TypeIt>)
   }
@@ -112,6 +136,8 @@ function typeText(speed, text) {
     // return typeText(2, getIntroText());
     if (intro) {
       return (complete ? typeText(0, getIntroText()) : typeText(3, getIntroText()))
+    } else if (aside) {
+      return (complete ? typeText(0, aside) : typeText(1, aside))
     } else if (desc && desc.desc) {
       return (complete ? typeText(0, getGemText()) : typeText(1, getGemText()))
     } else {
@@ -128,8 +154,8 @@ return (
     <div id="info"><img src="question.png" height={32}></img></div>
   </div>
 
-  <div className={`interface bottom ${nightModeClass}`} onClick={handleInteraction}>
-    <div className="dialog">
+  <div className={`interface bottom ${nightModeClass}`}>
+    <div className="dialog" onClick={handleTextInteraction}>
       <div id="portrait"><img src="textures/person/researcher.png"></img></div>
       <div id="charname">RESEARCHER</div>
       <div id="dialogtext">
@@ -137,7 +163,7 @@ return (
         {getDialogue()}
 
       </div>
-        <div key="continue" className={`continue ${continueButton ? 'visible' : ''}`} id="continue" data-char="▾">▾</div>
+        <div key="continue" className={`continue ${continueButton ? 'visible' : ''}`} id="continue" data-char="▾" onClick={handleInteraction}>▾</div>
     </div>
   </div>
   <div id="bgNightmode" className={`${nightModeClass}`}></div>

@@ -394,7 +394,7 @@ export const superpowers = [
     "the Siberian Steppes",
     "the Alaskan Interior",
     "Manchuria",
-    "Matterhorn",
+    "the Matterhorn",
     "Mount Ararat",
     "Mount Kilimanjaro",
     "Denali",
