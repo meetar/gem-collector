@@ -11,11 +11,15 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const [introStep, setIntroStep] = useState(0)
 
   function getIntroText() {
-    return <div id="gemtext">123</div>;
+    return <div id="gemtext">{Intro[introStep]}</div>;
   }
   const [introText, setIntroText] = useState(getIntroText(introStep))
 
-console.log(introText);
+  useEffect(() => {
+    console.log(introText);
+
+  }, [])
+
 console.log('complete:', complete);
   function handleInteraction() {
     console.log('interac');
@@ -78,16 +82,19 @@ useEffect(() => {
 function typeText(speed, text) {
   console.log('typing, speed', speed, ', complted?', complete);
   let textelement = document.getElementById('dialogtext');
+  // let startDelay = speed === 0 ? 0 : 750;
+  let startDelay = 0;
+  let nextStringDelay = speed == 0 ? 0 : 750;
     return (<TypeIt key={speed}
         getAfterInit={(instance) => {
           setContinueButton(false)
           return instance;
         }}
         options={{
-          speed: speed,
+          speed: 1,
           cursor: false,
-          startDelay: 0,
-          nextStringDelay: () => speed == 0 ? 0 : 750,
+          startDelay,
+          nextStringDelay,
           beforeStep: async (instance) => {
           },
           afterStep: () => {
@@ -102,8 +109,9 @@ function typeText(speed, text) {
   }
 
   function getDialogue() {
+    // return typeText(2, getIntroText());
     if (intro) {
-      return (complete ? typeText(2, getIntroText()) : typeText(3, getIntroText()))
+      return (complete ? typeText(0, getIntroText()) : typeText(3, getIntroText()))
     } else if (desc && desc.desc) {
       return (complete ? typeText(0, getGemText()) : typeText(1, getGemText()))
     } else {
