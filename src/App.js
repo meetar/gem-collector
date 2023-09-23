@@ -32,7 +32,6 @@ export function App() {
   const [curtainOpacity, setCurtainOpacity] = useState(1);
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
-  const [intro, setIntro] = useState(false)
   
   const [first, setFirst] = useState(() => {
     const savedCount = localStorage.getItem('count');
@@ -90,7 +89,6 @@ export function App() {
     }, 1000); // synchronize this timing with the curtain opacity transition timing
   };
 
-  const bgColor = nightMode ? "#222" : "#ddd";
 
   return (
     <>
@@ -100,12 +98,11 @@ export function App() {
     <Leva />
   </div>
 
-<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain} intro={intro}/>
+<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
 
-  <div id="bg" style={{ backgroundColor: bgColor}}></div>
 
   <div style={{height: '100%', zIndex: 0, }}>
-    <Canvas shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+    { <Canvas shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
       {/* <PerformanceMonitor onChange={(stats) => {
 
         let factor = stats.factor
@@ -120,7 +117,7 @@ export function App() {
       <Scene {... {nightMode, setText, gemDone, randomizeTrigger}} />
       {/* </PerformanceMonitor> */}
       {showLeva == 'visible' && <Stats />}
-    </Canvas>
+    </Canvas> }
     {/* <DebugStage /> */}
 </div>
 

@@ -1,18 +1,40 @@
 import { getCoda } from './dialogue.js'
 import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
+import { Intro } from './dialogue.js';
 
-export const Interface = ({nightMode, toggleNightMode, desc, next, intro}) => {
+export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
   const [continueButton, setContinueButton] = useState(false)
   const [complete, setComplete] = useState(false)
+  const [intro, setIntro] = useState(true)
+  const [introStep, setIntroStep] = useState(0)
 
+  function getIntroText() {
+    return <div id="gemtext">123</div>;
+  }
+  const [introText, setIntroText] = useState(getIntroText(introStep))
+
+console.log(introText);
+console.log('complete:', complete);
   function handleInteraction() {
+    console.log('interac');
     if (!complete) {
       setComplete(true);
     }
     if (complete) {
-      next();
+      if (intro) {
+        if (introStep >= Intro.length) {
+          setIntro(false)
+          next()
+        }
+        console.log('?', introStep);
+        setIntroStep(v => v+1)
+        setIntroText(getIntroText(introStep));
+        setComplete(false)
+      } else {
+        next()
+      }
     }
 
   }
@@ -44,7 +66,7 @@ useEffect(() => {
 
   const textColor = nightMode ? "white" : "black";
   // const bgColor = nightMode ? "#222" : "#eee";
-  const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
+  // const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
   function getGemText() {
     return (
@@ -54,6 +76,8 @@ useEffect(() => {
     // return "The quick brown fox jumps over the lazy dog."
   }
 function typeText(speed, text) {
+  console.log('typing, speed', speed, ', complted?', complete);
+  let textelement = document.getElementById('dialogtext');
     return (<TypeIt key={speed}
         getAfterInit={(instance) => {
           setContinueButton(false)
@@ -66,22 +90,28 @@ function typeText(speed, text) {
           nextStringDelay: () => speed == 0 ? 0 : 750,
           beforeStep: async (instance) => {
           },
+          afterStep: () => {
+            textelement.scrollTop = textelement.scrollHeight;
+          },
           afterComplete: () => {
             setComplete(true)
             setContinueButton(true)
+            textelement.scrollTop = textelement.scrollHeight;
           },
         }}>{text}</TypeIt>)
   }
 
   function getDialogue() {
     if (intro) {
-      return (complete ? typeText(0, intro) : typeText(1, intro))
+      return (complete ? typeText(2, getIntroText()) : typeText(3, getIntroText()))
     } else if (desc && desc.desc) {
       return (complete ? typeText(0, getGemText()) : typeText(1, getGemText()))
     } else {
       return <></>
     }
   }
+
+  const bgColor = nightMode ? "#222" : "#ddd";
 
 return (
 <>
@@ -92,9 +122,9 @@ return (
 
   <div className={`interface bottom ${nightModeClass}`} onClick={handleInteraction}>
     <div className="dialog">
-      <div id="portrait"><img src="textures/person/gameboy.webp"></img></div>
+      <div id="portrait"><img src="textures/person/researcher.png"></img></div>
+      <div id="charname">RESEARCHER</div>
       <div id="dialogtext">
-        <div id="charname">RESEARCHER</div>
         
         {getDialogue()}
 
@@ -102,6 +132,8 @@ return (
         <div key="continue" className={`continue ${continueButton ? 'visible' : ''}`} id="continue" data-char="▾">▾</div>
     </div>
   </div>
+  <div id="bgNightmode" className={`${nightModeClass}`}></div>
+  <div id="bg" className={`${nightModeClass}`}></div>
 
 
 </>
