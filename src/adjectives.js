@@ -607,7 +607,6 @@ module.exports = [
   'parched',
   'parisian',
   'parsimonious',
-  'past',
   'pastoral',
   'pathetic',
   'peaceful',

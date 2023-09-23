@@ -3,9 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
 import TypistWrapper from './TypeistWrapper.js';
 
-export const Interface = ({nightMode, toggleNightMode, name, desc, next}) => {
+export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
-  const [coda, setCoda] = useState('');
   const [continueButton, setContinueButton] = useState(false)
   const [complete, setComplete] = useState(false)
   const [instance, setInstance] = useState(null)
@@ -44,7 +43,6 @@ useEffect(() => {
 }, [instance]);
 
 useEffect(() => {
-  setCoda(getCoda())
   setComplete(false)
   // setContinueButton(false)
   // setTyping(true)
@@ -60,8 +58,8 @@ useEffect(() => {
 
   function getTypedText() {
     return (
-      <div id="gemtext"><span id="gemname">{name}.</span> {desc}
-      {coda && <span className="coda">{coda}</span>}</div>
+      <div id="gemtext"><span id="gemname">{desc.name}.</span> {desc.desc}
+      <span className="coda">{desc.coda}</span></div>
       )
     // return "The quick brown fox jumps over the lazy dog."
   }
@@ -92,7 +90,7 @@ return (
       <div id="portrait"><img src="textures/person/gameboy.webp"></img></div>
       <div id="dialogtext">
         <div id="charname">RESEARCHER</div>
-    { desc ? 
+    { desc.desc ? 
       complete ? getText(0) : getText(1)
     : <></>}
 

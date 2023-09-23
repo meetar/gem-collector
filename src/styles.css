@@ -178,6 +178,7 @@ body {
 
 .coda {
   /* border: 2px solid blue; */
+  padding-top: 20px;
   font-style: normal;
   display: block;
 }

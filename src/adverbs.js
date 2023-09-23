@@ -363,7 +363,6 @@ module.exports = [
   "ontogenetically",
   "ontogenically",
   "operationally",
-  "ophthalmoscopically",
   "opportunely",
   "oppositely",
   "optically",

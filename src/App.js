@@ -24,7 +24,6 @@ function computeDPRScale(fps) {
 }
 
 export function App() {
-  const [name, setName] = useState("")
   const [desc, setDesc] = useState("")
   const [randomizeTrigger, setTrigger] = useState()
   const [nightMode, setNightMode] = useState(false)
@@ -54,8 +53,12 @@ export function App() {
     setNightMode(val => !val)
   }
   function setText(text='') {
-    setName(text.name);
-    setDesc(text.desc);
+    setDesc({
+      desc: text.desc,
+      name: text.name,
+      coda: getCoda()
+    });
+
   }
 
   useControls({
@@ -97,7 +100,7 @@ export function App() {
     <Leva />
   </div>
 
-<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} name={name} desc={desc} next={lowerCurtain}/>
+<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
 
   {/* <button id="summon" onClick={lowerCurtain}>LOOK AGAIN</button> */}
   <div id="bg" style={{ backgroundColor: bgColor}}></div>
