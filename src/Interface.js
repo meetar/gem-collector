@@ -155,7 +155,7 @@ return (
 <>
 
   <div className={`interface top buttons ${nightModeClass}`} style={{color: textColor}}>
-    <div id="moon" onClick={toggleNightMode}>🌛</div>
+    <div id="moon" onClick={toggleNightMode}><img src="moon.png" height={32} /></div>
     <div id="info" onClick={toggleInfo}><img src="question.png" height={32}></img></div>
   </div>
 

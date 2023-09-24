@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
 import { useState, useEffect } from 'react'
 import WikipediaLinksComponent from './WikiLinks'
@@ -33,11 +33,6 @@ export function App() {
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
 
-  const [first, setFirst] = useState(() => {
-    const savedCount = localStorage.getItem('count');
-    return savedCount ? parseInt(savedCount) : 0;
-  });
-
   useEffect(() => {
     const handleKeyPress = (event) => {
       let key = event.key; // react won't act on it unless I manipulate it here
@@ -53,13 +48,13 @@ export function App() {
     console.log('NIGHTMODE');
     setNightMode(val => !val)
   }
+
   function setText(text={}) {
     setDesc({
       desc: text.desc,
       name: text.name,
       coda: getCoda()
     });
-
   }
 
   useControls({
@@ -92,20 +87,18 @@ export function App() {
 
 
   return (
-    <>
+  <>
   <div id="curtain" style={{ opacity: curtainOpacity, visibility: curtainDisplay}}></div>
 
   <div id="levaWrapper" style={{visibility: showLeva}} >
     <Leva />
   </div>
 
-<Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
-
+  <Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
 
   <div style={{height: '100%', zIndex: 0, }}>
     { <Canvas style={{height: '100%'}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
       <PerformanceMonitor onChange={(stats) => {
-
         let factor = stats.factor
         let fps = stats.fps
         let dpr = computeDPRScale(fps)
@@ -120,9 +113,8 @@ export function App() {
       {showLeva == 'visible' && <Stats />}
     </Canvas> }
     {/* <DebugStage /> */}
-</div>
+  </div>
+  </>
 
-
-</>
-  )
+)
 }
