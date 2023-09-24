@@ -101,9 +101,10 @@ body {
   background: rgba(256, 256, 256, 0.8);
   border-top: var(--border-width) solid var(--border-color);
   border-bottom: var(--border-width) solid var(--border-color);
+  transition: background 1s ease;
 }
 .bottom.nightmode {
-  background: rgba(64, 64, 64, 0.8)
+  background: rgba(64, 64, 64, 0.8);
 }
 
 

@@ -63,6 +63,7 @@
   overflow-y: scroll;
   color: black;
   align-items: baseline;
+transition: color 1s ease;  
 }
 
 .nightmode #dialogtext {
@@ -78,11 +79,11 @@
   padding: 10px;
   color: grey;
   z-index: 1;
+  transition: background 1s ease;
 }
 
 .nightmode #charname {
   background: rgba(33, 33, 33, 1);
-
 }
 
 #gemtext {
@@ -96,10 +97,11 @@
 #gemname {
   color: blue;
   font-style: italic;
+  transition: color 1s ease;
 }
 .nightmode #gemname {
   color: #bbf;
-  font-weight: bold;
+  /* font-weight: bold; */
   /* text-shadow: 0px 0px 10px white; */
 }
 
@@ -116,6 +118,7 @@
 }
 .nightmode .coda {
   color: white;
+  transition: color 1s ease;
 }
 
 #continue {
@@ -130,6 +133,7 @@
   animation: bob 1s ease-in-out infinite;
   visibility: hidden;
   text-shadow: 0px 0px 1px var(--border-color);
+transition: color 1s ease, text-shadow 1s ease, -webkit-text-stroke-color 1s ease;
 }
 
 #continue:hover {
