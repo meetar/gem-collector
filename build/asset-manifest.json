@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/gem-collector/static/css/main.05d50e68.css",
+    "main.js": "/gem-collector/static/js/main.49f268c4.js",
+    "index.html": "/gem-collector/index.html",
+    "main.05d50e68.css.map": "/gem-collector/static/css/main.05d50e68.css.map",
+    "main.49f268c4.js.map": "/gem-collector/static/js/main.49f268c4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.05d50e68.css",
+    "static/js/main.49f268c4.js"
+  ]
+}
