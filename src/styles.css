@@ -177,19 +177,15 @@ body {
 }
 
 .colored-div {
-  background-color: #3498db; /* Replace with your desired color value */
-  width: 200px; /* Set a width for the div */
-  height: 150px; /* Set a height for the div */
+  background-color: #3498db;
+  width: 200px;
+  height: 150px;
   z-index: 10;
 }
 
 @media only screen and (max-width: 767px) {
-  .dialog {
-    font-size: 20px;
-  }
   #infocontent {
     font-size: 18px;
   }
-  /* Your CSS styles for iPhones in portrait mode go here */
 }
 

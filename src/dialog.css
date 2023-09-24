@@ -1,7 +1,7 @@
 .dialog {
   width: 100%;
   max-width: 1200px;
-  padding: 1% 20px 1% 30px;
+  padding: 1% 20px 1% 3%;
   display: flex;
   /* justify-content: center; */
   font-size: 24px;
@@ -27,14 +27,27 @@
   /* border: var(--border-width) solid green; */
   display: flex;
   align-items: center;
-  max-width: 30%;
+  max-width: 20vw;
+  width: 360px;
+  /* max-height: 360px; */
+  /* height: 360px; */
 }
 
 #portrait > img {
-  height: 27vh;
+  border: var(--border-width) solid var(--border-color);
+  object-fit: contain;
+  /* display: block; */
+  /* height: auto; */
+  width: 280px;
+  /* height: 360px; */
+  max-height: 20vw;
+  max-width: 20vw;
+/* margin: 0; */
+  /* max-width: 27vw; */
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+  /* max-width: 30%; */
 
 }
 
@@ -149,3 +162,11 @@
     transform: translateY(-10px); /* Adjust the vertical distance as needed */
   }
 }
+
+
+@media only screen and (max-width: 767px) {
+  .dialog {
+    font-size: 20px;
+  }
+}
+
