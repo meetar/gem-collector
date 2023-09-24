@@ -1,8 +1,6 @@
 import { pies } from './pies'
 import { makes, models, types } from './cars.js'
-import { roll } from './getDescription';
-import { aDate } from './getDescription';
-import { getPlace } from './getDescription'
+import { roll, aDate, getPlace } from '.././getDescription';
 
 function animal() {
   return _.sample(['moose', 'skunk', 'jaguar', 'weasel', 'squirrel', 'lemur', 'goose', 'frog', 'rat', 'rabbit', 'musk ox'])

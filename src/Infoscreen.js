@@ -1,6 +1,6 @@
 export const Infoscreen = ({nightModeClass, toggleInfo}) => {
   return (
-    <div id="infoscreen" className={`${nightModeClass}`} onClick={toggleInfo}><div id="content">
+    <div id="infoscreen" className={`${nightModeClass}`} onClick={toggleInfo}><div id="infocontent">
       
       <h3>The Gem Collector</h3>
       <p>~ by Peter and Juna ~</p>

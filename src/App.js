@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import WikipediaLinksComponent from './WikiLinks'
 import Scene from './Scene.js'
 import { Leva, useControls, button } from 'leva'
-import { getCoda } from './dialogue'
+import { getCoda } from './txt/dialogue.js'
 import { Interface } from './Interface'
 import { Stats } from '@react-three/drei'
 
@@ -103,20 +103,20 @@ export function App() {
 
 
   <div style={{height: '100%', zIndex: 0, }}>
-    { <Canvas shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
-      {/* <PerformanceMonitor onChange={(stats) => {
+    { <Canvas style={{height: '100%'}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+      <PerformanceMonitor onChange={(stats) => {
 
         let factor = stats.factor
         let fps = stats.fps
         let dpr = computeDPRScale(fps)
         // let dpr = _.round(0.5 + .25 * factor, 1);
         return setDpr(dpr)
-      }}> */}
-
+      }}>
 
       {/* put everything into a component inside Canvas, to avoid the R3F Hooks warning - this provides the Canvas context */}
       <Scene {... {nightMode, setText, gemDone, randomizeTrigger}} />
-      {/* </PerformanceMonitor> */}
+
+      </PerformanceMonitor>
       {showLeva == 'visible' && <Stats />}
     </Canvas> }
     {/* <DebugStage /> */}

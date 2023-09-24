@@ -1,3 +1,9 @@
+canvas {
+  height: 100%;
+  width: 100%;
+  border: 2px solid blue;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -284,13 +290,6 @@ body {
 
 }
 
-@media only screen and (max-width: 767px) {
-  .dialog {
-      font-size: 20px;
-    }
-  /* Your CSS styles for iPhones in portrait mode go here */
-}
-
 #infoscreen {
   position: absolute;
   top: 0;
@@ -303,7 +302,7 @@ body {
   z-index: 10;
 }
 
-#content {
+#infocontent {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -321,7 +320,7 @@ body {
   border: var(--border-width) solid var(--border-color)
 }
 
-.nightmode #content {
+.nightmode #infocontent {
   color: white;
   background-color: #333;
 }
@@ -335,3 +334,14 @@ body {
   height: 150px; /* Set a height for the div */
   z-index: 10;
 }
+
+@media only screen and (max-width: 767px) {
+  .dialog {
+    font-size: 20px;
+  }
+  #infocontent {
+    font-size: 18px;
+  }
+  /* Your CSS styles for iPhones in portrait mode go here */
+}
+

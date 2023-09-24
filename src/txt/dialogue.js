@@ -1,4 +1,4 @@
-import { roll } from "./getDescription"
+import { roll } from ".././getDescription"
 import * as _ from 'lodash'
 
 export const Intro = [

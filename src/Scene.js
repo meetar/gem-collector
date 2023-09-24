@@ -1,5 +1,4 @@
 import * as THREE from 'three'
-import { Canvas, useFrame,  } from '@react-three/fiber'
 import { EffectComposer, Bloom, Pixelation } from '@react-three/postprocessing'
 import { Stats, SoftShadows, useTexture, AdaptiveDpr } from '@react-three/drei'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
@@ -11,8 +10,6 @@ import { GemRandomizer } from './GemRandomizer.js'
 
 import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
-import { AnimatedPixelize } from './AnimatedPixelize';
-
 
 
 export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
@@ -66,6 +63,7 @@ export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
   // const [{ ...softShadowsUI }, setSoftShadows] = useControls('SoftShadows', () => (softShadowsProps), {collapsed: true})
 
 
+  // animate the pixelize effect
   useEffect(() => {
     const animatePixelize = async () => {
       let c = pixelTrigger == 'in' ? 256 : 1;
@@ -87,9 +85,6 @@ export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
 
 return (
       <>
-        {/* <color attach="background" args={[nightMode ? "black" : "white"]} /> */}
-
-        {/* <SoftShadows {...softShadowsUI} /> */}
         <SoftShadows {...softShadowsProps} />
 
         <ambientLight intensity={0.1} />
@@ -106,10 +101,9 @@ return (
           <Pixelation granularity={pixelSize} />
           <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
         </EffectComposer>
-
  
         {/** Controls */}
-        <OrbitControls autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.3} enableRotate={true} />
+        <OrbitControls target={[0, 0, 0]} autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.3} enableRotate={true} />
 
       </>
       )

@@ -13,7 +13,7 @@ import {
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
-import { randomizeLevaControls, simpleControls, roundValue, roundToNearest } from './utils'
+import { randomizeLevaControls, simpleControls, roundValue, roundToNearest } from '../utils'
 import { deepControls } from './deepControls';
 
 // a material with inner depths

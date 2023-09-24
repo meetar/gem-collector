@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { useControls } from 'leva'
 import { MeshTransmissionMaterial } from '@react-three/drei'
-import { randomizeLevaControls, simpleControls } from './utils';
+import { randomizeLevaControls, simpleControls } from '../utils';
 
 const smokeyCrystal = {
   samples: { value: 6, min: 1, max: 32, step: 1 },

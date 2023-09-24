@@ -2,9 +2,9 @@ import * as THREE from 'three'
 import { useState, useEffect } from 'react';
 import { useLoader } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
-import { randomBetween, createColorTexture } from './utils';
-import { colorMap } from './textureUtils';
-import { roll } from './getDescription';
+import { randomBetween, createColorTexture } from '../utils';
+import { colorMap } from '../textureUtils';
+import { roll } from '../getDescription';
 
 // tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY
 const ParallaxMaterialXP = ({trigger, texture, config}) => {

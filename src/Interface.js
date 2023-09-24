@@ -1,9 +1,7 @@
-import { getCoda } from './dialogue.js'
+import { getCoda, Intro, asides } from './txt/dialogue.js'
 import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
-import { Intro, asides } from './dialogue.js';
 import { roll } from './getDescription.js';
-import Typewriter from './Typewriter.js';
 import { Infoscreen } from './Infoscreen.js';
 
 export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
@@ -155,9 +153,6 @@ function typeText(speed, text) {
 
 return (
 <>
-
-<div className="colored-div">
-  </div>
 
   <div className={`interface top buttons ${nightModeClass}`} style={{color: textColor}}>
     <div id="moon" onClick={toggleNightMode}>🌛</div>

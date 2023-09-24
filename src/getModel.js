@@ -8,7 +8,7 @@ import { roll } from './getDescription';
 
 export const getModel = async () => {
   // first determine whether to get a single or a combo
-  const combo = roll();
+  const combo = roll(0);
   if (combo) {
     let comboMesh = await makeComboMesh();
     return comboMesh;

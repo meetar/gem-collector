@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useRef } from 'react'
 import { useLoader } from '@react-three/fiber'
 import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import * as THREE from 'three'
-import { getColor } from './utils'
+import { getColor } from '../utils'
 
 export const getMaterial = ({config}) => {
   // console.log('getMaterial');

@@ -12,7 +12,7 @@ import {
   MeshTransmissionMaterial,
 } from '@react-three/drei'
 import { PerformanceMonitor } from '@react-three/drei';
-import { randomizeLevaControls, simpleControls } from './utils'
+import { randomizeLevaControls, simpleControls } from '../utils'
 
 // a clear material with internal reflections and refractions
 export function DiamondMaterial({trigger, config, color, geometry, envMap, normalMap, ...props}) {
