@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/gem-collector/static/css/main.05d50e68.css",
-    "main.js": "/gem-collector/static/js/main.49f268c4.js",
+    "main.css": "/gem-collector/static/css/main.e71f7923.css",
+    "main.js": "/gem-collector/static/js/main.99d1e553.js",
     "index.html": "/gem-collector/index.html",
-    "main.05d50e68.css.map": "/gem-collector/static/css/main.05d50e68.css.map",
-    "main.49f268c4.js.map": "/gem-collector/static/js/main.49f268c4.js.map"
+    "main.e71f7923.css.map": "/gem-collector/static/css/main.e71f7923.css.map",
+    "main.99d1e553.js.map": "/gem-collector/static/js/main.99d1e553.js.map"
   },
   "entrypoints": [
-    "static/css/main.05d50e68.css",
-    "static/js/main.49f268c4.js"
+    "static/css/main.e71f7923.css",
+    "static/js/main.99d1e553.js"
   ]
 }
