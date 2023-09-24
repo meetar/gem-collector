@@ -17,8 +17,8 @@ import { randomBetween } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
-export function GemRandomizer({ config, trigger, setText, gemDone }) {
-  const [mode, setMode] = useState();
+export function GemRandomizer({ config, trigger, setText, gemDone, slow }) {
+  const [mode, setMode] = useState('gem');
   const [statecolor, setColor] = useState('#000000');
   const [desc, setDescription] = useState('');
   const [model, setModel] = useState()
@@ -38,10 +38,25 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       }
     },
   }));
-
+  // console.log('gem mode', mode);
   useEffect(() => {
     setUIColor({color: statecolor});
   }, [statecolor])
+
+  async function newMode() {
+    let mode = await getMode(slow);
+    // console.log('mode?', mode);
+    setMode(mode)
+  }
+
+  // assign a new material
+  useEffect(() => {
+    // console.log('slow gem, re-matting');
+    if (slow) {
+      newMode()
+    }
+}, [slow])
+
 
   async function fetchDescription(v) {
     const desc = await getDescription(v)
@@ -85,7 +100,11 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
     return randomColor()
   }
 
-  async function getMode() {
+  async function getMode(slow) {
+    if (slow) {
+      return _.sample(['crystal', 'deep', 'deep'])
+    }
+    // return 'gem';
     return _.sample(['gem', 'crystal', 'deep', 'deep'])
   }
 
@@ -101,11 +120,11 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       setModel(oldmodel)
     }
     else if (mode) {
-      [model, normal, depth, description] = await Promise.all([getModel(), getNormal(), getDepth(), fetchDescription(newcolor)]);
+      [model, normal, depth, description] = await Promise.all([getModel(slow), getNormal(), getDepth(), fetchDescription(newcolor)]);
       setModel(model)
     }
     else {
-      [model, normal, depth, description, mode] = await Promise.all([getModel(), getNormal(), getDepth(), fetchDescription(newcolor), getMode()]);
+      [model, normal, depth, description, mode] = await Promise.all([getModel(slow), getNormal(), getDepth(), fetchDescription(newcolor), getMode(slow)]);
       setModel(model)
     }
     // console.log('mode:', mode, description);
@@ -130,7 +149,7 @@ export function GemRandomizer({ config, trigger, setText, gemDone }) {
       trigger = trigger[0];
       if (trigger == 'shape') {
         (async function () {
-          const model = await getModel();
+          const model = await getModel(slow);
           setModel(model)
         })()
       }
@@ -193,7 +212,7 @@ return ( mode &&
     <>
 
       { mode == 'gem' ? (
-        <DiamondMaterial trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
+        <DiamondMaterial slow={slow} trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
       ) : mode == 'crystal' ? (
         <mesh geometry={model} castShadow >
           <CrystalMaterial trigger={mattrigger} normalMap={normalMap} color={statecolor} geometry={model} envMap={envMap} config={config} />

@@ -26,6 +26,24 @@ export const models = [
   'spiky1.obj',
   'spiky2.obj',
 ];
+export const slowmodels = [
+  '5crystal.obj',
+  'chalk1.obj',
+  'chunky1.obj',
+  'crystal1.obj',
+  'crystal2.obj',
+  'crystal3.obj',
+  'cube1.obj',
+  'cubic2.obj',
+  'gem.obj',
+  'icosphere.obj',
+  'icosphere-beveledge.obj',
+  'icosphere-bevelverts.obj',
+  'nugget.obj',
+  'rock2.obj',
+  'shard.obj',
+  'spiky2.obj',
+];
 
 export const combomodels = [
   '5crystal.obj',

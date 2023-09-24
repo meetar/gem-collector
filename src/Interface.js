@@ -12,18 +12,20 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const [aside, setAside] = useState()
   const [introStep, setIntroStep] = useState(0)
   const [infomode, setInfomode] = useState(false)
+  const [instance, setInstance] = useState()
 
   function toggleInfo() {
     setInfomode(v => !v)
   }
 
   function getIntroText() {
-    return <div id="gemtext">{Intro[introStep]}</div>;
+    return {text: <div id="gemtext">{Intro[introStep]}</div>, key: Intro[introStep]};
   }
   const [introText, setIntroText] = useState(getIntroText(introStep))
 
   function getAside() {
-    return <div id="gemtext">{_.sample(asides)}</div>;
+    let aside = _.sample(asides);
+    return {text: <div id="gemtext">{aside}</div>, key: aside};
   }
 
   useEffect(() => {
@@ -44,7 +46,6 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
     }
     if (complete) {
       if (aside) {
-        console.log('set aside null, complete:', complete);
         setAside()
       }
       if (intro) {
@@ -61,6 +62,7 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
         } else {
           setContinueButton(false)
           next()
+          setComplete(false)
         }
       }
     }
@@ -84,8 +86,6 @@ useEffect(() => {
 
 useEffect(() => {
   setComplete(false)
-  // setContinueButton(false)
-  // setTyping(true)
 }, [desc])
 
   useEffect(() => {
@@ -98,20 +98,26 @@ useEffect(() => {
 
   function getGemText() {
     return (
+      { text: (
       <div id="gemtext"><span id="gemname">{desc.name}.</span> {desc.desc}
       <span className="coda">{desc.coda}</span></div>
+      ), key: desc.name
+      }
       )
     // return "The quick brown fox jumps over the lazy dog."
   }
-function typeText(speed, text) {
-  // console.log('typing, speed', speed, ', complted?', complete);
+function typeText(speed, textObject) {
   let textelement = document.getElementById('dialogtext');
-  let startDelay = speed === 0 ? 1 : 750;
+  let startDelay = speed === 0 ? 0 : 750;
   let nextStringDelay = speed == 0 ? 0 : 750;
-
-  return (<TypeIt key={speed}
+  let key = speed+textObject.key;
+  return (<TypeIt key={key}
         getAfterInit={(instance) => {
           setContinueButton(false)
+          // console.log('started?', instance.is('started'));
+          // console.log('complete?', instance.is('complete'));
+          // console.log(instance);
+          setInstance(instance)
           return instance;
         }}
         options={{
@@ -120,8 +126,6 @@ function typeText(speed, text) {
           startDelay,
           nextStringDelay,
           beforeStep: async (instance) => {
-            if (complete) {
-            }
           },
           afterStep: () => {
             textelement.scrollTop = textelement.scrollHeight;
@@ -131,15 +135,12 @@ function typeText(speed, text) {
             setComplete(true)
             setContinueButton(true)
           },
-        }}>{text}</TypeIt>)
-
-
+        }}>{textObject.text}</TypeIt>)
   }
 
   function getDialogue() {
-    // return typeText(2, getIntroText());
     if (intro) {
-      return (complete ? typeText(0, getIntroText()) : typeText(3, getIntroText()))
+      return (complete ? typeText(0, getIntroText()) : typeText(1, getIntroText()))
     } else if (aside) {
       return (complete ? typeText(0, aside) : typeText(1, aside))
     } else if (desc && desc.desc) {
@@ -148,8 +149,6 @@ function typeText(speed, text) {
       return <></>
     }
   }
-
-  const bgColor = nightMode ? "#222" : "#ddd";
 
 return (
 <>

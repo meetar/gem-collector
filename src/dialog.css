@@ -137,7 +137,6 @@ transition: color 1s ease, text-shadow 1s ease, -webkit-text-stroke-color 1s eas
 }
 
 #continue:hover {
-  color: grey;
   cursor: pointer;
 }
 #continue.visible {

@@ -5,7 +5,7 @@ import { EquirectangularReflectionMapping } from 'three';
 import { RGBELoader } from 'three-stdlib'
 import { useLoader } from '@react-three/fiber'
 import { Leva, useControls, button } from 'leva'
-import { diamondcontrols } from './diamondcontrols'
+import { diamondcontrols, diamondcontrolsSlow } from './diamondcontrols'
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import {
   MeshRefractionMaterial,
@@ -15,18 +15,17 @@ import { PerformanceMonitor } from '@react-three/drei';
 import { randomizeLevaControls, simpleControls } from '../utils'
 
 // a clear material with internal reflections and refractions
-export function DiamondMaterial({trigger, config, color, geometry, envMap, normalMap, ...props}) {
-  // console.log('diamond mat, envmap:', envMap);
-  // envMap = useLoader(TextureLoader, './textures/UVs.jpeg')
+export function DiamondMaterial({slow, trigger, config, color, geometry, envMap, normalMap, ...props}) {
+  const controls = slow ? diamondcontrolsSlow : diamondcontrols;
 
   // state variable to hold the randomized controls
-  const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(diamondcontrols));
+  const [randomizedControls, setRandomizedControls] = useState(randomizeLevaControls(controls));
   // set up leva with first version of the randomized controls – don't rely on state being set here yet
   const [{ ...diamondconfig }, setDiamondControls] = useControls('Diamond', () => (randomizedControls), {collapsed: true})
 
   // function to re-randomize and update the controls
   const reloadControls = () => {
-    const newRandomizedControls = randomizeLevaControls(diamondcontrols);
+    const newRandomizedControls = randomizeLevaControls(controls);
     setRandomizedControls(newRandomizedControls);
     setDiamondControls(simpleControls(newRandomizedControls));
   };
@@ -36,22 +35,15 @@ export function DiamondMaterial({trigger, config, color, geometry, envMap, norma
     reloadControls();
   }, [trigger]);
 
-
-  // fps testing - TODO later
-  // const [test, setTest] = useState(null)
-
-  // TODO later
-  // useEffect(() => {
-  //     console.log('performance test', test);
-  //     if (!test) return;
-  //     let bounces = Math.ceil(5 - 60/test.fps);
-  //     console.log('bounces:', bounces);
-  //     diamondconfig.bounces = bounces;
-  //     setConfig(useControls(diamondcontrols))
-  //     console.log('now:', config.bounces);
-  // }, [test])
-  // console.log('diamond mat, #faces:', geometry.attributes.normal.array.length / 3 / 3);
-
+  // useEffect to re-randomize on component mount
+  useEffect(() => {
+    if (slow) {
+      let controls = simpleControls(randomizedControls)
+      controls.bounces = 1;
+      controls.samples = 8;
+      setDiamondControls(controls);
+    }
+  }, [slow]);
 
   geometry = BufferGeometryUtils.mergeVertices(geometry, 0); // this forces vertex indexing which fixes the 'BufferGeometry is already non-indexed' warning
 

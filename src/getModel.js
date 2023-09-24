@@ -3,19 +3,26 @@ import * as THREE from 'three'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { shuffleArray, divideCircleIntoPoints } from './utils';
-import { models, combomodels } from './models';
+import { models, slowmodels, combomodels } from './models';
 import { roll } from './getDescription';
 
-export const getModel = async () => {
-  // first determine whether to get a single or a combo
-  const combo = roll(0);
-  if (combo) {
-    let comboMesh = await makeComboMesh();
-    return comboMesh;
-  }
+export const getModel = async (slow) => {
+  let mesh;
 
-  const mesh = './models/'+_.sample(models)
-  // const mesh = './models/crystal.obj' // testing
+  // slow mode
+  if (slow) {
+    mesh = './models/'+_.sample(slowmodels)
+  } else {
+      // first determine whether to get a single or a combo
+      const combo = roll();
+      if (combo) {
+        let comboMesh = await makeComboMesh();
+        return comboMesh;
+      }
+      mesh = './models/'+_.sample(models)
+  }
+  // console.log(mesh);
+  // mesh = './models/crystal.obj' // testing
   const loader = new OBJLoader();
   const obj = await loader.loadAsync(mesh)
   // console.log('obj:', mesh);

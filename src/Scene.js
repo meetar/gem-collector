@@ -12,7 +12,7 @@ import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 
 
-export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
+export default function Scene({slow, setText, nightMode, gemDone, randomizeTrigger}) {
   const [trigger, setTrigger] = useState()
   const [pixelSize, setPixelSize] = useState(256)
   const [pixelTrigger, setPixelTrigger] = useState('in')
@@ -33,6 +33,13 @@ export default function Scene({setText, nightMode, gemDone, randomizeTrigger}) {
       setTrigger(['randomize', Math.random()])
     }, 500); // synchronize this timing with the curtain opacity transition timing
 }, [randomizeTrigger])
+
+//   // animate out and make a new one
+//   useEffect(() => {
+//     if (slow) {
+//       setTrigger(['randomize', Math.random()])
+//     }
+// }, [slow])
 
   // leva controls which use functions defined in this component
   useControls('Triggers', {
@@ -91,6 +98,7 @@ return (
         <directionalLight castShadow position={[0, 10, 0]} intensity={1} />
 
         <GemRandomizer
+          slow={slow}
           trigger={trigger}
           config={randomConfig}
           setText={setText}

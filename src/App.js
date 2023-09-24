@@ -1,4 +1,5 @@
 import * as _ from 'lodash'
+import * as THREE from 'three'
 import { Canvas } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
 import { useState, useEffect } from 'react'
@@ -32,6 +33,7 @@ export function App() {
   const [curtainOpacity, setCurtainOpacity] = useState(1);
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
+  const [slow, setSlow] = useState(false)
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -85,7 +87,6 @@ export function App() {
     }, 1000); // synchronize this timing with the curtain opacity transition timing
   };
 
-
   return (
   <>
   <div id="curtain" style={{ opacity: curtainOpacity, visibility: curtainDisplay}}></div>
@@ -100,14 +101,23 @@ export function App() {
     { <Canvas style={{height: '100%'}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
       <PerformanceMonitor onChange={(stats) => {
         let factor = stats.factor
-        let fps = stats.fps
-        let dpr = computeDPRScale(fps)
-        // let dpr = _.round(0.5 + .25 * factor, 1);
-        return setDpr(dpr)
+        let fps = stats.fps;
+        if (fps < 10 && factor < .5 && dpr > .5) {
+          console.warn("Slow performance. Throttling resolution...");
+          return setDpr(.5);
+        }
+        // let dpr = computeDPRScale(fps);
+        let newdpr = 0.5 + (1.5 * factor);
+        // console.warn('fps?:', fps, 'factor:', factor, 'dpr:', newdpr);
+        if (fps < 15) {
+          console.warn("Slow performance. Throttling materials...");
+          setSlow(true);
+        }
+        return setDpr(newdpr)
       }}>
 
       {/* put everything into a component inside Canvas, to avoid the R3F Hooks warning - this provides the Canvas context */}
-      <Scene {... {nightMode, setText, gemDone, randomizeTrigger}} />
+      <Scene {... {slow, nightMode, setText, gemDone, randomizeTrigger}} />
 
       </PerformanceMonitor>
       {showLeva == 'visible' && <Stats />}
