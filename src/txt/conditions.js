@@ -110,7 +110,7 @@ export const gemverbs = [
   'tells fortunes',
   'predicts the weather',
   'glimmers like moonlight',
-  'smells faintly like socks',
+  'smells like socks',
   'fades',
   'brightens',
   'reddens',
@@ -119,5 +119,5 @@ export const gemverbs = [
   'turns bright orange',
   'shimmers like a star',
   'sharply retracts',
-  'burrows deeply into the ground',  
+  'burrows into the ground',  
 ]

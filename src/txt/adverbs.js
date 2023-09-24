@@ -156,7 +156,6 @@ module.exports = [
   "distinctively",
   "distinctly",
   "disturbingly",
-  "early",
   "echographically",
   "ecologically",
   "effectively",
