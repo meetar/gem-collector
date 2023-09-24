@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
 import { Intro, asides } from './dialogue.js';
 import { roll } from './getDescription.js';
+import Typewriter from './Typewriter.js';
+import { Infoscreen } from './Infoscreen.js';
 
 export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
@@ -12,6 +14,10 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const [aside, setAside] = useState()
   const [introStep, setIntroStep] = useState(0)
   const [infomode, setInfomode] = useState(false)
+
+  function toggleInfo() {
+    setInfomode(v => !v)
+  }
 
   function getIntroText() {
     return <div id="gemtext">{Intro[introStep]}</div>;
@@ -51,12 +57,11 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
         setIntroText(getIntroText(introStep));
         setComplete(false)
       } else {
-        if (!aside && roll(.5)) {
-          console.log('getaside');
+        if (!aside && roll(.05)) {
           setComplete(false)
           setAside(getAside())
         } else {
-          console.log('next, complete:', complete);
+          setContinueButton(false)
           next()
         }
       }
@@ -105,7 +110,8 @@ function typeText(speed, text) {
   let textelement = document.getElementById('dialogtext');
   let startDelay = speed === 0 ? 1 : 750;
   let nextStringDelay = speed == 0 ? 0 : 750;
-    return (<TypeIt key={speed}
+
+  return (<TypeIt key={speed}
         getAfterInit={(instance) => {
           setContinueButton(false)
           return instance;
@@ -117,19 +123,19 @@ function typeText(speed, text) {
           nextStringDelay,
           beforeStep: async (instance) => {
             if (complete) {
-              // if (speed != 0) instance.reset();
             }
           },
           afterStep: () => {
             textelement.scrollTop = textelement.scrollHeight;
           },
           afterComplete: () => {
-            // if (speed == 0) return;
             textelement.scrollTop = textelement.scrollHeight;
             setComplete(true)
             setContinueButton(true)
           },
         }}>{text}</TypeIt>)
+
+
   }
 
   function getDialogue() {
@@ -149,9 +155,13 @@ function typeText(speed, text) {
 
 return (
 <>
+
+<div className="colored-div">
+  </div>
+
   <div className={`interface top buttons ${nightModeClass}`} style={{color: textColor}}>
     <div id="moon" onClick={toggleNightMode}>🌛</div>
-    <div id="info"><img src="question.png" height={32}></img></div>
+    <div id="info" onClick={toggleInfo}><img src="question.png" height={32}></img></div>
   </div>
 
   <div className={`interface bottom ${nightModeClass}`}>
@@ -169,6 +179,9 @@ return (
   <div id="bgNightmode" className={`${nightModeClass}`}></div>
   <div id="bg" className={`${nightModeClass}`}></div>
 
+  {
+    infomode && <Infoscreen {...{nightModeClass, toggleInfo}} />
+  }
 
 </>
 )  

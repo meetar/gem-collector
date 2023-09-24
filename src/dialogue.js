@@ -31,7 +31,7 @@ export const asides = [
 ]
 
 export function getCoda() {
-  return roll(0) ? null :
+  return roll(.6) ? null :
   _.sample([
     " ...Well.",
     " ...Hmm.",
@@ -44,7 +44,7 @@ export function getCoda() {
     " ...I think that's most of them. Oh wait, here's another crate.",
     " ...We might have two of these.",
     " ...I don't know who wrote these.",
-    " ...I'm not sure how you'd measure that.",
+    " ...I'm not sure how you'd check that.",
     " ...This one might be fake.",
     " ...Intriguing.",
     " ...Fascinating.",

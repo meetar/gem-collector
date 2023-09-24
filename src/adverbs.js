@@ -64,7 +64,6 @@ module.exports = [
   "cellularly",
   "centrally",
   "cephalometrically",
-  "certainly",
   "characteristically",
   "chemically",
   "chiefly",
