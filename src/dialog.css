@@ -1,0 +1,151 @@
+.dialog {
+  width: 100%;
+  max-width: 1200px;
+  padding: 1% 20px 1% 30px;
+  display: flex;
+  /* justify-content: center; */
+  font-size: 24px;
+  font-family: Calibri, 'Trebuchet MS', sans-serif;
+  color: black;
+  margin: 0;
+  /* border-top: var(--border-width) solid var(--border-color); */
+  /* border-bottom: var(--border-width) solid var(--border-color); */
+  position: absolute;
+  height: 100%;
+  bottom : 0px;
+  /* background: rgba(256, 256, 256, 0.8); */
+  color: #dbc7ad;
+  /* border: 2px solid blue; */
+}
+
+.nightmode .dialog {
+  /* background: rgba(64, 64, 64, 0.8) */
+}
+
+#portrait {
+  /* margin-left: 0%; */
+  /* border: var(--border-width) solid green; */
+  display: flex;
+  align-items: center;
+  max-width: 30%;
+}
+
+#portrait > img {
+  height: 27vh;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+
+}
+
+#dialogtext {
+  /* position: relative; */
+  width: 100%;
+  margin-left: 2%;
+  /* border: var(--border-width) solid green; */
+  /* padding: 10px 20px 30px; */
+  text-align: left;
+  font-style: italic;
+  /* height: 200px; */
+  overflow-y: scroll;
+  color: black;
+  align-items: baseline;
+}
+
+.nightmode #dialogtext {
+  color: white;
+}
+
+#charname {
+  position: absolute;
+  left: 30%;
+  top: -30px;
+  border: var(--border-width) solid var(--border-color);
+  background: rgba(256, 256, 256, 1);
+  padding: 10px;
+  color: grey;
+  z-index: 1;
+}
+
+.nightmode #charname {
+  background: rgba(33, 33, 33, 1);
+
+}
+
+#gemtext {
+  /* border: var(--border-width) solid red; */
+}
+
+.nightmode #gemtext{
+  /* color: white; */
+}
+
+#gemname {
+  color: blue;
+  font-style: italic;
+}
+.nightmode #gemname {
+  color: #bbf;
+  font-weight: bold;
+  /* text-shadow: 0px 0px 10px white; */
+}
+
+.gemquote {
+  font-style: italic;
+  margin: 5px 0px;
+}
+
+.coda {
+  /* border: var(--border-width) solid blue; */
+  padding-top: 20px;
+  font-style: normal;
+  display: block;
+}
+.nightmode .coda {
+  color: white;
+}
+
+#continue {
+  font-style: normal;
+  color: rgb(241, 141, 105);
+  position: absolute;
+  right: 30px;
+  bottom: -15px;
+  font-size: 60px;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 2px;
+  animation: bob 1s ease-in-out infinite;
+  visibility: hidden;
+  text-shadow: 0px 0px 1px var(--border-color);
+}
+
+#continue:hover {
+  color: grey;
+  cursor: pointer;
+}
+#continue.visible {
+  visibility: visible;
+}
+
+.nightmode #continue {
+  color: rgb(228, 161, 72);
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0);
+  -webkit-text-stroke-color: #222;
+  -webkit-text-stroke-width: 3px;
+}
+
+#continue::before {
+  content: attr(data-char);
+  position: absolute;
+  z-index: -1;
+  -webkit-text-stroke: 7px var(--border-color);
+}
+
+@keyframes bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust the vertical distance as needed */
+  }
+}
