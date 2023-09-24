@@ -7,11 +7,9 @@ import { RGBELoader } from 'three-stdlib'
 import { EquirectangularReflectionMapping } from 'three';
 import { Center } from '@react-three/drei'
 import * as _ from 'lodash'
-import ParallaxMesh from './mats/ParallaxMesh'
 import { DiamondMaterial } from './mats/DiamondMaterial'
 import CrystalMaterial from './mats/CrystalMaterial'
 import DeepMat from './mats/DeepMat'
-import SSSMesh from './mats/SSSMesh'
 import { Rock } from './mats/Rock'
 import { getModel } from './getModel'
 import { getDescription } from './getDescription.js'
@@ -20,10 +18,7 @@ import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
 export function GemRandomizer({ config, trigger, setText, gemDone }) {
-  // console.log('>> GemRandomizer <<', intensity);
-
-  // const [mode, setMode] = useState();
-  const [mode, setMode] = useState('deep');
+  const [mode, setMode] = useState();
   const [statecolor, setColor] = useState('#000000');
   const [desc, setDescription] = useState('');
   const [model, setModel] = useState()

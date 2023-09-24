@@ -9,7 +9,7 @@ export const randomNormal = () => {
 // '4979-normal.jpg',
 '1160-normal.jpg',
 'ice-normal.jpeg',
-'normal-moon.png',
+'normal-moon.jpg',
 '14009-normal.jpg',
 'normals2.jpeg',
 ];
