@@ -14,6 +14,7 @@ export const Interface = ({count, nightMode, toggleNightMode, desc, next}) => {
   const [infomode, setInfomode] = useState(false)
   const [instance, setInstance] = useState()
   const [started, setStarted] = useState(false)
+  const [rotate, setRotate] = useState(false)
 
   function toggleInfo() {
     setInfomode(v => !v)
@@ -57,7 +58,11 @@ export const Interface = ({count, nightMode, toggleNightMode, desc, next}) => {
         setIntroText(getIntroText(introStep));
         setComplete(false)
       } else {
-        if (!aside && count < 10 && roll(.05)) {
+        if (count > 1 && count % 50 == 0) {
+          setComplete(false)
+          setAside({text: <div id="gemtext">This isn't ever going to end, is it?</div>, key: "forever"})
+        }
+        if (!aside && count > 10 && roll(.05)) {
           setComplete(false)
           setAside(getAside())
         } else {
@@ -154,6 +159,15 @@ function typeText(speed, textObject) {
     }
   }
 
+  // this checks state and returns a class to show "rotate.png" with the first gem
+  function getRotate() {
+    if (!intro && desc && desc.desc && count == 0) {
+      return 'fade'
+    } else {
+      return ''
+    }
+
+  }
 return (
 <>
 
@@ -162,12 +176,18 @@ return (
     <div id="info" onClick={toggleInfo}><img src="question.png" height={32}></img></div>
   </div>
 
+  { count < 2 &&
+  <div className={`interface rotate ${getRotate()}`}>
+    <img className={`rotate ${getRotate()}`} src="rotate2.png"/>
+  </div>
+  }
+
   <div className={`interface bottom ${nightModeClass}`}>
     <div className="dialog" onClick={handleTextInteraction}>
       <div id="portrait"><img src="textures/person/researcher.png"></img></div>
       <div id="charname">RESEARCHER</div>
       <div id="dialogtext" className={`${started ? '' : 'hiding'}`}>
-        
+
         {getDialogue()}
 
       </div>
@@ -182,6 +202,6 @@ return (
   }
 
 </>
-)  
+)
 }
 
