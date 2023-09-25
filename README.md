@@ -1,10 +1,13 @@
 ## The Gem Collector
 
-~ by Peter and Juna !
+This is a WebGL demo site disguised as a scene in an adventure game.
 
-Made with (https://threejs.org/)[three.js], (https://github.com/pmndrs/react-three-fiber)[react-three-fiber], ('https://github.com/pmndrs/drei')[drei], (http://blender.org)[Blender], (https://github.com/pmndrs/leva)[Leva], (https://www.pixilart.com/)[pixilart], and (https://www.typeitjs.com/)[TypeIt].
+## CREDITS
+~ by Peter and Juna ! ~
 
-~ Thank you to the (https://pmnd.rs/)[Poimandres] open source developer collective ~
+Made with [three.js](https://threejs.org/), [react-three-fiber](https://github.com/pmndrs/react-three-fiber), [drei](https://github.com/pmndrs/drei), [Blender](http://blender.org), [Leva](https://github.com/pmndrs/leva), [pixilart](https://www.pixilart.com/), and [TypeIt](https://www.typeitjs.com/).
+
+~ Thank you to the [Poimandres](https://pmnd.rs/) open source developer collective ~
 
 Sept. 2023
 
