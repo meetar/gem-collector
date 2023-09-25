@@ -4,6 +4,8 @@ This is a WebGL demo site disguised as a scene in an adventure game.
 
 [http://meetar.github.io/gem-collector](http://meetar.github.io/gem-collector)
 
+Pressing 'u' will bring up a hidden UI you can use to explore the shader settings.
+
 ## CREDITS
 ~ by Peter and Juna ! ~
 
