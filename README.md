@@ -2,6 +2,8 @@
 
 This is a WebGL demo site disguised as a scene in an adventure game.
 
+[http://meetar.github.io/gem-collector](http://meetar.github.io/gem-collector)
+
 ## CREDITS
 ~ by Peter and Juna ! ~
 
