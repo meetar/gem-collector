@@ -9,17 +9,17 @@ import { roll } from './getDescription';
 export const getModel = async (slow) => {
   let mesh;
 
+  // first determine whether to get a single or a combo
+  const combo = roll();
+  if (combo) {
+    let comboMesh = await makeComboMesh();
+    return comboMesh;
+  }
   // slow mode
   if (slow) {
     mesh = './models/'+_.sample(slowmodels)
   } else {
-      // first determine whether to get a single or a combo
-      const combo = roll();
-      if (combo) {
-        let comboMesh = await makeComboMesh();
-        return comboMesh;
-      }
-      mesh = './models/'+_.sample(models)
+    mesh = './models/'+_.sample(models)
   }
   // console.log(mesh);
   // mesh = './models/crystal.obj' // testing
