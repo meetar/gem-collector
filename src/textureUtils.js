@@ -26,16 +26,13 @@ export const randomNormal = () => {
 export const randomDepth = () => {
   // console.log('randomDepth');
   let maps = [
-'streaks4.png',
+'streaks4.jpg',
 'cracks3.png',
 'cracks.png',
 'speckles.png',
-'speck.png',
-'streaks3.png',
-'streaks.png',
+'streaks3.jpg',
 'spatter.jpg',
 'spatter2.jpg',
-// 'stripes.jpg',
 ];
   let map = _.sample(maps);
   // console.log('fetching', './textures/'+map);
