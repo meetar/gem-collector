@@ -62,7 +62,7 @@ export const Interface = ({count, nightMode, toggleNightMode, desc, next}) => {
           setComplete(false)
           setAside({text: <div id="gemtext">This isn't ever going to end, is it?</div>, key: "forever"})
         }
-        if (!aside && count > 10 && roll(.05)) {
+        if (!aside && count > 10 && roll(.08)) {
           setComplete(false)
           setAside(getAside())
         } else {
