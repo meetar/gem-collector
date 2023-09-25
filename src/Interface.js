@@ -4,7 +4,7 @@ import TypeIt from "typeit-react";
 import { roll } from './getDescription.js';
 import { Infoscreen } from './Infoscreen.js';
 
-export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
+export const Interface = ({count, nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
   const [continueButton, setContinueButton] = useState(false)
   const [complete, setComplete] = useState(false)
@@ -57,7 +57,7 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
         setIntroText(getIntroText(introStep));
         setComplete(false)
       } else {
-        if (!aside && roll(.05)) {
+        if (!aside && count < 10 && roll(.05)) {
           setComplete(false)
           setAside(getAside())
         } else {

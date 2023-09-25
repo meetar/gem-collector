@@ -26,7 +26,7 @@ export const asides = [
   "God, there's so many.",
   "Who was this so-called Dr. Esterhazy, anyhow?",
   "Hey, want to take over? No? Maybe after a few more?",
-  "I think we're almost done! ...with this box!",
+  "I think I'm almost done! ...with this box!",
   "I'm beginning to regret volunteering for this cataloguing job...",
   "Okay, It's all starting to make sense. I think.",
 ]

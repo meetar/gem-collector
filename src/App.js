@@ -34,6 +34,7 @@ export function App() {
   const [curtainDisplay, setCurtainVisibility] = useState('block');
   const [dpr, setDpr] = useState(2)
   const [slow, setSlow] = useState(false)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -74,6 +75,7 @@ export function App() {
 
   // function to start the opacity animation
   const lowerCurtain = () => {
+    setCount(v => v+1)
     setText()
     setCurtainOpacity(1);
     setCurtainVisibility('visible')
@@ -95,7 +97,7 @@ export function App() {
     <Leva />
   </div>
 
-  <Interface toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
+  <Interface count={count} toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
 
   <div style={{height: '100%', zIndex: 0, }}>
     { <Canvas style={{height: '100%'}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
