@@ -161,7 +161,7 @@ function typeText(speed, textObject) {
 
   // this checks state and returns a class to show "rotate.png" with the first gem
   function getRotate() {
-    if (!intro && desc && desc.desc && count == 0) {
+    if (intro && introStep >= Intro.length - 1) {
       return 'fade'
     } else {
       return ''

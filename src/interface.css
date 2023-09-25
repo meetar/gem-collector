@@ -170,6 +170,8 @@ transition: color 1s ease, text-shadow 1s ease, -webkit-text-stroke-color 1s eas
   pointer-events: none;
   /* border: 2px solid blue; */
   max-height: 300px;
+  max-width: 70%;
+  padding-bottom: 80px;
   opacity: 0;
 
 }
