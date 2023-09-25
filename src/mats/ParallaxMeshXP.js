@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { useTexture } from '@react-three/drei'
 import ParallaxMaterialXP from './ParallaxMaterialXP'
 import { parallaxcontrols } from './parallaxcontrols'
 import { useControls } from 'leva'

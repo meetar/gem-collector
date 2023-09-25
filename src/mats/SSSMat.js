@@ -1,8 +1,6 @@
 import * as THREE from 'three'
-import { useLoader } from '@react-three/fiber';
 import { SubsurfaceScatteringShader } from 'three/addons/shaders/SubsurfaceScatteringShader.js';
-import { useTexture } from '@react-three/drei'
-import { useControls, button } from 'leva'
+import { useControls } from 'leva'
 import { hexToVec3 } from '../utils'
 
 // tutorial: https://www.youtube.com/watch?v=f4s1h2YETNY

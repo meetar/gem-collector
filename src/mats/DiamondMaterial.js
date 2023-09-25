@@ -1,17 +1,9 @@
 import { useEffect, useState } from 'react'
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import * as THREE from 'three'
-import { EquirectangularReflectionMapping } from 'three';
-import { RGBELoader } from 'three-stdlib'
-import { useLoader } from '@react-three/fiber'
-import { Leva, useControls, button } from 'leva'
+import { useControls } from 'leva'
 import { diamondcontrols, diamondcontrolsSlow } from './diamondcontrols'
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-import {
-  MeshRefractionMaterial,
-  MeshTransmissionMaterial,
-} from '@react-three/drei'
-import { PerformanceMonitor } from '@react-three/drei';
+import { MeshRefractionMaterial, MeshTransmissionMaterial } from '@react-three/drei'
 import { randomizeLevaControls, simpleControls } from '../utils'
 
 // a clear material with internal reflections and refractions

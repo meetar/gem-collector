@@ -29,6 +29,7 @@ export const asides = [
   "I think I'm almost done! ...with this box!",
   "I'm beginning to regret volunteering for this cataloguing job...",
   "Okay, It's all starting to make sense. I think.",
+  "...I think that's most of them. Oh wait, here's another crate.",
 ]
 
 export function getCoda() {
@@ -42,7 +43,6 @@ export function getCoda() {
     " ...I wouldn't get too close.",
     " ...It's heavier than it looks.",
     " ...I can't look away.",
-    " ...I think that's most of them. Oh wait, here's another crate.",
     " ...We might have two of these.",
     " ...I don't know who wrote these.",
     " ...I'm not sure how you'd check that.",

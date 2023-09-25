@@ -48,7 +48,6 @@ export function App() {
   }, []);
 
   function toggleNightMode() {
-    console.log('NIGHTMODE');
     setNightMode(val => !val)
   }
 

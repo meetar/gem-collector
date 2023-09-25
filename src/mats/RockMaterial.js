@@ -9,8 +9,6 @@ const RockMaterial = ({texture, config}) => {
   btexture.wrapT = THREE.RepeatWrapping;
 
   const normalmap = useLoader(TextureLoader, './textures/normal/earth-normalmap.jpg');
-  // const normalmap = useLoader(TextureLoader, './textures/J3QeZ.png');
-  // const normalmap = useLoader(TextureLoader, './textures/13191-normal.jpg');
 
   normalmap.wrapS = THREE.RepeatWrapping;
   normalmap.wrapT = THREE.RepeatWrapping;

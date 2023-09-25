@@ -1,16 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import * as THREE from 'three'
-import { useTexture } from '@react-three/drei'
 import { EquirectangularReflectionMapping } from 'three';
-import { RGBELoader } from 'three-stdlib'
-import { useLoader } from '@react-three/fiber'
-import { Leva, useControls, button } from 'leva'
-import {
-  MeshRefractionMaterial,
-  MeshTransmissionMaterial,
-  Edges
-} from '@react-three/drei'
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import { useControls } from 'leva'
+import { MeshTransmissionMaterial } from '@react-three/drei'
 import ParallaxMaterial from './ParallaxMaterial';
 import { parallaxcontrols } from './parallaxcontrols';
 import { randomizeLevaControls, simpleControls, roundValue, roundToNearest } from '../utils'
