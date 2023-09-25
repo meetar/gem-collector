@@ -13,6 +13,7 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
   const [introStep, setIntroStep] = useState(0)
   const [infomode, setInfomode] = useState(false)
   const [instance, setInstance] = useState()
+  const [started, setStarted] = useState(false)
 
   function toggleInfo() {
     setInfomode(v => !v)
@@ -61,6 +62,7 @@ export const Interface = ({nightMode, toggleNightMode, desc, next}) => {
           setAside(getAside())
         } else {
           setContinueButton(false)
+          setStarted(false)
           next()
           setComplete(false)
         }
@@ -97,6 +99,7 @@ useEffect(() => {
   // const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
   function getGemText() {
+    if (instance && instance.current) return {text: <div id="gemtext">STARTED: {instance.is('started')}</div>, key: Intro[introStep]};
     return (
       { text: (
       <div id="gemtext"><span id="gemname">{desc.name}.</span> {desc.desc}
@@ -114,10 +117,8 @@ function typeText(speed, textObject) {
   return (<TypeIt key={key}
         getAfterInit={(instance) => {
           setContinueButton(false)
-          // console.log('started?', instance.is('started'));
-          // console.log('complete?', instance.is('complete'));
-          // console.log(instance);
           setInstance(instance)
+          setStarted(true)
           return instance;
         }}
         options={{
@@ -126,6 +127,7 @@ function typeText(speed, textObject) {
           startDelay,
           nextStringDelay,
           beforeStep: async (instance) => {
+            if (!started) setStarted(true)
           },
           afterStep: () => {
             textelement.scrollTop = textelement.scrollHeight;
@@ -139,12 +141,14 @@ function typeText(speed, textObject) {
   }
 
   function getDialogue() {
-    if (intro) {
-      return (complete ? typeText(0, getIntroText()) : typeText(1, getIntroText()))
-    } else if (aside) {
-      return (complete ? typeText(0, aside) : typeText(1, aside))
-    } else if (desc && desc.desc) {
-      return (complete ? typeText(0, getGemText()) : typeText(1, getGemText()))
+    // if 'complete' is true, set typing delay to 0 for instant display,
+    // otherwise use a 1ms delay between characters
+    if (intro) { // first intro text
+      return (typeText(complete ? 0 : 1, getIntroText()))
+    } else if (aside) { // the occasional aside
+      return (typeText(complete ? 0 : 1, aside))
+    } else if (desc && desc.desc) { // normal operation
+      return typeText(complete ? 0 : 1, getGemText())
     } else {
       return <></>
     }
@@ -162,7 +166,7 @@ return (
     <div className="dialog" onClick={handleTextInteraction}>
       <div id="portrait"><img src="textures/person/researcher.png"></img></div>
       <div id="charname">RESEARCHER</div>
-      <div id="dialogtext">
+      <div id="dialogtext" className={`${started ? '' : 'hiding'}`}>
         
         {getDialogue()}
 
