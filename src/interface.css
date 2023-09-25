@@ -51,6 +51,10 @@
   color: white;
 }
 
+.hiding {
+  visibility: hidden;
+}
+
 #charname {
   position: absolute;
   left: 30%;
