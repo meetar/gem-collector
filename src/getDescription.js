@@ -338,7 +338,7 @@ async function fetchColors(color) {
 
     return colorValue;
   } catch (error) {
-    console.error('Color API timed out. It gets really slow on the weekends\n', error);
+    console.error('Color API timed out.\n', error);
     // throw error; // rethrow the error if needed
     return false;
   }

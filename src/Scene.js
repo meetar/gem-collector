@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 import { EffectComposer, Bloom, Pixelation } from '@react-three/postprocessing'
 import { Stats, SoftShadows, useTexture, AdaptiveDpr } from '@react-three/drei'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
@@ -92,7 +93,14 @@ export default function Scene({slow, setText, nightMode, gemDone, randomizeTrigg
 
 return (
       <>
-        <SoftShadows {...softShadowsProps} />
+        { isBrowser && <>
+          <SoftShadows {...softShadowsProps} />
+          <EffectComposer>
+            <Pixelation granularity={pixelSize} />
+            <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
+          </EffectComposer>
+          </>
+        }
 
         <ambientLight intensity={0.1} />
         <directionalLight castShadow position={[0, 10, 0]} intensity={1} />
@@ -105,11 +113,6 @@ return (
           gemDone={gemReady}
           />
 
-        <EffectComposer>
-          <Pixelation granularity={pixelSize} />
-          <Bloom luminanceThreshold={randomConfig.lumThreshold} intensity={randomConfig.bloom ? randomConfig.bloomIntensity : 0} levels={randomConfig.bloomLevels} mipmapBlur />
-        </EffectComposer>
- 
         {/** Controls */}
         <OrbitControls target={[0, 0, 0]} autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={.5} dampingFactor={0.3} enableRotate={true} enablePan={false} />
 
