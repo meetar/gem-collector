@@ -111,7 +111,7 @@ return (
         </EffectComposer>
  
         {/** Controls */}
-        <OrbitControls target={[0, 0, 0]} autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={0.25} dampingFactor={0.3} enableRotate={true} />
+        <OrbitControls target={[0, 0, 0]} autoRotate={randomConfig.autoRotate} autoRotateSpeed={-1} zoomSpeed={.5} dampingFactor={0.3} enableRotate={true} enablePan={false} />
 
       </>
       )
