@@ -5,7 +5,7 @@ export const Intro = [
   "Oh hello, how did you get in here?! The restroom's down the hall...",
   "These? I'm cataloguing specimens for the upcoming rare minerals exhibit. They're from the collection of Dr. Esterhazy.",
   "Curious, huh? Well... they are pretty neat... I suppose it won't hurt to show you a few.",
-  "(Feel free to get up close and rotate them. Just wash your hands afterward.)"
+  "(Feel free to zoom in and rotate them. Just wash your hands afterward.)"
 ]
 
 export const asides = [
