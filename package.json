@@ -2,7 +2,7 @@
   "name": "gem-collector",
   "version": "1.0.0",
   "description": "A random gem creator disguised as a tiny non-interactive adventure game.",
-  "homepage": "https://meetar.github.io/gem-collector/",
+  "homepage": ".",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
