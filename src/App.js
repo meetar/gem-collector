@@ -48,7 +48,7 @@ export function App() {
       setGpuTier(gpu)
     })()
   }, [])
-  useEffect(() => {if (gpuTier) console.log(gpuTier.tier)}, [gpuTier])
+  // useEffect(() => {if (gpuTier) console.log(gpuTier.tier)}, [gpuTier])
 
   useEffect(() => {
     const handleKeyPress = (event) => {
