@@ -29,10 +29,6 @@ function computeDPRScale(fps) {
 export function App() {
   const [desc, setDesc] = useState()
   const [gpuTier, setGpuTier] = useState()
-
-
-
-
   const [randomizeTrigger, setTrigger] = useState()
   const [nightMode, setNightMode] = useState(false)
   const [showLeva, setshowLeva] = useState('hidden')
@@ -41,6 +37,7 @@ export function App() {
   const [dpr, setDpr] = useState(2)
   const [slow, setSlow] = useState(false)
   const [count, setCount] = useState(0)
+  const [hideInterface, setHideInterface] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -56,6 +53,10 @@ export function App() {
       if (key === 'u') {
         // show Leva UI
         setshowLeva(v => v == 'hidden' ? 'visible' : 'hidden')
+      }
+      else if (key === 'x') {
+        // hide interface
+        setHideInterface(v => !v)
       }
     };
     window.addEventListener('keydown', handleKeyPress);
@@ -110,7 +111,7 @@ export function App() {
     <Leva />
   </div>
   {/* <div className="gpu">{JSON.stringify(gpuTier)}</div> */}
-  <Interface {...{count, toggleNightMode, nightMode, desc, slow}} gpu={gpuTier} next={lowerCurtain}/>
+  {!hideInterface && <Interface {...{count, toggleNightMode, nightMode, desc, slow}} gpu={gpuTier} next={lowerCurtain}/>}
 
   <div style={{height: '100%', zIndex: 0, }}>
 

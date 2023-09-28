@@ -29,6 +29,7 @@ body,
 body {
   overscroll-behavior-y: none;
   color: black;
+  background-color: grey;
 }
 
 #curtain, #bg, #bgNightmode {
