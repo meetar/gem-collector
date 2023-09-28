@@ -300,7 +300,6 @@ module.exports = [
   "logically",
   "logistically",
   "longitudinally",
-  "lovely",
   "luckily",
   "macropharmacologically",
   "macroscopically",

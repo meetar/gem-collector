@@ -4,7 +4,7 @@ import TypeIt from "typeit-react";
 import { roll } from './getDescription.js';
 import { Infoscreen } from './Infoscreen.js';
 
-export const Interface = ({count, nightMode, toggleNightMode, desc, next}) => {
+export const Interface = ({gpu, slow, count, nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
   const [continueButton, setContinueButton] = useState(false)
   const [complete, setComplete] = useState(false)
@@ -148,14 +148,33 @@ function typeText(speed, textObject) {
   function getDialogue() {
     // if 'complete' is true, set typing delay to 0 for instant display,
     // otherwise use a 1ms delay between characters
-    if (intro) { // first intro text
-      return (typeText(complete ? 0 : 1, getIntroText()))
-    } else if (aside) { // the occasional aside
-      return (typeText(complete ? 0 : 1, aside))
-    } else if (desc && desc.desc) { // normal operation
-      return typeText(complete ? 0 : 1, getGemText())
-    } else {
-      return <></>
+    if (gpu && gpu.tier > 0 && !slow) {
+      if (intro) { // first intro text
+        return (typeText(complete ? 0 : 1, getIntroText()))
+      } else if (aside) { // the occasional aside
+        return (typeText(complete ? 0 : 1, aside))
+      } else if (desc && desc.desc) { // normal operation
+        return typeText(complete ? 0 : 1, getGemText())
+      } else {
+        return <></>
+      }
+    }
+    // fallback for slow machines
+    // console.log('gpu??', gpu.tier);
+    if (!gpu || gpu && gpu.tier == 0 || slow) {
+      let text;
+      if (intro) { // first intro text
+        text = (getIntroText().text)
+      } else if (aside) { // the occasional aside
+        text = (aside.text)
+      } else if (desc && desc.desc) { // normal operation
+        text = getGemText().text
+      } else {
+        text = ''
+      }  
+      // setComplete(true)
+      // setContinueButton(true)
+      return <div style={{padding: '20px'}}>{text}</div>;
     }
   }
 

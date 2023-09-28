@@ -13,7 +13,7 @@ import { OrbitControls } from '@react-three/drei'
 import { useControls, button } from 'leva'
 
 
-export default function Scene({slow, setText, nightMode, gemDone, randomizeTrigger}) {
+export default function Scene({gpuTier, slow, setText, nightMode, gemDone, randomizeTrigger}) {
   const [trigger, setTrigger] = useState()
   const [pixelSize, setPixelSize] = useState(256)
   const [pixelTrigger, setPixelTrigger] = useState('in')
@@ -106,10 +106,8 @@ return (
         <directionalLight castShadow position={[0, 10, 0]} intensity={1} />
 
         <GemRandomizer
-          slow={slow}
-          trigger={trigger}
+          { ...{gpuTier, slow, trigger, setText}}
           config={randomConfig}
-          setText={setText}
           gemDone={gemReady}
           />
 

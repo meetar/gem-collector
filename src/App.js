@@ -1,14 +1,15 @@
+import { getGPUTier } from 'detect-gpu';
 import * as _ from 'lodash'
 import * as THREE from 'three'
 import { Canvas } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
-import { useState, useEffect } from 'react'
-import WikipediaLinksComponent from './WikiLinks'
+import React, { Suspense, useState, useEffect } from 'react'
 import Scene from './Scene.js'
 import { Leva, useControls, button } from 'leva'
 import { getCoda } from './txt/dialogue.js'
 import { Interface } from './Interface'
 import { Stats } from '@react-three/drei'
+import { ResizeObserver as polyfill } from '@juggle/resize-observer';
 
 function computeDPRScale(fps) {
   // Define the threshold values for DPR
@@ -27,6 +28,11 @@ function computeDPRScale(fps) {
 
 export function App() {
   const [desc, setDesc] = useState()
+  const [gpuTier, setGpuTier] = useState()
+
+
+
+
   const [randomizeTrigger, setTrigger] = useState()
   const [nightMode, setNightMode] = useState(false)
   const [showLeva, setshowLeva] = useState('hidden')
@@ -35,6 +41,14 @@ export function App() {
   const [dpr, setDpr] = useState(2)
   const [slow, setSlow] = useState(false)
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    (async () => {
+      const gpu = await getGPUTier();
+      setGpuTier(gpu)
+    })()
+  }, [])
+  useEffect(() => {if (gpuTier) console.log(gpuTier.tier)}, [gpuTier])
 
   useEffect(() => {
     const handleKeyPress = (event) => {
@@ -95,11 +109,12 @@ export function App() {
   <div id="levaWrapper" style={{visibility: showLeva}} >
     <Leva />
   </div>
-
-  <Interface count={count} toggleNightMode={toggleNightMode} nightMode={nightMode} desc={desc} next={lowerCurtain}/>
+  {/* <div className="gpu">{JSON.stringify(gpuTier)}</div> */}
+  <Interface {...{count, toggleNightMode, nightMode, desc, slow}} gpu={gpuTier} next={lowerCurtain}/>
 
   <div style={{height: '100%', zIndex: 0, }}>
-    { <Canvas style={{height: '100%'}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} gl={{ preserveDrawingBuffer: true }}>
+
+    <Canvas resize={{polyfill}} shadows dpr={dpr} camera={{ position: [5, 3, -10], zoom: 1.5, near: 1, far: 1000 }} >
       <PerformanceMonitor onChange={(stats) => {
         let factor = stats.factor
         let fps = stats.fps;
@@ -110,7 +125,7 @@ export function App() {
         // let dpr = computeDPRScale(fps);
         let newdpr = 0.5 + (1.5 * factor);
         // console.warn('fps?:', fps, 'factor:', factor, 'dpr:', newdpr);
-        if (fps < 15) {
+        if (fps < 5) {
           console.warn("Slow performance. Throttling materials...");
           setSlow(true);
         }
@@ -118,11 +133,11 @@ export function App() {
       }}>
 
       {/* put everything into a component inside Canvas, to avoid the R3F Hooks warning - this provides the Canvas context */}
-      <Scene {... {slow, nightMode, setText, gemDone, randomizeTrigger}} />
+      <Scene {... {gpuTier, slow, nightMode, setText, gemDone, randomizeTrigger}} />
 
       </PerformanceMonitor>
       {showLeva == 'visible' && <Stats />}
-    </Canvas> }
+    </Canvas>
     {/* <DebugStage /> */}
   </div>
   </>

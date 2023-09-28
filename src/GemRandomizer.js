@@ -17,7 +17,7 @@ import { randomBetween } from './utils';
 import { randomColor } from 'randomcolor';
 import { randomDepth, randomNormal, randomEnv } from './textureUtils'
 
-export function GemRandomizer({ config, trigger, setText, gemDone, slow }) {
+export function GemRandomizer({ gpuTier, config, trigger, setText, gemDone, slow }) {
   const [mode, setMode] = useState('gem');
   const [statecolor, setColor] = useState('#000000');
   const [desc, setDescription] = useState('');
@@ -101,7 +101,10 @@ export function GemRandomizer({ config, trigger, setText, gemDone, slow }) {
   }
 
   async function getMode(slow) {
-    if (slow) {
+    if (gpuTier.tier == 0) {
+      return 'basic'
+    }
+    if (gpuTier.tier == 1 || slow) {
       return _.sample(['crystal', 'deep', 'deep'])
     }
     // return 'gem';
@@ -212,7 +215,7 @@ return ( mode &&
     <>
 
       { mode == 'gem' ? (
-        <DiamondMaterial slow={slow} trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
+        <DiamondMaterial gpu={gpuTier} slow={slow} trigger={mattrigger} config={config} color={statecolor} normalMap={normalMap} envMap={envMap} geometry={model} castShadow />
       ) : mode == 'crystal' ? (
         <mesh geometry={model} castShadow >
           <CrystalMaterial trigger={mattrigger} normalMap={normalMap} color={statecolor} geometry={model} envMap={envMap} config={config} />
@@ -220,8 +223,9 @@ return ( mode &&
       ) : mode == 'deep' ? (
         <DeepMat trigger={mattrigger} geometry={model} color={statecolor} normalMap={normalMap} depthMap={depthMap} envMap={envMap} config={config} castShadow />
       ) : (
-        <mesh geometry={model} castShadow>
-          <meshStandardMaterial {...config} />
+        // fallback
+        <mesh geometry={model}>
+          <meshStandardMaterial normalMap={normalMap} {...config} color={statecolor} />
         </mesh>
       )}
 

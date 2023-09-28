@@ -7,7 +7,7 @@ import { MeshRefractionMaterial, MeshTransmissionMaterial } from '@react-three/d
 import { randomizeLevaControls, simpleControls } from '../utils'
 
 // a clear material with internal reflections and refractions
-export function DiamondMaterial({slow, trigger, config, color, geometry, envMap, normalMap, ...props}) {
+export function DiamondMaterial({gpu, slow, trigger, config, color, geometry, envMap, normalMap, ...props}) {
   const controls = slow ? diamondcontrolsSlow : diamondcontrols;
 
   // state variable to hold the randomized controls
@@ -29,7 +29,7 @@ export function DiamondMaterial({slow, trigger, config, color, geometry, envMap,
 
   // useEffect to re-randomize on component mount
   useEffect(() => {
-    if (slow) {
+    if (gpu.tier < 3 || slow) {
       let controls = simpleControls(randomizedControls)
       controls.bounces = 1;
       controls.samples = 8;
