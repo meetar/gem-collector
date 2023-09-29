@@ -1,75 +1,84 @@
-import { getCoda, Intro, asides } from './txt/dialogue.js'
+import { getCoda, IntroLines, asides } from './txt/dialogue.js'
 import { useState, useEffect, useRef } from 'react'
 import TypeIt from "typeit-react";
 import { roll } from './getDescription.js';
 import { Infoscreen } from './Infoscreen.js';
 
-export const Interface = ({gpu, slow, count, nightMode, toggleNightMode, desc, next}) => {
+export const Interface = ({sceneDone, gpu, slow, count, nightMode, toggleNightMode, desc, next}) => {
   const nightModeClass = nightMode ? 'nightmode' : '';
   const [continueButton, setContinueButton] = useState(false)
-  const [complete, setComplete] = useState(false)
+  const [typingDone, setTypingDone] = useState(false)
   const [intro, setIntro] = useState(true)
   const [aside, setAside] = useState()
   const [introStep, setIntroStep] = useState(0)
   const [infomode, setInfomode] = useState(false)
   const [instance, setInstance] = useState()
-  const [started, setStarted] = useState(false)
+  const [started, setStarted] = useState(true)
   const [rotate, setRotate] = useState(false)
+  const [introText, setIntroText] = useState()
 
   function toggleInfo() {
     setInfomode(v => !v)
   }
 
   function getIntroText() {
-    return {text: <div id="gemtext">{Intro[introStep]}</div>, key: Intro[introStep]};
+    return {text: <div id="gemtext">{IntroLines[introStep]}</div>, key: IntroLines[introStep]};
   }
-  const [introText, setIntroText] = useState(getIntroText(introStep))
 
   function getAside() {
     let aside = _.sample(asides);
     return {text: <div id="gemtext">{aside}</div>, key: aside};
   }
 
-  useEffect(() => {
-    // console.log(introText);
-  }, [])
-
   function handleTextInteraction() {
-    if (!complete) {
+    if (!typingDone) {
       // skip the typing animation
-      setComplete(true);
+      setTypingDone(true);
+      // setContinueButton(true);
+    }
+    else {
+      // setTimeout(() => setContinueButton(true), 2000)
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIntroText(getIntroText(introStep));
+    }, 1000)
+  })
+
   function handleInteraction() {
-    if (!complete) {
+    if (instance && !typingDone) {
       // skip the typing animation
-      setComplete(true);
+      setTypingDone(true);
+      // setContinueButton(true);
     }
-    if (complete) {
+    if (!instance || typingDone) {
       if (aside) {
         setAside()
       }
       if (intro) {
-        if (introStep >= Intro.length - 1) {
+        if ((introStep >= IntroLines.length - 1) ||
+          // if tier 0, skip the rotation suggestion - orbit controls don't work on many old machines
+          (gpu == 0 && introStep >= IntroLines.length - 2)) {
           setIntro(false)
         }
         setIntroStep(v => v+1)
         setIntroText(getIntroText(introStep));
-        setComplete(false)
+        setTypingDone(false)
       } else {
         if (count > 1 && count % 50 == 0) {
-          setComplete(false)
+          setTypingDone(false)
           setAside({text: <div id="gemtext">This isn't ever going to end, is it?</div>, key: "forever"})
         }
         if (!aside && count > 10 && roll(.08)) {
-          setComplete(false)
+          setTypingDone(false)
           setAside(getAside())
         } else {
           setContinueButton(false)
           setStarted(false)
           next()
-          setComplete(false)
+          setTypingDone(false)
         }
       }
     }
@@ -92,19 +101,27 @@ useEffect(() => {
 });
 
 useEffect(() => {
-  setComplete(false)
+  if (!sceneDone) return;
+  if (instance) setTypingDone(false)
+  // if we're skipping the TypeIt instance, just set typingDone
+  if (!instance) setTypingDone(true)
 }, [desc])
+
+useEffect(() => {
+  if (gpu == 0 && sceneDone) {
+    setTypingDone(true)
+    setContinueButton(true)
+  }
+}, [gpu, sceneDone])
 
   useEffect(() => {
     // console.log('continueButton', continueButton);
   }, [continueButton])
 
   const textColor = nightMode ? "white" : "black";
-  // const bgColor = nightMode ? "#222" : "#eee";
-  // const bgColor = nightMode ? "255, 0, 0" : "0, 255, 0";
 
   function getGemText() {
-    if (instance && instance.current) return {text: <div id="gemtext">STARTED: {instance.is('started')}</div>, key: Intro[introStep]};
+    // if (instance && instance.current) return {text: <div id="gemtext">STARTED: {instance.is('started')}</div>, key: Intro[introStep]};
     return (
       { text: (
       <div id="gemtext"><span id="gemname">{desc.name}.</span> {desc.desc}
@@ -115,6 +132,9 @@ useEffect(() => {
     // return "The quick brown fox jumps over the lazy dog."
   }
 function typeText(speed, textObject) {
+  if (gpu == 0) {
+    return <div style={{padding: '20px'}}>{textObject.text}</div>;
+  }
   let textelement = document.getElementById('dialogtext');
   let startDelay = speed === 0 ? 0 : 750;
   let nextStringDelay = speed == 0 ? 0 : 750;
@@ -139,57 +159,51 @@ function typeText(speed, textObject) {
           },
           afterComplete: () => {
             textelement.scrollTop = textelement.scrollHeight;
-            setComplete(true)
+            setTypingDone(true)
             setContinueButton(true)
           },
         }}>{textObject.text}</TypeIt>)
   }
 
   function getDialogue() {
+    // console.log('getDialogue, gpu?', gpu);
     // if 'complete' is true, set typing delay to 0 for instant display,
     // otherwise use a 1ms delay between characters
-    if (gpu && gpu.tier > 0 && !slow) {
-      if (intro) { // first intro text
-        return (typeText(complete ? 0 : 1, getIntroText()))
-      } else if (aside) { // the occasional aside
-        return (typeText(complete ? 0 : 1, aside))
-      } else if (desc && desc.desc) { // normal operation
-        return typeText(complete ? 0 : 1, getGemText())
-      } else {
-        return <></>
-      }
-    }
-    // fallback for slow machines
-    // console.log('gpu??', gpu.tier);
-    if (!gpu || gpu && gpu.tier == 0 || slow) {
-      let text;
-      if (intro) { // first intro text
-        text = (getIntroText().text)
-      } else if (aside) { // the occasional aside
-        text = (aside.text)
-      } else if (desc && desc.desc) { // normal operation
-        text = getGemText().text
-      } else {
-        text = ''
-      }  
-      // setComplete(true)
-      // setContinueButton(true)
-      return <div style={{padding: '20px'}}>{text}</div>;
+    if (intro) { // first intro text
+      return (typeText(typingDone ? 0 : 1, getIntroText()))
+    } else if (aside) { // the occasional aside
+      return (typeText(typingDone ? 0 : 1, aside))
+    } else if (desc && desc.desc) { // normal operation
+      return typeText(typingDone ? 0 : 1, getGemText())
+    } else {
+      return <></>
     }
   }
 
   // this checks state and returns a class to show "rotate.png" with the first gem
   function getRotate() {
-    if (intro && introStep >= Intro.length - 1) {
+    if (intro && introStep >= IntroLines.length - 1) {
       return 'fade'
     } else {
       return ''
     }
-
   }
+
+  function getDialogStatus() {
+    // console.log('getDialogStatus, instance?', instance);
+    if (instance && instance.current) {
+      console.log(1, started);
+      if (started) {
+        // setContinueButton(true);
+        return '';
+      }
+      else return 'hiding'
+    }
+  }
+
 return (
 <>
-
+  {/* <div className="gpu">{` ContinueButton: ${continueButton} - TypingDone: ${typingDone} - Intro: ${intro} - Started: ${started} - SceneDone: ${sceneDone}`}</div> */}
   <div className={`interface top buttons ${nightModeClass}`} style={{color: textColor}}>
     <div id="moon" onClick={toggleNightMode}><img src="moon.png" height={32} /></div>
     <div id="info" onClick={toggleInfo}><img src="question.png" height={32}></img></div>
@@ -205,7 +219,7 @@ return (
     <div className="dialog" onClick={handleTextInteraction}>
       <div id="portrait"><img src="textures/person/researcher.png"></img></div>
       <div id="charname">RESEARCHER</div>
-      <div id="dialogtext" className={`${started ? '' : 'hiding'}`}>
+      <div id="dialogtext" className={getDialogStatus()}>
 
         {getDialogue()}
 

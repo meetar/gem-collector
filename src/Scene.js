@@ -1,11 +1,7 @@
-import * as THREE from 'three'
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
+import { isBrowser } from 'react-device-detect';
 import { EffectComposer, Bloom, Pixelation } from '@react-three/postprocessing'
-import { Stats, SoftShadows, useTexture, AdaptiveDpr } from '@react-three/drei'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
-import { useState, useRef, useEffect } from 'react'
-// import { CSGShape } from './CSGShape'
+import { SoftShadows } from '@react-three/drei'
+import { useState, useEffect } from 'react'
 import { randomControls } from './randomControls'
 import { GemRandomizer } from './GemRandomizer.js'
 
@@ -34,13 +30,6 @@ export default function Scene({gpuTier, slow, setText, nightMode, gemDone, rando
       setTrigger(['randomize', Math.random()])
     }, 500); // synchronize this timing with the curtain opacity transition timing
 }, [randomizeTrigger])
-
-//   // animate out and make a new one
-//   useEffect(() => {
-//     if (slow) {
-//       setTrigger(['randomize', Math.random()])
-//     }
-// }, [slow])
 
   // leva controls which use functions defined in this component
   useControls('Triggers', {
@@ -89,11 +78,11 @@ export default function Scene({gpuTier, slow, setText, nightMode, gemDone, rando
     animatePixelize();
   }, [pixelTrigger]);
 
-
+if (!gpuTier) return false;
 
 return (
       <>
-        { isBrowser && <>
+        { isBrowser && gpuTier.tier > 1 && <>
           <SoftShadows {...softShadowsProps} />
           <EffectComposer>
             <Pixelation granularity={pixelSize} />

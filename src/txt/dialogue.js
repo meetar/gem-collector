@@ -1,7 +1,7 @@
 import { roll } from ".././getDescription"
 import * as _ from 'lodash'
 
-export const Intro = [
+export const IntroLines = [
   "Oh hello, how did you get in here?! The restroom's down the hall...",
   "These? I'm cataloguing specimens for the upcoming rare minerals exhibit. They're from the collection of Dr. Esterhazy.",
   "Curious, huh? Well... they are pretty neat... I suppose it won't hurt to show you a few.",

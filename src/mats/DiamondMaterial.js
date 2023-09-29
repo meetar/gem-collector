@@ -58,6 +58,7 @@ export function DiamondMaterial({gpu, slow, trigger, config, color, geometry, en
 
       </group>
 
+    { gpu > 1 &&
       <mesh geometry={geometry} visible={true}>
         <MeshTransmissionMaterial color={color} {...diamondconfig} {...config}  transparent={true}
           // envMap={envMap}
@@ -66,7 +67,7 @@ export function DiamondMaterial({gpu, slow, trigger, config, color, geometry, en
           normalMap={normalMap}
         />
       </mesh>
-
+    }
     </>
   )
 }

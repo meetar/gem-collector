@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import * as THREE from 'three'
 import { Canvas } from '@react-three/fiber'
 import { PerformanceMonitor } from '@react-three/drei'
-import React, { Suspense, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Scene from './Scene.js'
 import { Leva, useControls, button } from 'leva'
 import { getCoda } from './txt/dialogue.js'
@@ -38,6 +38,7 @@ export function App() {
   const [slow, setSlow] = useState(false)
   const [count, setCount] = useState(0)
   const [hideInterface, setHideInterface] = useState(false)
+  const [sceneDone, setSceneDone] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -89,6 +90,7 @@ export function App() {
 
   // function to start the opacity animation
   const lowerCurtain = () => {
+    setSceneDone(false)
     setCount(v => v+1)
     setText()
     setCurtainOpacity(1);
@@ -99,9 +101,14 @@ export function App() {
   const raiseCurtain = () => {
     setCurtainOpacity(0);
     setTimeout(() => {
-      setCurtainVisibility('hidden');
+      ready();
     }, 1000); // synchronize this timing with the curtain opacity transition timing
   };
+
+  function ready() {
+    setCurtainVisibility('hidden');
+    setSceneDone(true);
+  }
 
   return (
   <>
@@ -111,7 +118,7 @@ export function App() {
     <Leva />
   </div>
   {/* <div className="gpu">{JSON.stringify(gpuTier)}</div> */}
-  {!hideInterface && <Interface {...{count, toggleNightMode, nightMode, desc, slow}} gpu={gpuTier} next={lowerCurtain}/>}
+  {!hideInterface && gpuTier && <Interface {...{sceneDone, count, toggleNightMode, nightMode, desc, slow}} gpu={gpuTier.tier} next={lowerCurtain}/>}
 
   <div style={{height: '100%', zIndex: 0, }}>
 
