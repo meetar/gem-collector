@@ -76,12 +76,12 @@ export function App() {
   }
 
   useControls({
-    RANDOMIZE: button( () => {
+    RANDOMIZE_ALL: button( () => {
       lowerCurtain()
     }),
-    NightMode: button( () => {
-      toggleNightMode()
-    }),
+    // NightMode: button( () => {
+    //   toggleNightMode()
+    // }),
   });
 
   function gemDone() {

@@ -32,16 +32,15 @@ export default function Scene({gpuTier, slow, setText, nightMode, gemDone, rando
 }, [randomizeTrigger])
 
   // leva controls which use functions defined in this component
-  useControls('Triggers', {
-    colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
-    colorTrigger: button(() => {setTrigger(['color', Math.random()]  )}),
-    normalTrigger: button( () => { setTrigger(['normal', Math.random()] )}),
+  useControls('Shuffle', {
+    color: button(() => {setTrigger(['color', Math.random()]  )}),
+    normal: button( () => { setTrigger(['normal', Math.random()] )}),
     // envTrigger: button( () => { setTrigger(['env', Math.random()] )}),
-    depthTrigger: button(() => { setTrigger(['depth', Math.random()])}),
-    shapeTrigger: button(() => setTrigger(['shape', Math.random()])),
-    gem: button(() => setTrigger(['gem', Math.random()])),
-    crystal: button(() => setTrigger(['crystal', Math.random()])),
-    deep: button(() => setTrigger(['deep', Math.random()])),
+    depth: button(() => { setTrigger(['depth', Math.random()])}),
+    shape: button(() => setTrigger(['shape', Math.random()])),
+    diamondMaterial: button(() => setTrigger(['gem', Math.random()])),
+    crystalMaterial: button(() => setTrigger(['crystal', Math.random()])),
+    deepMaterial: button(() => setTrigger(['deep', Math.random()])),
     // sss: button(() => setTrigger(['sss', Math.random()]))
   });
 
